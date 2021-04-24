@@ -9,6 +9,9 @@ public:
 
    Node(Tile* tile, Node* next);
    Node(Node& other);
+   ~Node();
+
+   Node* getIndex(int index);
 
    Tile*    tile;
    Node*    next;
