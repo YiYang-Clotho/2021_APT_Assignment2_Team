@@ -1,4 +1,16 @@
 
 #include "Tile.h"
+#include "Node.h"
 
-// Empty... for now?
+Tile::Tile(Tile& other)
+{
+   // TODO
+}
+
+void Tile::addNodeInTile(Node* node){
+    //to do
+}
+
+void Tile::getTilesDisplayed(){
+
+}
