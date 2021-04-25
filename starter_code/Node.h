@@ -15,6 +15,7 @@ public:
 
    Tile*    tile;
    Node*    next;
+   
 };
 
 #endif // ASSIGN2_NODE_H
