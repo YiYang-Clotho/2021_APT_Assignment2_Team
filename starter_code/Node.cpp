@@ -1,12 +1,61 @@
-
+#include <iostream>
 #include "Node.h"
 
-Node::Node(Tile* tile, Node* next)
+Node::Node(Tile *tile, Node *front, Node *next)
 {
-   // TODO
+   this->tile = tile;
+   this->front = front;
+   this->next = next;
 }
 
-Node::Node(Node& other)
+Node::~Node()
 {
-   // TODO
+   delete tile;
+   delete front;
+   delete next;
+}
+
+Node::Node(Node &other)
+{
+   Node *node = new Node(nullptr, nullptr, nullptr);
+   node->setTile(other.getTile()->colour, other.getTile()->shape);
+   node->setFront(other.getFront());
+   node->setNext(other.getNext());
+}
+
+Tile *Node::getTile()
+{
+   return tile;
+}
+
+// get front-coodinate of the node
+Node *Node::getFront()
+{
+   return front;
+}
+
+// get next-coodinate of the node
+Node *Node::getNext()
+{
+   return next;
+}
+
+void Node::setTile(Colour colour, Shape shape)
+{
+   this->tile->colour = colour;
+   this->tile->shape = shape;
+}
+
+void Node::setFront(Node *node)
+{
+   this->front = node;
+}
+
+void Node::setNext(Node *node)
+{
+   this->next = node;
+}
+
+Node *Node::getIndex(int index)
+{
 }
