@@ -49,11 +49,13 @@ void Node::setTile(Colour colour, Shape shape)
 void Node::setFront(Node *node)
 {
    this->front = node;
+   node->next = this->front;
 }
 
 void Node::setNext(Node *node)
 {
    this->next = node;
+   node->front = this->next;
 }
 
 Node *Node::getIndex(int index)
