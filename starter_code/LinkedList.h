@@ -11,14 +11,27 @@ public:
    ~LinkedList();
    LinkedList(LinkedList& other);
 
-   int size();
+   // get the length of the list
+   int getSize();
 
-   void add_front(Node* data);
-   void add_back(Node* data);
+   // add node to the front of the list
+   void addFrom1st(Node* node);
 
-   //Contract: Elements should exist in the list to be deleted.
-   void remove_front();
-   void remove_back();
+   // add node to the middle of the list
+   void addNode(Node* node);
+
+   // add node to the end of the list
+   void addToEnd(Node* node);
+
+
+   // // remove the first node of the list
+   // void removeFirstNode();
+
+   // remove the node from the middle of the list
+   void removeNode();
+
+   // // remove the last node of the list
+   // void removeLastNode();
 
    void remove(int index);
 
