@@ -4,18 +4,32 @@
 
 #include "Tile.h"
 
-class Node {
+class Node
+{
 public:
-
-   Node(Tile* tile, Node* next);
-   Node(Node& other);
+   Node(Tile *tile, Node *front, Node *next);
+   Node(Node &other);
    ~Node();
 
-   Node* getIndex(int index);
+   Tile *tile;
+   Node *front;
+   Node *next;
 
-   Tile*    tile;
-   Node*    next;
-   
+   // get rtile-coodinate of the node
+   Tile *getTile();
+
+   // get front-coodinate of the node
+   Node *getFront();
+
+   // get next-coodinate of the node
+   Node *getNext();
+
+   // setter for tile and next
+   void setTile(Colour colour, Shape shape);
+   void setFront(Node *node);
+   void setNext(Node *node);
+
+   Node *getIndex(int index);
 };
 
 #endif // ASSIGN2_NODE_H
