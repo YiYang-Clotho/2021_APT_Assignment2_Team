@@ -1,0 +1,1 @@
+test2-The test is only test the game Menu output, player can normally placed tile, Score recording right and player can exit by right way.
