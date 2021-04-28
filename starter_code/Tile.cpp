@@ -2,15 +2,12 @@
 #include "Tile.h"
 #include "Node.h"
 
-Tile::Tile(Tile& other)
+Tile::Tile(Tile &other)
 {
-   // TODO
+    this->colour = other.colour;
+    this->shape = other.shape;
 }
 
-void Tile::addNodeInTile(Node* node){
-    //to do
-}
-
-void Tile::getTilesDisplayed(){
-
+Tile::~Tile()
+{
 }
