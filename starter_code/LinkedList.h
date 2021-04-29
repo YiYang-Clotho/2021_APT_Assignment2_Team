@@ -28,14 +28,12 @@ public:
    // void removeFirstNode();
 
    // remove the node from the middle of the list
-   void removeNode();
+   void removeNode(Node* node);
 
    // // remove the last node of the list
    // void removeLastNode();
 
    void remove(int index);
-
-   void clear();
 
 private:
    Node* head;
