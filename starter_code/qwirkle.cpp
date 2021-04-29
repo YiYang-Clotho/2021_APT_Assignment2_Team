@@ -50,7 +50,17 @@ int getSelectionFromMenu(){
 }
 
 void newGame(){
+   std::cout << "Starting a New Game" << std::endl;
+   string playerName1;
+   string playerName2;
+   std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
+   std::cin >> playerName1;
+   std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
+   std::cin >> playerName2;
 
+   std::cout << "Let's Play" << std::endl;
+
+   // Need finalise
 }
 
 void loadGame(string fileName){
@@ -58,7 +68,7 @@ void loadGame(string fileName){
 }
 
 void credits(){
-
+   // print players informations
 }
 
 
