@@ -1,17 +1,17 @@
 #include <iostream>
 #include "Node.h"
 
-Node::Node(Tile *tile, Node *front, Node *next)
+Node::Node(Tile *tile, Node *prev, Node *next)
 {
    this->tile = tile;
-   this->front = front;
+   this->prev = prev;
    this->next = next;
 }
 
 Node::~Node()
 {
    delete tile;
-   delete front;
+   delete prev;
    delete next;
 }
 
@@ -19,7 +19,7 @@ Node::Node(Node &other)
 {
    Node *node = new Node(nullptr, nullptr, nullptr);
    node->setTile(other.getTile()->colour, other.getTile()->shape);
-   node->setFront(other.getFront());
+   node->setFront(other.getPrev());
    node->setNext(other.getNext());
 }
 
@@ -29,9 +29,9 @@ Tile *Node::getTile()
 }
 
 // get front-coodinate of the node
-Node *Node::getFront()
+Node *Node::getPrev()
 {
-   return front;
+   return prev;
 }
 
 // get next-coodinate of the node
@@ -48,14 +48,14 @@ void Node::setTile(Colour colour, Shape shape)
 
 void Node::setFront(Node *node)
 {
-   this->front = node;
-   node->next = this->front;
+   this->prev = node;
+   node->next = this->prev;
 }
 
 void Node::setNext(Node *node)
 {
    this->next = node;
-   node->front = this->next;
+   node->prev = this->next;
 }
 
 Node *Node::getIndex(int index)

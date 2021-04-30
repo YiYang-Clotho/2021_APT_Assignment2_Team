@@ -7,19 +7,19 @@
 class Node
 {
 public:
-   Node(Tile *tile, Node *front, Node *next);
+   Node(Tile *tile, Node *prev, Node *next);
    Node(Node &other);
    ~Node();
 
    Tile *tile;
-   Node *front;
+   Node *prev;
    Node *next;
 
    // get rtile-coodinate of the node
    Tile *getTile();
 
    // get front-coodinate of the node
-   Node *getFront();
+   Node *getPrev();
 
    // get next-coodinate of the node
    Node *getNext();
