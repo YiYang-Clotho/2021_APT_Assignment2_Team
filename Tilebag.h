@@ -10,9 +10,15 @@ class TileBag {
 public:
     TileBag();
     ~TileBag();
+    void loadTileBag(std::vector<std::string> tileArray);
+    void setTileBag(LinkedList* newShuffledTileBag);
+	LinkedList* getTileBag();
+	Tile* getTiles();
 private:
 	Colour tcolour[6];
 	Shape tshape[6];
+    LinkedList* tile_bag = new LinkedList();
+	LinkedList* shuffledtile_bag = new LinkedList();
 }
 
 #endif // ASSIGN2_TILEBAG_H

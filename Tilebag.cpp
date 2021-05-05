@@ -18,3 +18,7 @@ TileBag::TileBag(){
 	Shape tshape[] = {CIRCLE, STAR_4, DIAMOND, SQUARE, STAR_6, CLOVER};
 
 }
+
+TileBag::~TileBag(){
+	delete shuffledtile_bag;
+}
