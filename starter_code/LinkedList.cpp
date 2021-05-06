@@ -37,7 +37,8 @@ void LinkedList::addFrom1st(Node *node){
    this->head = node;
 }
 
-// add node to the middle of the list, nodes after the adding position should add 1
+// add node to the middle of the list
+// nodes after the adding position should add 1
 void LinkedList::addNode(Node *node){
 
 }
@@ -62,6 +63,8 @@ void LinkedList::removeNode(Node *node){
    // remove node from the front of the list
    if (this->head == node){
       this->head = node->next;
+
+   // remove node from the middle of the list or remove last node of the list
    }else{
       Node *current = new Node(nullptr, nullptr, nullptr);
       current = this->head;

@@ -30,6 +30,9 @@ public:
    void setNext(Node *node);
 
    Node *getIndex(int index);
+
+private:
+
 };
 
 #endif // ASSIGN2_NODE_H
