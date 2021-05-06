@@ -14,6 +14,8 @@ public:
    // get the length of the list
    int getSize();
 
+   void clear();
+
    // add node to the front of the list
    void addFrom1st(Node* node);
 

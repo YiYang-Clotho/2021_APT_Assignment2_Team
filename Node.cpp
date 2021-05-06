@@ -10,7 +10,4 @@ Node::Node(Tile* tile, Node* next)
 Tile* Node::getTile(){
    return tile;
 }
-Node::Node(Node& other)
-{
-   // TODO
-}
+

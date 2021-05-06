@@ -6,7 +6,7 @@ LinkedList::LinkedList(){
 }
 
 LinkedList::~LinkedList(){
-   delete head;
+   clear();
 }
 
 LinkedList::LinkedList(LinkedList &other){
@@ -15,6 +15,16 @@ LinkedList::LinkedList(LinkedList &other){
 
    //copy
    this->head = other.head;
+}
+
+void LinkedList::clear() {
+	Node* node = head;
+	while (node != nullptr) {
+		Node* temp = node->next;
+		delete node;
+		node = temp;
+	}
+	head = nullptr;
 }
 
 // get the length of the list

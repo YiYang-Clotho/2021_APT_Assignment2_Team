@@ -22,3 +22,14 @@ TileBag::TileBag(){
 TileBag::~TileBag(){
 	delete shuffledtile_bag;
 }
+
+
+//gets TileBag
+LinkedList* TileBag::getTileBag(){
+	return shuffledtile_bag;
+}
+
+//gets the 1st tile at the front of linked list
+Tile* TileBag::getTiles(){
+	return shuffledtile_bag->getFront();
+}
