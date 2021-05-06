@@ -1,6 +1,14 @@
+#include <vector>
 
 #include "Tile.h"
 #include "Node.h"
+#include "Board.h"
+#include "Types.h"
+using namespace std;
+
+Tile::Tile()
+{
+}
 
 Tile::Tile(Tile &other)
 {
@@ -10,4 +18,14 @@ Tile::Tile(Tile &other)
 
 Tile::~Tile()
 {
+}
+
+Colour Tile::getColour()
+{
+    return colour;
+}
+
+Shape Tile::getShape()
+{
+    return shape;
 }

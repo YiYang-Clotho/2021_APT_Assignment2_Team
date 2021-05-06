@@ -1,6 +1,11 @@
 
 #ifndef ASSIGN2_TILE_H
 #define ASSIGN2_TILE_H
+#include <vector>
+
+#include "Board.h"
+#include "Types.h"
+using namespace std;
 
 // Define a Colour type
 typedef char Colour;
@@ -11,10 +16,17 @@ typedef int Shape;
 class Tile
 {
 public:
+   Tile();
    Tile(Tile &other);
    Colour colour;
    Shape shape;
    ~Tile();
+
+   // get colour of the tile
+   Colour getColour();
+
+   // get shape of the tile
+   Shape getShape();
 
 private:
 };
