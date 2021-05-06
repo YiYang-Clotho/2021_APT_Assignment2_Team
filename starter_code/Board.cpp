@@ -116,11 +116,11 @@ void Board::putTile2Board(Tile *tile, vector<vector<char> > position)
 // print current board
 vector<vector<char> > Board::printBoard()
 {
-    for (int r = 0; r < position.size(); r++)
+    for (int ROW = 0; ROW < position.size(); ROW++)
     {
-        for (int c = 0; c < position[r].size(); c++)
+        for (int COL = 0; COL < position[ROW].size(); COL++)
         {
-            std::cout << position[r][c];
+            std::cout << position[ROW][COL];
         }
         std::cout << std::endl;
     }
