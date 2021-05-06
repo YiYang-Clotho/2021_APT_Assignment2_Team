@@ -74,12 +74,52 @@ int LinkedList::getSize(){
    }
 }
 
-void LinkedList::addFront(Tile* tile) {
-	Node *add = new Node(tile, nullptr);
-	add->next = head;
-	head = add;
+//return a tile on top of a list
+Tile* LinkedList::getFront(){
+	if(head!=nullptr){
+      return head->tile;
+   }
+	else {
+      return nullptr;
+   }
 }
 
+//get a tile with a position i
+Tile* LinkedList::getTile(int i){
+	if(i>=0 && i<this->size()){
+		int count = 0;
+		Node* node = head;
+		while (count<i){
+			node = node->next;
+			count++;
+		}
+		return node->tile;
+	}
+	else return nullptr;
+}
+
+//delete at the front of the linkedlist
+void LinkedList::deleteFront() {
+	Node *temp = head->next;
+	delete head;
+	head = temp;
+}
+
+//delete a tile with position i
+void LinkedList::deleteTile(int i){
+    Node *node = head;
+    Node *temp = head;
+    int count =0;
+    if(i>=0 && i<this->size()){
+        while(count<i){
+        temp = node;
+        node = node->next;
+        count++;
+    }
+    temp->next = node->next;
+    delete node;
+    }
+}
 // add node to the front of the list
 void LinkedList::addFrom1st(Node *node){
    node->setNext(this->head);
