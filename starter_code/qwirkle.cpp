@@ -60,13 +60,13 @@ void newGame() {
 	std::cout << "Enter a name for player 1(uppercase characters only)\n> ";
 	std::cin >> player1_name;
 
-	if (!checkUpper(player1_name)) {
+	if (!checkValidPlayerName(player1_name)) {
 		std::cerr << "Invalid Input" << std::endl;
 		return;
 	}
 	std::cout << "Enter a name for player 2(uppercase characters only)\n> ";
 	std::cin >> player2_name;
-	if (!checkUpper(player2_name)) {
+	if (!checkValidPlayerName(player2_name)) {
 		std::cout << "Invalid Input" << std::endl;
 		return;
 	}
@@ -74,9 +74,8 @@ void newGame() {
 	//start_game(player1_name, player2_name);
 }
 
-void loadGame() {
+void loadGame(string fileName) {
 	std::cout << "Enter the filename from which load a game\n< ";
-	std::string fileName = "";
 	std::cin >> fileName;
 	if (!isFileExist(fileName)) {
 		std::cerr << "Invalid File" << std::endl;
@@ -99,5 +98,12 @@ void credits() {
 
 }
 
+bool checkValidPlayerName(string playerName){
+
+}
+
+bool isFileExist(string fileName){
+
+}
 
 
