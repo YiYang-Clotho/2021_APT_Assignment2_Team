@@ -2,35 +2,58 @@
 #define ASSIGN2_PLAYER_H
 #include "LinkedList.h"
 #include <string>
-using namespace std;
 
 
-class Player{
+class Player {
 public:
-    Player(string name, int score, LinkedList *tilesInHand);
 
-    string getName();
-    void setName(string name);
+	// Initial a new start player.
+	Player(std::string name);
 
-    int getScore();
-    void setScore(int score);
+	// Used to reload from file
+	Player(std::string name, int score, LinkedList *tilesInHand);
+	
+	// Add a new Tile to current palyer hand 
+	bool addTile(Tile* tile);
 
-    LinkedList getTilesInHand();
-    void setTilesInHand(LinkedList *tilesInHand);
+	// Put one tile on the board, Not matched,return NULL
+	Tile* playOneTile(int color, char shape);
 
-    // 玩家出牌 put one tile on the board
+	// Withdraw last played tile,如果出牌错误，请撤回上一次出的牌
+	bool withdrawLastPlayedTile();
 
-    // 替换tile，把tilesInHand中的一个，从tile bag里替换, 替换了之后这个回合不出牌
+	// 替换tile，把tilesInHand中的一个，从tile bag里替换, 替换了之后这个回合不出牌
+	bool replaceOneTile(Tile* newTile, char oldTileColor, int oldTileShape);
 
-    
+	// Free the pointer.
+	~Player();
+
+	// Encapsulate the name
+	std::string getName();
+	void setName(std::string name);
+
+	// Get current score
+	int getScore();
+
+	// Add the earned score in once play.
+	void increaseScore(int earnedScore);
+
+	// Set the Tile
+	void setTilesInHand(LinkedList *tilesInHand);
+
 
 private:
-    // The Tiles in curent player hand
-    LinkedList tiles;
-    // Player's name 
-    std::string name;
-    // Player's score
-    int score;
+	// The Tiles in curent player hand
+	LinkedList* tilesInHand;
+
+	// Player's name 
+	std::string name;
+	
+	// Player's score
+	int score;
+	
+	// Used for withdraw last time played Tile, 
+	Tile* lastPlayedTile;
 };
 
 
