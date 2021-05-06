@@ -1,13 +1,18 @@
 #include "Player.h"
 
 // Initial a new start player.
-Player::Player(std::string name) {
+Player::Player(string name) {
 	LinkedList *tilesInHand = new LinkedList;
 	Player(name, 0, tilesInHand);
 }
 
+// Free the pointer.
+Player::~Player() {
+	delete this->tilesInHand;
+}
+
 // Used to reload from file
-Player::Player(std::string name, int score, LinkedList * tilesInHand) {
+Player::Player(string name, int score, LinkedList * tilesInHand) {
 
 	this->name = name;
 	this->score = score;
@@ -21,7 +26,7 @@ bool Player::addTile(Tile * tile) {
 	return true;
 }
 
-// 玩家出牌 put one tile on the board, Not matched,return NULL
+// put one tile on the board, Not matched,return NULL
 Tile * Player::playOneTile(int color, char shape) {
 	int len = this->tilesInHand->getSize();
 	for (int i = 0; i < len; i++) {
@@ -38,7 +43,7 @@ Tile * Player::playOneTile(int color, char shape) {
 	return NULL;
 }
 
-// Withdraw last played tile,如果出牌错误，请撤回上一次出的牌
+// Withdraw last played tile
 bool Player::withdrawLastPlayedTile() {
 	if (lastPlayedTile != NULL) {
 		this->tilesInHand->addTileTo1st(lastPlayedTile);
@@ -50,7 +55,6 @@ bool Player::withdrawLastPlayedTile() {
 	}
 }
 
-// 替换tile，把tilesInHand中的一个，从tile bag里替换, 替换了之后这个回合不出牌
 bool Player::replaceOneTile(Tile * newTile, char oldTileColor, int oldTileShape) {
 	int len = this->tilesInHand->getSize();
 	for (int i = 0; i < len; i++) {
@@ -65,16 +69,11 @@ bool Player::replaceOneTile(Tile * newTile, char oldTileColor, int oldTileShape)
 
 }
 
-// Free the pointer.
-Player::~Player() {
-	delete this->tilesInHand;
-}
-
-std::string Player::getName() {
+string Player::getName() {
 	return name;
 }
 
-void Player::setName(std::string name) {
+void Player::setName(string name) {
 	this->name = name;
 }
 
