@@ -89,11 +89,7 @@ void loadGame() {
 	//continue_game(fileName);
 }
 
-void credit(std::string full_name, std::string student_number, std::string email) {
-	std::cout << "Name:  "<< full_name << std::endl;
-	std::cout << "Student ID:  " << student_number << std::endl;
-	std::cout << "Email:  " << email << std::endl;
-}
+
 void credits() {
 	
 	std::cout << "---------------------------------- " << std::endl;
@@ -104,40 +100,5 @@ void credits() {
 	mainMenu();
 }
 
-
-void mainMenu() {
-	// Display the menu user prompt
-	std::cout << "Menu" << std::endl;
-	std::cout << "--------" << std::endl;
-	std::cout << "1. New Game" << std::endl;
-	std::cout << "2. Load Game" << std::endl;
-	std::cout << "3. Credits (Show student information)" << std::endl;
-	std::cout << "4. Quit" << std::endl;
-	std::cout << "> " ;
-	// Get user option and dispatch
-	int option = -1;
-	std::cin >> option;
-	if (option < 1 || option>4) {
-		std::cout << "Invalid Input" << std::endl;
-	} else {
-		switch (option) {
-		case 1:
-			newGame();
-			break;
-		case 2:
-			loadGame();
-			break;
-		case 3:
-			credits();
-			break;
-		case 4:
-			std::cout << "Goodbye" << std::endl;
-		}
-	}
-}
-
-void main() {
-	mainMenu();
-}
 
 
