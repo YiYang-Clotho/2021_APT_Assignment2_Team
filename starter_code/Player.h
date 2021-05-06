@@ -13,7 +13,7 @@ public:
 
 	// Used to reload from file
 	Player(string name, int score, LinkedList *tilesInHand);
-	
+
 	// Add a new Tile to current palyer hand 
 	bool addTile(Tile* tile);
 
@@ -39,8 +39,12 @@ public:
 	// Add the earned score in once play.
 	void increaseScore(int earnedScore);
 
-	// Set the Tile
+	// Set Tiles in hand
 	void setTilesInHand(LinkedList *tilesInHand);
+
+	// Get Tiles in hand
+	LinkedList* getTilesInHand();
+
 
 
 private:
@@ -49,10 +53,10 @@ private:
 
 	// Player's name 
 	string name;
-	
+
 	// Player's score
 	int score;
-	
+
 	// Used for withdraw last time played Tile, 
 	Tile* lastPlayedTile;
 };

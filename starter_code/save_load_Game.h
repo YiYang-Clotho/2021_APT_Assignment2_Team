@@ -4,6 +4,9 @@
 #include "Player.h"
 #include "Board.h"
 #include "TileBag.h"
+#include <iostream>
+#include <sstream>
+#include <fstream>
 
 bool saveGame(std::string savePath, Player* player1, Player* player2, TileBag* tileBag, Board* board);
 

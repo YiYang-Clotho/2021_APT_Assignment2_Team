@@ -89,3 +89,8 @@ void Player::increaseScore(int earnedScore) {
 void Player::setTilesInHand(LinkedList * tilesInHand) {
 	this->tilesInHand = tilesInHand;
 }
+
+LinkedList * Player::getTilesInHand()
+{
+	return this->tilesInHand;
+}
