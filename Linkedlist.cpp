@@ -17,6 +17,17 @@ LinkedList::LinkedList(LinkedList &other){
    this->head = other.head;
 }
 
+//check size of the linkedlist
+int LinkedList::size() {
+	int size = 0;
+	Node* node = head;
+	while (node != nullptr) {
+		++size;
+		node = node->next;
+	}
+	return size;
+}
+
 void LinkedList::clear() {
 	Node* node = head;
 	while (node != nullptr) {
@@ -25,6 +36,28 @@ void LinkedList::clear() {
 		node = temp;
 	}
 	head = nullptr;
+}
+
+//add a node at the front
+void LinkedList::addFront(Tile* tile) {
+	Node *add = new Node(tile, nullptr);
+	add->next = head;
+	head = add;
+}
+
+//add a node at the back - fixed
+void LinkedList::addBack(Tile* tile) {
+	Node *add = new Node(tile, nullptr);
+	Node *node = head;
+	if (node==nullptr){
+		head=add;
+	}
+	else{
+		while (node->next != nullptr) {
+		node = node->next;
+	}
+	node->next = add;
+	}
 }
 
 // get the length of the list
@@ -39,6 +72,12 @@ int LinkedList::getSize(){
       }
       return size;
    }
+}
+
+void LinkedList::addFront(Tile* tile) {
+	Node *add = new Node(tile, nullptr);
+	add->next = head;
+	head = add;
 }
 
 // add node to the front of the list

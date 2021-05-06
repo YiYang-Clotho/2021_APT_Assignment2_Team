@@ -10,12 +10,18 @@ public:
    LinkedList();
    ~LinkedList();
    LinkedList(LinkedList& other);
+   
+   int size();
+   void clear();
+   void addFront(Tile* tile);
+   void addBack(Tile* tile);
+   void deleteFront();
+   void deleteTile(int i);
+   Tile* getFront();
+   Tile* getTile(int i);
 
    // get the length of the list
    int getSize();
-
-   void clear();
-
    // add node to the front of the list
    void addFrom1st(Node* node);
 
@@ -36,6 +42,8 @@ public:
    // void removeLastNode();
 
    void remove(int index);
+
+   
 
 private:
    Node* head;
