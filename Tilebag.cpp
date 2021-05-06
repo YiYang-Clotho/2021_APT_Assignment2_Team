@@ -49,6 +49,22 @@ TileBag::TileBag(){
 	delete tile_bag;
 }
 
+//Load the tile bag by creating a tile from the player's command and add it to the tile bag
+void TileBag::loadTileBag(std::vector<std::string> tileArray){
+	LinkedList* newShuffledTileBag = new LinkedList();
+	for(unsigned int arraySize = 0; arraySize < tileArray.size(); arraySize++)
+	{
+		std::stringstream splitTile(tileArray[arraySize]);
+		char tileColour = '\0';
+		int tileShape = 0;
+		splitTile >> tileColour;
+		splitTile >> tileShape;
+		Tile* tile = new Tile(tileColour, tileShape);
+		newShuffledTileBag->addBack(tile);
+	}
+	setTileBag(newShuffledTileBag);
+}
+
 TileBag::~TileBag(){
 	delete shuffledtile_bag;
 }
