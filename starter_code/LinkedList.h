@@ -14,26 +14,42 @@ public:
    // get the length of the list
    int getSize();
 
+   // link with nodes
    // add node to the front of the list
-   void addFrom1st(Node* node);
+   void addNodeFrom1st(Node* node);
 
    // add node to the middle of the list
    void addNode(Node* node);
 
    // add node to the end of the list
-   void addToEnd(Node* node);
+   void addNodeToEnd(Node* node);
 
 
    // // remove the first node of the list
-   // void removeFirstNode();
+   void remove1stNode();
 
-   // remove the node from the middle of the list
+   //remove known node
    void removeNode(Node* node);
 
-   // // remove the last node of the list
-   // void removeLastNode();
-
    void remove(int index);
+
+   void clear();
+
+   // link with tiles
+   // add node with known tile to the front of the list
+   void addTileTo1st(Tile* tile);
+
+   // add node with known tile to the last of the list
+   void addTileToEnd(Tile* tile);
+
+
+   Tile* getFront();
+
+   //get a tile with a position
+   Tile* getTile(int position);
+
+   // delete tile at given position
+   void deleteTile(int position);
 
 private:
    Node* head;

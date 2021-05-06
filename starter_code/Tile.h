@@ -17,6 +17,7 @@ class Tile
 {
 public:
    Tile();
+   Tile(Colour colour, Shape shape);
    Tile(Tile &other);
    Colour colour;
    Shape shape;
@@ -29,6 +30,9 @@ public:
    Shape getShape();
 
 private:
+   Colour colour = '\0';
+   Shape  shape = 0;
+   std::string empty = "";
 };
 
 #endif // ASSIGN2_TILE_H

@@ -19,7 +19,7 @@ Node::Node(Node &other)
 {
    Node *node = new Node(nullptr, nullptr, nullptr);
    node->setTile(other.getTile()->colour, other.getTile()->shape);
-   node->setFront(other.getPrev());
+   node->setPrev(other.getPrev());
    node->setNext(other.getNext());
 }
 
@@ -46,7 +46,7 @@ void Node::setTile(Colour colour, Shape shape)
    this->tile->shape = shape;
 }
 
-void Node::setFront(Node *node)
+void Node::setPrev(Node *node)
 {
    this->prev = node;
    node->next = this->prev;

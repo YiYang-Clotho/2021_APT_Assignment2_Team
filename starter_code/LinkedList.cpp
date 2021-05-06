@@ -32,7 +32,7 @@ int LinkedList::getSize(){
 }
 
 // add node to the front of the list
-void LinkedList::addFrom1st(Node *node){
+void LinkedList::addNodeFrom1st(Node *node){
    node->setNext(this->head);
    this->head = node;
 }
@@ -44,7 +44,7 @@ void LinkedList::addNode(Node *node){
 }
 
 // add node to the end of the list, only add the size of the list
-void LinkedList::addToEnd(Node *node){
+void LinkedList::addNodeToEnd(Node *node){
    // previouse the last node->next = node
    Node *current = new Node(nullptr, nullptr, nullptr);
    current = this->head;
@@ -59,6 +59,13 @@ void LinkedList::addToEnd(Node *node){
 }
 
 // remove the node from the list
+ // remove node from the front of the list
+void LinkedList::remove1stNode(){
+   Node *currentNode = this->head->next;
+   this->head = currentNode->next;
+   this->head->setPrev(nullptr);
+}
+
 void LinkedList::removeNode(Node *node){
    // remove node from the front of the list
    if (this->head == node){
@@ -74,3 +81,55 @@ void LinkedList::removeNode(Node *node){
       current->setNext(node->next);
    }
 }
+
+//add a node at the front
+void LinkedList::addTileTo1st(Tile* tile) {
+	Node *add = new Node(tile, nullptr, nullptr);
+	add->next = head;
+	this->head->setNext(add);
+}
+
+//add a node at the back - fixed
+void LinkedList::addTileToEnd(Tile* tile) {
+	Node *add = new Node(tile, nullptr, nullptr);
+	Node *currentNode = this->head;
+	if (currentNode == nullptr){
+		this->head = add;
+	}
+	else{
+		while (currentNode->next != nullptr) {
+		   currentNode = currentNode->next;
+	   }
+	   currentNode->setNext(add);
+	}
+}
+
+//get a tile with a position
+Tile* LinkedList::getTile(int position){
+	if(position >= 0 && position < this->getSize()){
+		int count = 0;
+		Node* currentNode = this->head;
+		while (count < position){
+			currentNode = currentNode->next;
+			count++;
+		}
+		return currentNode->getTile();
+	}
+	else return nullptr;
+}
+
+// //delete a node at given position
+// void LinkedList::deleteTile(int position){
+//     Node *currentNode = this->head;
+//     Node *temp = this->head;
+//     int count = 0;
+//     if(position >= 0 && position < this->getSize()){
+//       while(count < position){
+//          temp = node;
+//          node = node->next;
+//          count++;
+//       }
+//       temp->next = node->next;
+//       delete node;
+//     }
+// }
