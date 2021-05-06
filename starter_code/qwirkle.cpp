@@ -97,8 +97,8 @@ void credit(std::string full_name, std::string student_number, std::string email
 void credits() {
 	
 	std::cout << "---------------------------------- " << std::endl;
-	credit("Test1", "123", "test1@qq.com");
-	credit("Test2", "321", "test2@qq.com");
+	credit("Test1", "123", "test1@gamil.com");
+	credit("Test2", "321", "test2@gamil.com");
 	std::cout << "<Student 2,etc.> " << std::endl;
 	std::cout << "---------------------------------- " << std::endl;
 	mainMenu();
