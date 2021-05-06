@@ -24,9 +24,10 @@ int main(void) {
    }else if(selection == 4){
       std::cout << "Goodbye" << std::endl;
    }
-   
+
    delete list;
 
+   std::cout << "TODO: Implement Qwirkle!" << std::endl;
 
    return EXIT_SUCCESS;
 }
@@ -43,32 +44,100 @@ int getSelectionFromMenu(){
    std::cout << "2. Load Game" << std::endl;
    std::cout << "3. Credits (Show student information)" << std::endl;
    std::cout << "4. Quit" << std::endl;
-   
+
    int input;
    std::cin >> input;
    return input;
+
+/*
+* =================== Menu Method ==================
+*/
+void newGame() {
+	std::string player1_name, player2_name;
+	std::cout << "Starting a New Game\n" << std::endl;
+
+	std::cout << "Enter a name for player 1(uppercase characters only)\n> ";
+	std::cin >> player1_name;
+
+	if (!checkUpper(player1_name)) {
+		std::cerr << "Invalid Input" << std::endl;
+		return;
+	}
+	std::cout << "Enter a name for player 2(uppercase characters only)\n> ";
+	std::cin >> player2_name;
+	if (!checkUpper(player2_name)) {
+		std::cout << "Invalid Input" << std::endl;
+		return;
+	}
+	std::cout <<"Let's Play!"<<std::endl;
+	//start_game(player1_name, player2_name);
 }
 
-void newGame(){
-   std::cout << "Starting a New Game" << std::endl;
-   string playerName1;
-   string playerName2;
-   std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
-   std::cin >> playerName1;
-   std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
-   std::cin >> playerName2;
-
-   std::cout << "Let's Play" << std::endl;
-
-   // Need finalise
+void loadGame() {
+	std::cout << "Enter the filename from which load a game\n< ";
+	std::string fileName = "";
+	std::cin >> fileName;
+	if (!isFileExist(fileName)) {
+		std::cerr << "Invalid File" << std::endl;
+		return;
+	}
+	//if (!isFileFormatCorrect(fileName)) {
+	//	std::cerr << "Invalid File Format" << std::endl;
+	//	return;
+	//}
+	std::cout << "Qwirkle game successfully loaded" << std::endl;
+	//continue_game(fileName);
 }
 
-void loadGame(string fileName){
-   
+void credit(std::string full_name, std::string student_number, std::string email) {
+	std::cout << "Name:  "<< full_name << std::endl;
+	std::cout << "Student ID:  " << student_number << std::endl;
+	std::cout << "Email:  " << email << std::endl;
+}
+void credits() {
+	
+	std::cout << "---------------------------------- " << std::endl;
+	credit("Test1", "123", "test1@qq.com");
+	credit("Test2", "321", "test2@qq.com");
+	std::cout << "<Student 2,etc.> " << std::endl;
+	std::cout << "---------------------------------- " << std::endl;
+	mainMenu();
 }
 
-void credits(){
-   // print players informations
+
+void mainMenu() {
+	// Display the menu user prompt
+	std::cout << "Menu" << std::endl;
+	std::cout << "--------" << std::endl;
+	std::cout << "1. New Game" << std::endl;
+	std::cout << "2. Load Game" << std::endl;
+	std::cout << "3. Credits (Show student information)" << std::endl;
+	std::cout << "4. Quit" << std::endl;
+	std::cout << "> " ;
+	// Get user option and dispatch
+	int option = -1;
+	std::cin >> option;
+	if (option < 1 || option>4) {
+		std::cout << "Invalid Input" << std::endl;
+	} else {
+		switch (option) {
+		case 1:
+			newGame();
+			break;
+		case 2:
+			loadGame();
+			break;
+		case 3:
+			credits();
+			break;
+		case 4:
+			std::cout << "Goodbye" << std::endl;
+		}
+	}
+}
+
+void main() {
+	mainMenu();
 }
 
 
