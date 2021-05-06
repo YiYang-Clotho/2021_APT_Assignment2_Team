@@ -1,4 +1,3 @@
-
 #ifndef ASSIGN2_NODE_H
 #define ASSIGN2_NODE_H
 
@@ -32,7 +31,6 @@ public:
    Node *getIndex(int index);
 
 private:
-
 };
 
 #endif // ASSIGN2_NODE_H

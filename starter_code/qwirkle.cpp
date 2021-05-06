@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <string>
-using namespace std;
 
 #define EXIT_SUCCESS    0
 
@@ -14,7 +13,7 @@ int main(void) {
    if(selection == 1){
       newGame();
    }else if(selection == 2){
-      string fileName;
+      std::string fileName;
       std::cout << "Enter the filename from which load a game" << std::endl;
       std::cin >> fileName;
 
@@ -74,7 +73,7 @@ void newGame() {
 	//start_game(player1_name, player2_name);
 }
 
-void loadGame(string fileName) {
+void loadGame(std::string fileName) {
 	std::cout << "Enter the filename from which load a game\n< ";
 	std::cin >> fileName;
 	if (!isFileExist(fileName)) {
@@ -98,11 +97,11 @@ void credits() {
 
 }
 
-bool checkValidPlayerName(string playerName){
+bool checkValidPlayerName(std::string playerName){
 
 }
 
-bool isFileExist(string fileName){
+bool isFileExist(std::string fileName){
 
 }
 

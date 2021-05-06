@@ -1,9 +1,7 @@
 #include <iostream>
-#include <vector>
 
 #include "Board.h"
 #include "Types.h"
-using namespace std;
 
 Board::Board()
 {
