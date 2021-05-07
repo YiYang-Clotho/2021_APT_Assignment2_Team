@@ -65,46 +65,49 @@ vector<string> split(string s, char delim) {
 	}
 	return v;
 }
+bool loadPlayerFromStream(Player* player,ifstream& inStream) {
+	std::string name1;
+	inStream >> name1;
+	player = new Player(name1);
+	int score;
+	inStream >> score; player->setScore(score);
+	std::string strTiles;
+	getline(inStream, strTiles);
+	vector<string> vecTiles = split(strTiles, ',');
+	for (int i = 0; i < vecTiles.size(); i++)
+	{
+		Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
+		player->addTile(tmp);
+	}
+	return true;
+}
 
 bool loadGame(std::string loadPath, Player * player1, Player * player2, TileBag * tileBag, Board * board) {
-	std::ifstream file(loadPath, std::ios_base::in);
-	if (!file.is_open())
+	std::ifstream inStream(loadPath, std::ios_base::in);
+	if (!inStream.is_open())
 	{
-		std::cout << "Cache data load fail" << endl;
+		std::cout << "Game file open fail!" << endl;
 		return false;
 	}
 	// Read player 1
-	std::string name1;
-	file >> name1;
-	player1 = new Player(name1);
-	int score;
-	file >> score; player1->setScore(score);
-	std::string strTiles;
-	getline(file, strTiles);
-	vector<string> vecTiles = split(strTiles, ',');
-	for (int i = 0; i < vecTiles.size(); i++)
-	{
-		Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
-		player1->addTile(tmp);
-	}
-
+	loadPlayerFromStream(player1, inStream);
 	// Read player 2
-	std::string name2;
-	file >> name2;
-	player2 = new Player(name2);
-	int score2;
-	file >> score2; player2->setScore(score2);
+	loadPlayerFromStream(player2, inStream);
+
+	//Load board
+	{
+		// FIXME
+	}
+
+	//Load tileBag
+	tileBag = new TileBag();
 	std::string strTiles;
-	getline(file, strTiles);
+	getline(inStream, strTiles);
 	vector<string> vecTiles = split(strTiles, ',');
 	for (int i = 0; i < vecTiles.size(); i++)
 	{
 		Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
-		player2->addTile(tmp);
+		tileBag->addTiles(tmp);
 	}
-
-
-
-
 	return false;
 }
