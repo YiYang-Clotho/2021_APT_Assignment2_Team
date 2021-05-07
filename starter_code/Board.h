@@ -18,11 +18,11 @@ public:
    vector<vector<char> > printBoard();
 
    // save the position of the tile
-   void putTile2Board(Tile *tile, vector<vector<char> > position);
+   //void putTile2Board(Tile *tile, vector<vector<char> > position);
 
 private:
    vector<vector<char> > position;
-   Tile *tile;
+   //Tile *tile;
    int row;
    int col;
 };

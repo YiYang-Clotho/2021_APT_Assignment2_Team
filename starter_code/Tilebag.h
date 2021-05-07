@@ -12,15 +12,18 @@ public:
     ~TileBag();
     
     void loadTileBag(std::vector<std::string> tileArray);
-    void setTileBag(LinkedList *newShuffledTileBag);
+
+    // set tileBag
+    void setTileBag(LinkedList *tile_bag);
+
+    // get tileBag
     LinkedList *getTileBag();
+
+    // get element
     Tile *getTiles();
 
 private:
-    Colour tcolour[6];
-    Shape tshape[6];
-    LinkedList *tile_bag = new LinkedList();
-    LinkedList *shuffledtile_bag = new LinkedList();
+    LinkedList *tile_bag;
 };
 
 #endif // ASSIGN2_TILEBAG_H

@@ -41,6 +41,11 @@ public:
 	// Set the Tile
 	void setTilesInHand(LinkedList *tilesInHand);
 
+	// get the Tile
+	LinkedList* getTilesInHand();
+
+	// display tiles string
+	std::string displayTilesInHand();
 
 private:
 	// The Tiles in curent player hand

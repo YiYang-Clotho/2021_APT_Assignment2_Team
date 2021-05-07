@@ -20,7 +20,7 @@ LinkedList::LinkedList(LinkedList &other){
 // get the length of the list
 int LinkedList::getSize(){
    int size = 0;
-   if (this->head = nullptr){
+   if (this->head == nullptr){
       return size;
    }
    else{
@@ -82,6 +82,22 @@ void LinkedList::removeNode(Node *node){
    }
 }
 
+// remove node from known position
+void LinkedList::remove(int position){
+    Node *currentNode = this->head;
+    Node *temp = this->head;
+    int count = 0;
+    if(position >= 0 && position < this->getSize()){
+      while(count < position){
+         temp = currentNode;
+         currentNode = currentNode->next;
+         count++;
+      }
+      temp->next = currentNode->next;
+      delete currentNode;
+    }
+}
+
 //add a node at the front
 void LinkedList::addTileTo1st(Tile* tile) {
 	Node *add = new Node(tile, nullptr, nullptr);
@@ -118,18 +134,17 @@ Tile* LinkedList::getTile(int position){
 	else return nullptr;
 }
 
-// //delete a node at given position
-// void LinkedList::deleteTile(int position){
-//     Node *currentNode = this->head;
-//     Node *temp = this->head;
-//     int count = 0;
-//     if(position >= 0 && position < this->getSize()){
-//       while(count < position){
-//          temp = node;
-//          node = node->next;
-//          count++;
-//       }
-//       temp->next = node->next;
-//       delete node;
-//     }
-// }
+//return a tile on top of a list
+Tile* LinkedList::getFirstTile(){
+	if(this->head != nullptr){
+      return this->head->getTile();
+   }
+	else {
+      return nullptr;
+   }
+}
+
+// get first node
+Node* LinkedList::getHeadNode(){
+   return this->head;
+}

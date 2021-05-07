@@ -14,7 +14,7 @@ public:
    Node *prev;
    Node *next;
 
-   // get rtile-coodinate of the node
+   // get tile colour of the node
    Tile *getTile();
 
    // get front-coodinate of the node

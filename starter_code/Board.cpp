@@ -75,10 +75,6 @@ Board::Board()
             }
         }
     }
-
-    this->tile = tile;
-    this->row = row;
-    this->col = col;
 }
 
 // deep copy the board
@@ -101,25 +97,24 @@ Board::Board(Board &other) : position(other.position)
 
 Board::~Board()
 {
-    delete tile;
 }
 
 // save the position of the tile
-void Board::putTile2Board(Tile *tile, vector<vector<char> > position)
-{
-    this->tile = tile;
-    this->position[this->row][this->col] = position[row][col];
-}
+// void Board::putTile2Board(Tile *tile, vector<vector<char> > position)
+// {
+//     this->tile = tile;
+//     this->position[this->row][this->col] = position[row][col];
+// }
 
 // print current board
-vector<vector<char> > Board::printBoard()
-{
-    for (int ROW = 0; ROW < position.size(); ROW++)
-    {
-        for (int COL = 0; COL < position[ROW].size(); COL++)
-        {
-            std::cout << position[ROW][COL];
-        }
-        std::cout << std::endl;
-    }
-}
+// vector<vector<char> > Board::printBoard()
+// {
+//     for (int ROW = 0; ROW < position.size(); ROW++)
+//     {
+//         for (int COL = 0; COL < position[ROW].size(); COL++)
+//         {
+//             std::cout << position[ROW][COL];
+//         }
+//         std::cout << std::endl;
+//     }
+// }

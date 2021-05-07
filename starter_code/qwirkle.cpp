@@ -1,9 +1,20 @@
 #include "LinkedList.h"
+#include "Player.h"
 
 #include <iostream>
 #include <string>
 
 #define EXIT_SUCCESS    0
+
+void qwirkle();
+int getSelectionFromMenu();
+void newGame();
+void loadGame(std::string fileName);
+void credits();
+bool checkValidPlayerName(std::string playerName);
+bool isFileExist(std::string fileName);
+bool checkValidInstruction(std::string inputInstruction);
+
 
 int main(void) {
    LinkedList* list = new LinkedList();
@@ -98,10 +109,25 @@ void credits() {
 }
 
 bool checkValidPlayerName(std::string playerName){
-
+	return true;
 }
 
 bool isFileExist(std::string fileName){
+	return true;
+}
+
+bool checkValidInstruction(std::string inputInstruction){
+	std::string name1;
+	Player *currentPlayer = new Player(name1);
+	std::string tilesString = currentPlayer->displayTilesInHand();
+	for (int pos = 0; pos < tilesString.size(); pos += 2)
+	{
+		inputInstruction.compare(1, 2, tilesString.substr(pos, 2));
+	}
+	
+	return true;
+	
+	// check if the player has the tile
 
 }
 

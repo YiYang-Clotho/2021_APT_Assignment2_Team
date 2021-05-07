@@ -29,7 +29,8 @@ public:
    //remove known node
    void removeNode(Node *node);
 
-   void remove(int index);
+   // remove node from known position
+   void remove(int position);
 
    void clear();
 
@@ -40,13 +41,13 @@ public:
    // add node with known tile to the last of the list
    void addTileToEnd(Tile *tile);
 
-   Tile *getFront();
+   Tile *getFirstTile();
 
    //get a tile with a position
    Tile *getTile(int position);
 
-   // delete tile at given position
-   void deleteTile(int position);
+   // get first node
+   Node *getHeadNode();
 
 private:
    Node *head;
