@@ -18,7 +18,7 @@ public:
    vector<vector<char> > printBoard();
 
    // save the position of the tile
-   //void putTile2Board(Tile *tile, vector<vector<char> > position);
+   void putTile2Board(Colour colour, Shape shape, int row, int col);
 
 private:
    vector<vector<char> > position;
