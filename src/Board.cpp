@@ -50,28 +50,33 @@ Board::Board()
                     this->position.push_back(temp);
                     temp.pop_back();
                 }
-            }else{
+            }
+            else
+            {
                 if (c == 0)
                 {
                     tempChar = char(ASCII_DIFFERENCE + c);
                     temp.push_back(tempChar);
                     this->position.push_back(temp);
                     temp.pop_back();
-                }else if(c == tempDistance){
+                }
+                else if (c == tempDistance)
+                {
                     tempNum = 3;
-                    tempDistance+=tempNum;
+                    tempDistance += tempNum;
                     tempChar = '|';
 
                     temp.push_back(tempChar);
                     this->position.push_back(temp);
                     temp.pop_back();
-                }else{
+                }
+                else
+                {
                     tempChar = ' ';
                     temp.push_back(tempChar);
                     this->position.push_back(temp);
                     temp.pop_back();
                 }
-                
             }
         }
     }
@@ -99,22 +104,24 @@ Board::~Board()
 {
 }
 
-// save the position of the tile
-// void Board::putTile2Board(Tile *tile, vector<vector<char> > position)
-// {
-//     this->tile = tile;
-//     this->position[this->row][this->col] = position[row][col];
-// }
+//save the position of the tile
+void Board::putTile2Board(Colour colour, Shape shape, int row, int col)
+{
+    int rowOnTheBoard = (row + 1) * 3;
+    int colOnTheBoard = col;
+    this->position[rowOnTheBoard][colOnTheBoard] = colour;
+    this->position[rowOnTheBoard + 1][colOnTheBoard] = (char)shape;
+}
 
 // print current board
-// vector<vector<char> > Board::printBoard()
-// {
-//     for (int ROW = 0; ROW < position.size(); ROW++)
-//     {
-//         for (int COL = 0; COL < position[ROW].size(); COL++)
-//         {
-//             std::cout << position[ROW][COL];
-//         }
-//         std::cout << std::endl;
-//     }
-// }
+void Board::printBoard()
+{
+    for (int ROW = 0; ROW < position.size(); ROW++)
+    {
+        for (int COL = 0; COL < position[ROW].size(); COL++)
+        {
+            std::cout << position[ROW][COL];
+        }
+        std::cout << std::endl;
+    }
+}

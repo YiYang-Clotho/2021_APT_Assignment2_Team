@@ -1,11 +1,15 @@
 #ifndef ASSIGN2_BOARD_H
 #define ASSIGN2_BOARD_H
+using std::vector;
 
 #include <vector>
-#include "Tile.h"
 #include "Types.h"
 
-using namespace std;
+// Define a Colour type
+typedef char Colour;
+
+// Define a Shape type
+typedef int Shape;
 
 class Board
 {
@@ -15,16 +19,13 @@ public:
    ~Board();
    
    // print current board
-   vector<vector<char> > printBoard();
+   void printBoard();
 
    // save the position of the tile
-   //void putTile2Board(Tile *tile, vector<vector<char> > position);
+   void putTile2Board(Colour colour, Shape shape, int row, int col);
 
 private:
    vector<vector<char> > position;
-   //Tile *tile;
-   int row;
-   int col;
 };
 
 #endif // ASSIGN2_BOARD_H
