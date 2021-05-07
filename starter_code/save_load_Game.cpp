@@ -97,6 +97,16 @@ bool loadGame(std::string loadPath, Player * player1, Player * player2, TileBag 
 	//Load board
 	{
 		// FIXME
+		board = new Board();
+		string shapeStr;
+		getline(inStream, shapeStr);
+		vector<string> vecTiles = split(shapeStr, ',');
+		for (int i = 0; i < vecTiles.size(); i++)
+		{
+			Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
+			player->addTile(tmp);
+		}
+
 	}
 
 	//Load tileBag
@@ -104,10 +114,7 @@ bool loadGame(std::string loadPath, Player * player1, Player * player2, TileBag 
 	std::string strTiles;
 	getline(inStream, strTiles);
 	vector<string> vecTiles = split(strTiles, ',');
-	for (int i = 0; i < vecTiles.size(); i++)
-	{
-		Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
-		tileBag->addTiles(tmp);
-	}
+	tileBag->loadTileBag(vecTiles);
+
 	return false;
 }
