@@ -56,7 +56,55 @@ bool saveGame(std::string savePath, Player * player1, Player * player2, TileBag 
 	return false;
 }
 
+vector<string> split(string s, char delim) {
+	vector<string> v;
+	stringstream stringstream1(s);
+	string tmp;
+	while (getline(stringstream1, tmp, delim)) {
+		v.push_back(tmp);
+	}
+	return v;
+}
+
 bool loadGame(std::string loadPath, Player * player1, Player * player2, TileBag * tileBag, Board * board) {
-	
+	std::ifstream file(loadPath, std::ios_base::in);
+	if (!file.is_open())
+	{
+		std::cout << "Cache data load fail" << endl;
+		return false;
+	}
+	// Read player 1
+	std::string name1;
+	file >> name1;
+	player1 = new Player(name1);
+	int score;
+	file >> score; player1->setScore(score);
+	std::string strTiles;
+	getline(file, strTiles);
+	vector<string> vecTiles = split(strTiles, ',');
+	for (int i = 0; i < vecTiles.size(); i++)
+	{
+		Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
+		player1->addTile(tmp);
+	}
+
+	// Read player 2
+	std::string name2;
+	file >> name2;
+	player2 = new Player(name2);
+	int score2;
+	file >> score2; player2->setScore(score2);
+	std::string strTiles;
+	getline(file, strTiles);
+	vector<string> vecTiles = split(strTiles, ',');
+	for (int i = 0; i < vecTiles.size(); i++)
+	{
+		Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
+		player2->addTile(tmp);
+	}
+
+
+
+
 	return false;
 }
