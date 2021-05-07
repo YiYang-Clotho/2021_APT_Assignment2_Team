@@ -24,10 +24,9 @@ int main(void) {
    }else if(selection == 4){
       std::cout << "Goodbye" << std::endl;
    }
-
+   
    delete list;
 
-   std::cout << "TODO: Implement Qwirkle!" << std::endl;
 
    return EXIT_SUCCESS;
 }
@@ -44,60 +43,32 @@ int getSelectionFromMenu(){
    std::cout << "2. Load Game" << std::endl;
    std::cout << "3. Credits (Show student information)" << std::endl;
    std::cout << "4. Quit" << std::endl;
-
+   
    int input;
    std::cin >> input;
    return input;
 }
 
-/*
-* =================== Menu Method ==================
-*/
-void newGame() {
-	std::string player1_name, player2_name;
-	std::cout << "Starting a New Game\n" << std::endl;
+void newGame(){
+   std::cout << "Starting a New Game" << std::endl;
+   string playerName1;
+   string playerName2;
+   std::cout << "Enter a name for player 1 (uppercase characters only)" << std::endl;
+   std::cin >> playerName1;
+   std::cout << "Enter a name for player 2 (uppercase characters only)" << std::endl;
+   std::cin >> playerName2;
 
-	std::cout << "Enter a name for player 1(uppercase characters only)\n> ";
-	std::cin >> player1_name;
+   std::cout << "Let's Play" << std::endl;
 
-	if (!checkUpper(player1_name)) {
-		std::cerr << "Invalid Input" << std::endl;
-		return;
-	}
-	std::cout << "Enter a name for player 2(uppercase characters only)\n> ";
-	std::cin >> player2_name;
-	if (!checkUpper(player2_name)) {
-		std::cout << "Invalid Input" << std::endl;
-		return;
-	}
-	std::cout <<"Let's Play!"<<std::endl;
-	//start_game(player1_name, player2_name);
+   // Need finalise
 }
 
-void loadGame() {
-	std::cout << "Enter the filename from which load a game\n< ";
-	std::string fileName = "";
-	std::cin >> fileName;
-	if (!isFileExist(fileName)) {
-		std::cerr << "Invalid File" << std::endl;
-		return;
-	}
-	//if (!isFileFormatCorrect(fileName)) {
-	//	std::cerr << "Invalid File Format" << std::endl;
-	//	return;
-	//}
-	std::cout << "Qwirkle game successfully loaded" << std::endl;
-	//continue_game(fileName);
+void loadGame(string fileName){
+   
 }
 
-
-void credits() {
-	
-	std::cout << "---------------------------------- " << std::endl;
-	// print group members' information
-	std::cout << "---------------------------------- " << std::endl;
-
+void credits(){
+   // print players informations
 }
-
 
 
