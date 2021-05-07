@@ -5,8 +5,9 @@
 using namespace std;
 
 
-class Player {
+class Player{
 public:
+    Player(string name, int score, LinkedList *tilesInHand);
 
 	// Initial a new start player.
 	Player(string name);
@@ -17,8 +18,8 @@ public:
 	// Add a new Tile to current palyer hand 
 	bool addTile(Tile* tile);
 
-	// Put one tile on the board, Not matched,return NULL
-	Tile* playOneTile(int color, char shape);
+    LinkedList getTilesInHand();
+    void setTilesInHand(LinkedList *tilesInHand);
 
 	// Withdraw last played tile
 	bool withdrawLastPlayedTile();
