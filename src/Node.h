@@ -1,4 +1,3 @@
-
 #ifndef ASSIGN2_NODE_H
 #define ASSIGN2_NODE_H
 
@@ -15,7 +14,7 @@ public:
    Node *prev;
    Node *next;
 
-   // get rtile-coodinate of the node
+   // get tile colour of the node
    Tile *getTile();
 
    // get front-coodinate of the node
@@ -32,7 +31,6 @@ public:
    Node *getIndex(int index);
 
 private:
-
 };
 
 #endif // ASSIGN2_NODE_H
