@@ -114,7 +114,7 @@ void Board::putTile2Board(Colour colour, Shape shape, int row, int col)
 }
 
 // print current board
-vector<vector<char> > Board::printBoard()
+void Board::printBoard()
 {
     for (int ROW = 0; ROW < position.size(); ROW++)
     {
