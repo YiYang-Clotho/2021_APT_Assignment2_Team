@@ -1,7 +1,9 @@
 #include <iostream>
+#include <vector>
 
 #include "Board.h"
 #include "Types.h"
+using namespace std;
 
 Board::Board()
 {
@@ -50,36 +52,35 @@ Board::Board()
                     this->position.push_back(temp);
                     temp.pop_back();
                 }
-            }
-            else
-            {
+            }else{
                 if (c == 0)
                 {
                     tempChar = char(ASCII_DIFFERENCE + c);
                     temp.push_back(tempChar);
                     this->position.push_back(temp);
                     temp.pop_back();
-                }
-                else if (c == tempDistance)
-                {
+                }else if(c == tempDistance){
                     tempNum = 3;
-                    tempDistance += tempNum;
+                    tempDistance+=tempNum;
                     tempChar = '|';
 
                     temp.push_back(tempChar);
                     this->position.push_back(temp);
                     temp.pop_back();
-                }
-                else
-                {
+                }else{
                     tempChar = ' ';
                     temp.push_back(tempChar);
                     this->position.push_back(temp);
                     temp.pop_back();
                 }
+                
             }
         }
     }
+
+    this->tile = tile;
+    this->row = row;
+    this->col = col;
 }
 
 // deep copy the board
@@ -102,19 +103,18 @@ Board::Board(Board &other) : position(other.position)
 
 Board::~Board()
 {
+    delete tile;
 }
 
-//save the position of the tile
-void Board::putTile2Board(Colour colour, Shape shape, int row, int col)
+// save the position of the tile
+void Board::putTile2Board(Tile *tile, vector<vector<char> > position)
 {
-    int rowOnTheBoard = (row + 1) * 3;
-    int colOnTheBoard = col;
-    this->position[rowOnTheBoard][colOnTheBoard] = colour;
-    this->position[rowOnTheBoard + 1][colOnTheBoard] = (char)shape;
+    this->tile = tile;
+    this->position[this->row][this->col] = position[row][col];
 }
 
 // print current board
-void Board::printBoard()
+vector<vector<char> > Board::printBoard()
 {
     for (int ROW = 0; ROW < position.size(); ROW++)
     {

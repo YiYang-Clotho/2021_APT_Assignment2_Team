@@ -2,6 +2,9 @@
 
 #include "Tile.h"
 #include "Node.h"
+#include "Board.h"
+#include "Types.h"
+using namespace std;
 
 Tile::Tile()
 {
