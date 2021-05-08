@@ -8,9 +8,9 @@ using namespace std;
 Board::Board()
 {
     // initilise the empty board
-    for (std::size_t r = 0; r < BOARD_ROW; r++)
+    for (int r = 0; r < BOARD_ROW; r++)
     {
-        for (std::size_t c = 0; c < BOARD_COL; c++)
+        for (int c = 0; c < BOARD_COL; c++)
         {
             vector<char> temp;
             int tempNum = 0;
@@ -87,14 +87,14 @@ Board::Board()
 Board::Board(Board &other) : position(other.position)
 {
     // initilise the size of the board, get rid of junk
-    for (std::size_t r = 0; r < BOARD_ROW; r++)
+    for (int r = 0; r < BOARD_ROW; r++)
     {
         this->position[r].resize(BOARD_COL);
     }
     // copy
-    for (std::size_t r = 0; r < this->position.size(); r++)
+    for (int r = 0; r < this->position.size(); r++)
     {
-        for (std::size_t c = 0; c < this->position[r].size(); c++)
+        for (int c = 0; c < this->position[r].size(); c++)
         {
             //this->position.push_back(other.position);
         }
@@ -116,9 +116,9 @@ void Board::putTile2Board(Tile *tile, vector<vector<char> > position)
 // print current board
 vector<vector<char> > Board::printBoard()
 {
-    for (std::size_t ROW = 0; ROW < position.size(); ROW++)
+    for (int ROW = 0; ROW < position.size(); ROW++)
     {
-        for (std::size_t COL = 0; COL < position[ROW].size(); COL++)
+        for (int COL = 0; COL < position[ROW].size(); COL++)
         {
             std::cout << position[ROW][COL];
         }

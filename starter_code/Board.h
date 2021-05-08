@@ -4,7 +4,6 @@
 #include <vector>
 #include "Tile.h"
 #include "Types.h"
-using std::vector;
 
 using namespace std;
 
