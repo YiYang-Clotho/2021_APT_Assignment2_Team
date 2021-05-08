@@ -5,80 +5,11 @@
 
 Board::Board()
 {
-    // initilise the empty board
-    for (std::size_t r = 0; r < BOARD_ROW; r++)
+    position.resize(BOARD_SIZE);
+
+    for (unsigned int row = 0; row < position.size(); row++)
     {
-        for (std::size_t c = 0; c < BOARD_COL; c++)
-        {
-            vector<char> temp;
-            int tempNum = 0;
-            int tempDistance = 2;
-            char tempChar;
-
-            // set the first row, the values are the row coodinator
-            if (r == 0)
-            {
-                tempChar = ' ';
-                if (c % 3 == 0)
-                {
-                    temp.push_back(tempNum);
-                    this->position.push_back(temp);
-                    tempNum++;
-                    temp.pop_back();
-                }
-                else
-                {
-                    temp.push_back(tempChar);
-                    this->position.push_back(temp);
-                    temp.pop_back();
-                }
-            }
-            // set the second row, a line of -----
-            else if (r == 1)
-            {
-                if (c == 0 || c == 1)
-                {
-                    tempChar = ' ';
-                    temp.push_back(tempChar);
-                    this->position.push_back(temp);
-                    temp.pop_back();
-                }
-                else
-                {
-                    tempChar = '-';
-                    temp.push_back(tempChar);
-                    this->position.push_back(temp);
-                    temp.pop_back();
-                }
-            }
-            else
-            {
-                if (c == 0)
-                {
-                    tempChar = char(ASCII_DIFFERENCE + c);
-                    temp.push_back(tempChar);
-                    this->position.push_back(temp);
-                    temp.pop_back();
-                }
-                else if (c == tempDistance)
-                {
-                    tempNum = 3;
-                    tempDistance += tempNum;
-                    tempChar = '|';
-
-                    temp.push_back(tempChar);
-                    this->position.push_back(temp);
-                    temp.pop_back();
-                }
-                else
-                {
-                    tempChar = ' ';
-                    temp.push_back(tempChar);
-                    this->position.push_back(temp);
-                    temp.pop_back();
-                }
-            }
-        }
+        this->position[row].resize(BOARD_SIZE);
     }
 }
 
@@ -86,16 +17,16 @@ Board::Board()
 Board::Board(Board &other) : position(other.position)
 {
     // initilise the size of the board, get rid of junk
-    for (std::size_t r = 0; r < BOARD_ROW; r++)
+    for (unsigned int row = 0; row < BOARD_ROW; row++)
     {
-        this->position[r].resize(BOARD_COL);
+        this->position[row].resize(BOARD_COL);
     }
     // copy
-    for (std::size_t r = 0; r < this->position.size(); r++)
+    for (unsigned int row = 0; row < this->position.size(); row++)
     {
-        for (std::size_t c = 0; c < this->position[r].size(); c++)
+        for (unsigned int col = 0; col < this->position[row].size(); col++)
         {
-            //this->position.push_back(other.position);
+            //this->position[row][col](other.position[row][col]);
         }
     }
 }
@@ -107,21 +38,53 @@ Board::~Board()
 //save the position of the tile
 void Board::putTile2Board(Colour colour, Shape shape, int row, int col)
 {
-    int rowOnTheBoard = (row + 1) * 3;
-    int colOnTheBoard = col;
-    this->position[rowOnTheBoard][colOnTheBoard] = colour;
-    this->position[rowOnTheBoard + 1][colOnTheBoard] = (char)shape;
+    this->position[row][col]->setTile(colour, shape);
 }
 
 // print current board
 void Board::printBoard()
 {
-    for (std::size_t ROW = 0; ROW < position.size(); ROW++)
+    // first line
+    std::cout << "   ";
+    for (int row = 0; row < 26; row++){
+        if (row >= 10){
+            if (row == 25){
+                std::cout << row;
+            }else{
+                std::cout << row;
+                std::cout << " ";
+            }
+        }
+        else{
+            std::cout << row;
+            std::cout << "  ";
+        }
+    }
+    std::cout << std::endl;
+
+    // second line
+    std::cout << "  -------------------------------------------------------------------------------";
+    std::cout << std::endl;
+
+    for (unsigned int row = 0; row < position.size(); row++)
     {
-        for (std::size_t COL = 0; COL < position[ROW].size(); COL++)
+        char c;
+        c = row + 'A';
+        std::cout << c << " |";
+        for (unsigned int col = 0; col < position[row].size(); col++)
         {
-            std::cout << position[ROW][COL];
+            //Node *node = this->position[row][col];
+            
+            if (this->position[row][col] == nullptr){
+                std::cout << "  |";
+            }
+            else{
+                // std::cout << tile->getColour();
+                // std::cout << *tile->getShape() + '0';
+                std::cout << "|";
+            }
         }
         std::cout << std::endl;
     }
+    std::cout << std::endl;
 }

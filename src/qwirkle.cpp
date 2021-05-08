@@ -1,5 +1,7 @@
 #include "LinkedList.h"
 #include "Player.h"
+#include "Board.h"
+#include "Tilebag.h"
 
 #include <iostream>
 #include <string>
@@ -13,13 +15,13 @@ void loadGame(std::string fileName);
 void credits();
 bool checkValidPlayerName(std::string playerName);
 bool isFileExist(std::string fileName);
-bool checkValidInstruction(std::string inputInstruction);
+bool isValidInstruction(std::string inputInstruction, Player *player);
 
 int main(void)
 {
 	LinkedList *list = new LinkedList();
 
-	qwirkle();
+	//qwirkle();
 	int selection = getSelectionFromMenu();
 	if (selection == 1)
 	{
@@ -43,8 +45,6 @@ int main(void)
 	}
 
 	delete list;
-
-	std::cout << "TODO: Implement Qwirkle!" << std::endl;
 
 	return EXIT_SUCCESS;
 }
@@ -94,7 +94,118 @@ void newGame()
 		return;
 	}
 	std::cout << "Let's Play!" << std::endl;
-	//start_game(player1_name, player2_name);
+
+	// game round
+
+	// initialise players
+	Player *player1 = new Player(player1_name);
+	Player *player2 = new Player(player2_name);
+
+	// initialise board
+	Board *board = new Board();
+	//board->printBoard();
+
+	// initialise tile bag which contains shuffled tiles
+	TileBag *tileBag = new TileBag();
+
+	std::cout << player1_name << "it's your turn" << std::endl;
+
+
+	// initialise tiles in players' hands
+	player1->setTilesInHand(player1->initialiseTilesInHand(tileBag));
+	player2->setTilesInHand(player2->initialiseTilesInHand(tileBag));
+
+	// palyer one place one tile
+	std::cout << player1_name << "it's your turn" << std::endl;
+	std::cout << "Score for" << player1_name << ": " ;
+	std::cout << player1->getScore() << std::endl;
+
+	std::cout << "Score for" << player2_name << ": " ;
+	std::cout << player2->getScore() << std::endl;
+
+	board->printBoard();
+
+	std::cout << "Your hand is" << std::endl;
+	player1->displayTilesInHand();
+
+	std::string placeInstructure;
+
+	std::cin >> placeInstructure;
+	// if the input is valid, put the tile on the board
+		// otherwise, show better valid input and ask for input again (not done)
+	if (!isValidInstruction(placeInstructure, player1))
+	{
+		std::cout << "Invalid Input" << std::endl;
+		return;
+	}
+	else
+	{
+		// put the tile on the board
+		Colour colour = placeInstructure[6];
+		Shape shape = (int)placeInstructure[7];
+		player1->playOneTile(colour, shape);
+
+		int row = -1;
+		int col = -1;
+		if (placeInstructure.size() == 14)
+		{
+			row = (int)placeInstructure[13];
+		}
+		else if (placeInstructure.size() == 15)
+		{
+			row = (int)placeInstructure[13] * 10 + (int)placeInstructure[14];
+		}
+		col = (int)placeInstructure[12];
+		
+		board->putTile2Board(colour, shape, row, col);
+
+		// increase the score
+		player1->increaseScore(1);
+	}
+
+
+	// palyer two place one tile
+	std::cout << player2_name << "it's your turn" << std::endl;
+	std::cout << "Score for" << player1_name << ": " << player1->getScore() << std::endl;
+	std::cout << "Score for" << player2_name << ": " << player2->getScore() << std::endl;
+
+	board->printBoard();
+
+	std::cout << "Your hand is" << std::endl;
+	player2->displayTilesInHand();
+
+	std::cin >> placeInstructure;
+	// if the input is valid, put the tile on the board
+		// otherwise, show better valid input and ask for input again (not done)
+	if (!isValidInstruction(placeInstructure, player2))
+	{
+		std::cout << "Invalid Input" << std::endl;
+		return;
+	}
+	else
+	{
+		// put the tile on the board
+		Colour colour = placeInstructure[6];
+		Shape shape = (int)placeInstructure[7];
+		player1->playOneTile(colour, shape);
+
+		int row = -1;
+		int col = -1;
+		if (placeInstructure.size() == 14)
+		{
+			row = (int)placeInstructure[13];
+		}
+		else if (placeInstructure.size() == 15)
+		{
+			row = (int)placeInstructure[13] * 10 + (int)placeInstructure[14];
+		}
+		col = (int)placeInstructure[12];
+		
+		board->putTile2Board(colour, shape, row, col);
+
+		// increase the score
+		player2->increaseScore(2);
+	}
 }
 
 void loadGame(std::string fileName)
@@ -132,14 +243,12 @@ bool isFileExist(std::string fileName)
 	return true;
 }
 
-bool checkValidInstruction(std::string inputInstruction)
+bool isValidInstruction(std::string inputInstruction, Player *player)
 {
 	bool validFlag = false;
-	std::string name1;
-	Player *currentPlayer = new Player(name1);
 
 	// check the length of the input string
-	if (inputInstruction.size() == 5 || inputInstruction.size() == 6)
+	if (inputInstruction.size() == 14 || inputInstruction.size() == 15)
 	{
 		validFlag = true;
 	}
@@ -148,17 +257,22 @@ bool checkValidInstruction(std::string inputInstruction)
 		validFlag = false;
 	}
 
-	// check first 2 elements of the input string
+	// check the structure of the instruction
+	if (inputInstruction.compare(0, 5, "place ") && inputInstruction.compare(8, 4, " at "))
+	{
+		validFlag = true;
+	}
+	else
+	{
+		validFlag = false;
+	}
+
 	// check if the player has the tile
-	Colour tempColour;
-	Shape tempShape;
-	std::string tilesString = currentPlayer->displayTilesInHand();
+	std::string tilesString = player->displayTilesInHand();
 	for (int pos = 0; pos < tilesString.size(); pos += 2)
 	{
-		if (inputInstruction.compare(1, 2, tilesString.substr(pos, 2)))
+		if (inputInstruction.compare(6, 2, tilesString.substr(pos, 2)))
 		{
-			tempColour = inputInstruction[0];
-			tempShape = (int)inputInstruction[1];
 			validFlag = true;
 		}
 		else
@@ -167,22 +281,10 @@ bool checkValidInstruction(std::string inputInstruction)
 		}
 	}
 
-	// check the @
-	if (inputInstruction[2] != '@')
-	{
-		validFlag = false;
-	}
-	else
-	{
-		validFlag = true;
-	}
-
 	// check the position that is in the board area
 	// check the col
-	int tempCol = -1;
-	if ((int)inputInstruction[3] - ASCII_DIFFERENCE <= BOARD_COL && (int)inputInstruction[3] - ASCII_DIFFERENCE >= COL_NUMBER_OF_A)
+	if ((int)inputInstruction[12] - ASCII_DIFFERENCE <= BOARD_SIZE && (int)inputInstruction[12] - ASCII_DIFFERENCE >= COL_NUMBER_OF_A)
 	{
-		tempCol = (int)inputInstruction[3] - ASCII_DIFFERENCE;
 		validFlag = true;
 	}
 	else
@@ -192,9 +294,9 @@ bool checkValidInstruction(std::string inputInstruction)
 
 	// check the row
 	int tempRow = -1;
-	if (inputInstruction.size() == 5)
+	if (inputInstruction.size() == 14)
 	{
-		tempRow = (int)inputInstruction[4];
+		tempRow = (int)inputInstruction[13];
 		if (tempRow >= 0 && tempRow < 10)
 		{
 			validFlag = true;
@@ -204,9 +306,9 @@ bool checkValidInstruction(std::string inputInstruction)
 			validFlag = false;
 		}
 	}
-	else if (inputInstruction.size() == 6)
+	else if (inputInstruction.size() == 15)
 	{
-		tempRow = (int)inputInstruction[4] * 10 + (int)inputInstruction[5];
+		tempRow = (int)inputInstruction[13] * 10 + (int)inputInstruction[14];
 		if (tempRow >= 10 && tempRow < BOARD_SIZE)
 		{
 			validFlag = true;

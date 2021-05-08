@@ -2,8 +2,6 @@
 #ifndef ASSIGN2_TILE_H
 #define ASSIGN2_TILE_H
 #include <vector>
-
-#include "Board.h"
 #include "Types.h"
 
 // Define a Colour type

@@ -1,5 +1,6 @@
 #ifndef ASSIGN2_PLAYER_H
 #define ASSIGN2_PLAYER_H
+#include "Tilebag.h"
 #include "LinkedList.h"
 #include <string>
 
@@ -47,6 +48,10 @@ public:
 	// display tiles string
 	std::string displayTilesInHand();
 
+	// set initilise tiles in hand before the 1st round
+	//LinkedList* initialiseTilesInHand(TileBag *tileBag, Player player);
+
+	LinkedList* initialiseTilesInHand(TileBag *tileBag);
 private:
 	// The Tiles in curent player hand
 	LinkedList* tilesInHand;

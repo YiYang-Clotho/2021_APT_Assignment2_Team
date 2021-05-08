@@ -20,7 +20,10 @@ public:
     LinkedList *getTileBag();
 
     // get element
-    Tile *getTiles();
+    Tile *get1stTile();
+
+    // remove the first tile and reload tileBag
+    LinkedList* remove1stTile();
 
 private:
     LinkedList *tile_bag;

@@ -75,14 +75,20 @@ TileBag::~TileBag(){
 
 //gets TileBag
 LinkedList* TileBag::getTileBag(){
-	return tile_bag;
+	return this->tile_bag;
 }
 
 void TileBag::setTileBag(LinkedList *tile_bag){
 	this->tile_bag = tile_bag;
 }
 
-//gets the 1st tile at the front of linked list
-Tile* TileBag::getTiles(){
-	return tile_bag->getFirstTile();
+//get the 1st tile at the front of linked list
+Tile* TileBag::get1stTile(){
+	return this->tile_bag->getFirstTile();
+}
+
+// remove the first tile and reload tileBag
+LinkedList* TileBag::remove1stTile(){
+	this->tile_bag->remove1stNode();
+	return this->tile_bag;
 }

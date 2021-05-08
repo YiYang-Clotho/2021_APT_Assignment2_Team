@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Types.h"
+#include "Node.h"
 using std::vector;
 
 // Define a Colour type
@@ -25,7 +26,7 @@ public:
    void putTile2Board(Colour colour, Shape shape, int row, int col);
 
 private:
-   vector<vector<char> > position;
+   vector<vector<Node*> > position;
 };
 
 #endif // ASSIGN2_BOARD_H
