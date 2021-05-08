@@ -1,9 +1,9 @@
 #ifndef ASSIGN2_BOARD_H
 #define ASSIGN2_BOARD_H
-using std::vector;
 
 #include <vector>
 #include "Types.h"
+using std::vector;
 
 // Define a Colour type
 typedef char Colour;
