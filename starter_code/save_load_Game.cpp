@@ -100,11 +100,13 @@ bool loadGame(std::string loadPath, Player * player1, Player * player2, TileBag 
 		board = new Board();
 		string shapeStr;
 		getline(inStream, shapeStr);
+
+
 		vector<string> vecTiles = split(shapeStr, ',');
 		for (int i = 0; i < vecTiles.size(); i++)
 		{
 			Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
-			player->addTile(tmp);
+			board->putTile2Board(tmp);
 		}
 
 	}
