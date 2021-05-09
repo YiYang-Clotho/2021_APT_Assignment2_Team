@@ -115,25 +115,18 @@ LinkedList *Player::getTilesInHand()
 	return this->tilesInHand;
 }
 // display tiles string
-std::string Player::displayTilesInHand()
+std::string  Player::displayTilesInHand()
 {
-	std::string tiles = "";
-	Node *currentNode = this->tilesInHand->head;
-	Tile *currentTile = currentNode->getTile();
-
-	// add tiles detail to string
-	while (!(currentNode->getNext() == nullptr))
+	std::string tiles;
+	for (unsigned int counter = 1; counter <= this->tilesInHand->getSize(); counter++)
 	{
+		Node *currentNode = this->tilesInHand->getNode(counter);
+		Tile *currentTile = currentNode->getTile();
 		Colour tempColour = currentTile->colour;
 		Shape tempShape = currentTile->shape;
-		tiles += tempColour + std::to_string(tempShape) + " ";
-		currentNode = currentNode->next;
-		currentTile = currentNode->getTile();
-	}
-	Colour tempColour = currentTile->colour;
-	Shape tempShape = currentTile->shape;
-	tiles += tempColour + std::to_string(tempShape);
+		tiles += tempColour + std::to_string(tempShape);
 
+	}
 	return tiles;
 }
 

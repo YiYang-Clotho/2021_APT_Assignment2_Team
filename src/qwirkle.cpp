@@ -27,13 +27,13 @@ int main(void)
 	std::cout << "!!!" << std::endl;
 	// initialise tiles in players' hands
 	player1->initialiseTilesInHand(tileBag);
-	player1->displayTilesInHand();
+	std::cout << player1->displayTilesInHand() << std::endl;
 
 	//qwirkle();
 	int selection = getSelectionFromMenu();
 	if (selection == 1)
 	{
-		//newGame();
+		newGame();
 	}
 	else if (selection == 2)
 	{
@@ -129,8 +129,19 @@ void newGame()
 
 	board->printBoard();
 
+	// display tiles in hand
 	std::cout << "Your hand is" << std::endl;
-	player1->displayTilesInHand();
+	for (unsigned int counter = 0; counter < player1->displayTilesInHand().size(); counter++)
+	{
+		if (counter % 2 == 1)
+		{
+			std::cout << player1->displayTilesInHand()[counter];
+			std::cout << " " ;
+		}else{
+			std::cout << player1->displayTilesInHand()[counter];
+		}
+	}
+	std::cout << std::endl;
 
 	std::string placeInstructure;
 
