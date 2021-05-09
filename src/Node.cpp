@@ -59,13 +59,12 @@ void Node::setPrev(Node *node)
    node->next = this;
 }
 
-// Node *Node::getIndex(int index)
-// {
-// }
-
 void Node::setNext(Node *node)
 {
    this->next = node;
    node->prev = this;
 }
 
+// Node *Node::getIndex(int index)
+// {
+// }

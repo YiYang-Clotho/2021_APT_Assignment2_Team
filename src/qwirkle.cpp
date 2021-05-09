@@ -1,7 +1,5 @@
-#include "LinkedList.h"
 #include "Player.h"
 #include "Board.h"
-#include "Tilebag.h"
 
 #include <iostream>
 #include <string>
@@ -19,18 +17,22 @@ bool isValidInstruction(std::string inputInstruction, Player *player);
 
 int main(void)
 {
+	std::string player1_name = "A";
+	Player *player1 = new Player(player1_name);
+
+	// initialise tile bag which contains shuffled tiles
 	LinkedList *tileBag = new LinkedList();
-
-
 	tileBag->iniTileBag();
-	tileBag->getSize();
+
+	std::cout << "!!!" << std::endl;
+	// initialise tiles in players' hands
+	player1->initialiseTilesInHand(tileBag);
+	player1->displayTilesInHand();
 
 	//qwirkle();
 	int selection = getSelectionFromMenu();
 	if (selection == 1)
 	{
-		std::cout << "nonono" << std::endl;
-		//tileBag->getSize();
 		//newGame();
 	}
 	else if (selection == 2)
@@ -100,7 +102,6 @@ void newGame()
 	std::cout << "Let's Play!" << std::endl;
 
 	// game round
-
 	// initialise players
 	Player *player1 = new Player(player1_name);
 	Player *player2 = new Player(player2_name);
@@ -113,11 +114,10 @@ void newGame()
 	LinkedList *tileBag = new LinkedList();
 	tileBag->iniTileBag();
 
-	std::cout << player1_name << "it's your turn" << std::endl;
-
+	std::cout << "!!!" << std::endl;
 	// initialise tiles in players' hands
-	// player1->setTilesInHand(player1->initialiseTilesInHand(tileBag));
-	// player2->setTilesInHand(player2->initialiseTilesInHand(tileBag));
+	player1->initialiseTilesInHand(tileBag);
+	player2->initialiseTilesInHand(tileBag);
 
 	// palyer one place one tile
 	std::cout << player1_name << "it's your turn" << std::endl;

@@ -53,15 +53,7 @@ void LinkedList::addNode(Node *node, int position)
 void LinkedList::addNodeToEnd(Node *node)
 {
    // previouse the last node->next = node
-   Node *current = new Node();
-   current = this->head;
-   while (current->next != nullptr)
-   {
-      current = current->next;
-   }
-   current->setNext(node);
-
-   node->next = nullptr;
+   this->getNode(this->getSize())->setNext(node);
 }
 
 // remove the node from the list
@@ -100,23 +92,29 @@ void LinkedList::remove(int position)
    if (position > 0 && position <= this->getSize())
    {
       // remove head
-      if (position == 1)
+      if (this->getSize() == 1)
       {
+         this->head = nullptr;
+      }
+      else if (position == 1)
+      {
+
          this->head = this->head->next;
-         // this->head->prev = nullptr;
+         this->head->prev = nullptr;
       }
       // others
+      else if(position == this->getSize())
+      {
+         this->getNode(position - 1)->next = nullptr;
+      }
       else
       {
-         std::cout << "getNode(" << position << " - 1): " << this->getNode(position - 1) << std::endl;
-         std::cout << "getNode(" << position << " + 1): " << this->getNode(position)->next << std::endl;
+         // std::cout << "getNode(" << position << ": " << this->getNode(position) << std::endl;
+         // std::cout << "getNode(" << position << " - 1): " << this->getNode(position - 1) << std::endl;
+         // std::cout << "getNode(" << position << " + 1): " << this->getNode(position)->next << std::endl;
          
-         int counter = 1;
-         while (counter != position){
-            ++counter;
-            current = current->next;
-         }
-         this->getNode(position)->setNext(current);
+         this->getNode(position - 1)->setNext(this->getNode(position + 1));
+         this->getNode(position)->setPrev(this->getNode(position - 1));
       }
    }
    else
@@ -267,10 +265,8 @@ void LinkedList::iniTileBag()
    //random number generator
    for (unsigned int counter = 0; counter < TOTAL_TILES_NUM; counter++)
    {
-      std::cout << "counter: " << counter << std::endl;
       std::uniform_int_distribution<int> udist(1, tempTile_bag->getSize());
       random = udist(engine);
-      std::cout << "random: " << random << std::endl;
 
       // use random number to pull from index of linked list
       // put element at the front of new linklist
@@ -278,16 +274,16 @@ void LinkedList::iniTileBag()
       {
          this->setHead(tempTile_bag->getNode(random));
          tempTile_bag->remove(random);
-         std::cout << "temp size: " << tempTile_bag->getSize() << std::endl;
-         std::cout << "this.head: " << this->head << std::endl;
+         this->head->next = nullptr;
+         this->head->prev = nullptr;
       }
       else
-      {
-         std::cout << std::endl;
-         this->addNodeToEnd(tempTile_bag->getNode(random));
+      {         
+         Node *temp = tempTile_bag->getNode(random);
          tempTile_bag->remove(random);
-         std::cout << "temp size: " << tempTile_bag->getSize() << std::endl;
-         std::cout << std::endl;
+         temp->next = nullptr;
+         temp->prev = nullptr;
+         this->addNodeToEnd(temp);
       }
       //this->addTileTo1st(tempTile_bag->getTile(random));
       //removes element from original linked list

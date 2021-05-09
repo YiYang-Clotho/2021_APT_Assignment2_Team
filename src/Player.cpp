@@ -1,10 +1,10 @@
 #include "Player.h"
 #include <stdio.h>
+#include <iostream>
 
 // Initial a new start player.
 Player::Player(std::string name)
 {
-	this->tilesInHand = nullptr;
 	this->name = name;
 }
 
@@ -137,12 +137,25 @@ std::string Player::displayTilesInHand()
 	return tiles;
 }
 
-LinkedList* Player::initialiseTilesInHand(TileBag* tileBag){
-	for (size_t tileNum = 0; tileNum < TWO_PLAYER_MODE_TILES_IN_HAND_NUM; tileNum++)
+void Player::initialiseTilesInHand(LinkedList* tileBag){
+	for (unsigned int counter = 0; counter < TILES_IN_HAND_NUM; counter++)
 	{
-		this->addTile(tileBag->get1stTile());
-		tileBag->remove1stTile();
+		if (counter == 0)
+		{
+			this->tilesInHand->setHead(tileBag->head);
+			tileBag->remove(1);
+			this->tilesInHand->head->next = nullptr;
+			this->tilesInHand->head->prev = nullptr;
+
+		}
+		else
+		{   
+			Node *temp = tileBag->getNode(1);
+			tileBag->remove(1);
+			temp->next = nullptr;
+			temp->prev = nullptr;
+			this->tilesInHand->addNodeToEnd(temp);
+		}
 	}
-	return this->tilesInHand;
 }
 
