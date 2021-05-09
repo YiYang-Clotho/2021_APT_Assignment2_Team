@@ -1,3 +1,4 @@
+#include <random>
 #include <iostream>
 #include "LinkedList.h"
 
@@ -27,19 +28,12 @@ int LinkedList::getSize()
    int size = 0;
    Node *currentNode = new Node();
    currentNode = this->head;
-   if (currentNode == nullptr)
+   while (currentNode != nullptr)
    {
-      return size;
+      size++;
+      currentNode = currentNode->next;
    }
-   else
-   {
-      while (currentNode->next != nullptr)
-      {
-         currentNode = currentNode->next;
-         size++;
-      }
-      return size++;
-   }
+   return size;
 }
 
 // add node to the front of the list
@@ -103,20 +97,33 @@ void LinkedList::removeNode(Node *node)
 // remove node from known position
 void LinkedList::remove(int position)
 {
-   Node *currentNode = this->head;
-   Node *temp = this->head;
-   int count = 0;
-   if (position >= 0 && position < this->getSize())
+   if (position > 0 && position <= this->getSize())
    {
-      while (count < position)
+      // remove head
+      if (position == 1)
       {
-         temp = currentNode;
-         currentNode = currentNode->next;
-         count++;
+         this->head = this->head->next;
+         // this->head->prev = nullptr;
       }
-      temp->setNext(currentNode->next);
-      delete currentNode;
+      // others
+      else
+      {
+         std::cout << "getNode(" << position << " - 1): " << this->getNode(position - 1) << std::endl;
+         std::cout << "getNode(" << position << " + 1): " << this->getNode(position)->next << std::endl;
+         
+         int counter = 1;
+         while (counter != position){
+            ++counter;
+            current = current->next;
+         }
+         this->getNode(position)->setNext(current);
+      }
    }
+   else
+   {
+      std::cerr << "Invalid Input!" << std::endl;
+   }
+
 }
 
 //add a node at the front
@@ -151,7 +158,7 @@ void LinkedList::addTileToEnd(Tile *tile)
 //get a tile with a position
 Tile *LinkedList::getTile(int position)
 {
-   if (position >= 0 && position <= this->getSize())
+   if (position > 0 && position <= this->getSize())
    {
       int count = 1;
       Node *currentNode = this->head;
@@ -163,13 +170,14 @@ Tile *LinkedList::getTile(int position)
       return currentNode->getTile();
    }
    else
-      return nullptr;
+      std::cerr << "Invalid Input!" << std::endl;
+   return nullptr;
 }
 
 //get the node with a position
 Node *LinkedList::getNode(int position)
 {
-   if (position < 0 || position > this->getSize())
+   if (position <= 0 || position > this->getSize())
    {
       return nullptr;
    }
@@ -203,4 +211,88 @@ Tile *LinkedList::getFirstTile()
 void LinkedList::setHead(Node *node)
 {
    this->head = node;
+}
+
+// initialise tile bag list
+void LinkedList::iniTileBag()
+{
+   //creates array for colour
+   Colour colours[] = {'R', 'O', 'Y', 'G', 'B', 'P'};
+
+   //creates array for shape
+   Shape shapes[] = {1, 2, 3, 4, 5, 6};
+
+   LinkedList *tempTile_bag = new LinkedList();
+
+   //double loop to stock tile bag - once
+   for (unsigned int i = 0; i < 6; i++)
+   {
+      for (unsigned int j = 0; j < 6; j++)
+      {
+         //std::cout << "c s: " << colours[i]  << shapes[j] << std::endl;
+
+         Tile *tempTile = new Tile(colours[i], shapes[j]);
+         Node *tempNode = new Node();
+         tempNode->setTile(tempTile);
+
+         if (i == 0 && j == 0)
+         {
+            tempTile_bag->head = tempNode;
+         }
+         else
+         {
+            tempTile_bag->addNodeToEnd(tempNode);
+         }
+      }
+   }
+
+   // add each kind of tile twice
+   for (unsigned int i = 0; i < 6; i++)
+   {
+      for (unsigned int j = 0; j < 6; j++)
+      {
+         //std::cout << "c s: " << colours[i]  << shapes[j] << std::endl;
+
+         Tile *tempTile = new Tile(colours[i], shapes[j]);
+         Node *tempNode = new Node();
+         tempNode->setTile(tempTile);
+
+         tempTile_bag->addNodeToEnd(tempNode);
+      }
+   }
+
+   std::random_device engine;
+   int random = 0;
+
+   //random number generator
+   for (unsigned int counter = 0; counter < TOTAL_TILES_NUM; counter++)
+   {
+      std::cout << "counter: " << counter << std::endl;
+      std::uniform_int_distribution<int> udist(1, tempTile_bag->getSize());
+      random = udist(engine);
+      std::cout << "random: " << random << std::endl;
+
+      // use random number to pull from index of linked list
+      // put element at the front of new linklist
+      if (counter == 0)
+      {
+         this->setHead(tempTile_bag->getNode(random));
+         tempTile_bag->remove(random);
+         std::cout << "temp size: " << tempTile_bag->getSize() << std::endl;
+         std::cout << "this.head: " << this->head << std::endl;
+      }
+      else
+      {
+         std::cout << std::endl;
+         this->addNodeToEnd(tempTile_bag->getNode(random));
+         tempTile_bag->remove(random);
+         std::cout << "temp size: " << tempTile_bag->getSize() << std::endl;
+         std::cout << std::endl;
+      }
+      //this->addTileTo1st(tempTile_bag->getTile(random));
+      //removes element from original linked list
+   }
+   // clear and delete tempTile_bag tile_bag
+   //tempTile_bag->remove1stNode();
+   delete tempTile_bag;
 }

@@ -6,7 +6,8 @@
 #include <sstream>
 
 TileBag::TileBag()
-{
+{	
+	this->tile_bag->head = nullptr;
 	// //creates array for colour
 	// Colour colours[] = {'R', 'O', 'Y', 'G', 'B', 'P'};
 
@@ -109,5 +110,5 @@ LinkedList *TileBag::remove1stTile()
 // get tiles number in the bag;
 int TileBag::getSize()
 {
-	return tile_bag->getSize();
+	return this->tile_bag->getSize();
 }

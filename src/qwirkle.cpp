@@ -19,29 +19,11 @@ bool isValidInstruction(std::string inputInstruction, Player *player);
 
 int main(void)
 {
-	// TileBag *tileBag = new TileBag();
-	// tileBag->get1stTile();
+	LinkedList *tileBag = new LinkedList();
 
-	LinkedList *list = new LinkedList();
-	Tile *tile1 = new Tile('R', 1);
-	Tile *tile2 = new Tile('R', 2);
-	Tile *tile3 = new Tile('R', 3);
 
-	Node *node1 = new Node();
-	node1->tile = tile1;
-	Node *node2 = new Node();
-	node2->tile = tile2;
-	Node *node3 = new Node();
-	node3->tile = tile3;
-
-	list->setHead(node1);
-	list->addNodeToEnd(node2);
-	// list->addNodeToEnd(node3);
-
-	std::cout << "list size: " << list->getSize() << std::endl;
-	// std::cout << "list 2nd node: " << list->getHeadNode()->getNext()->getTile()->getColour() << list->getHeadNode()->getNext()->getTile()->getShape() << std::endl;
-	// std::cout << "list 2nd node: " << list->getTile(2) << std::endl;
-	// std::cout << "list 3rd node: " << list->getTile(3) << std::endl;
+	tileBag->iniTileBag();
+	tileBag->getSize();
 
 	//qwirkle();
 	int selection = getSelectionFromMenu();
@@ -128,21 +110,21 @@ void newGame()
 	//board->printBoard();
 
 	// initialise tile bag which contains shuffled tiles
-	TileBag *tileBag = new TileBag();
+	LinkedList *tileBag = new LinkedList();
+	tileBag->iniTileBag();
 
 	std::cout << player1_name << "it's your turn" << std::endl;
 
-
 	// initialise tiles in players' hands
-	player1->setTilesInHand(player1->initialiseTilesInHand(tileBag));
-	player2->setTilesInHand(player2->initialiseTilesInHand(tileBag));
+	// player1->setTilesInHand(player1->initialiseTilesInHand(tileBag));
+	// player2->setTilesInHand(player2->initialiseTilesInHand(tileBag));
 
 	// palyer one place one tile
 	std::cout << player1_name << "it's your turn" << std::endl;
-	std::cout << "Score for" << player1_name << ": " ;
+	std::cout << "Score for" << player1_name << ": ";
 	std::cout << player1->getScore() << std::endl;
 
-	std::cout << "Score for" << player2_name << ": " ;
+	std::cout << "Score for" << player2_name << ": ";
 	std::cout << player2->getScore() << std::endl;
 
 	board->printBoard();
@@ -154,7 +136,7 @@ void newGame()
 
 	std::cin >> placeInstructure;
 	// if the input is valid, put the tile on the board
-		// otherwise, show better valid input and ask for input again (not done)
+	// otherwise, show better valid input and ask for input again (not done)
 	if (!isValidInstruction(placeInstructure, player1))
 	{
 		std::cout << "Invalid Input" << std::endl;
@@ -178,13 +160,12 @@ void newGame()
 			row = (int)placeInstructure[13] * 10 + (int)placeInstructure[14];
 		}
 		col = (int)placeInstructure[12];
-		
+
 		board->putTile2Board(colour, shape, row, col);
 
 		// increase the score
 		player1->increaseScore(1);
 	}
-
 
 	// palyer two place one tile
 	std::cout << player2_name << "it's your turn" << std::endl;
@@ -198,7 +179,7 @@ void newGame()
 
 	std::cin >> placeInstructure;
 	// if the input is valid, put the tile on the board
-		// otherwise, show better valid input and ask for input again (not done)
+	// otherwise, show better valid input and ask for input again (not done)
 	if (!isValidInstruction(placeInstructure, player2))
 	{
 		std::cout << "Invalid Input" << std::endl;
@@ -222,7 +203,7 @@ void newGame()
 			row = (int)placeInstructure[13] * 10 + (int)placeInstructure[14];
 		}
 		col = (int)placeInstructure[12];
-		
+
 		board->putTile2Board(colour, shape, row, col);
 
 		// increase the score

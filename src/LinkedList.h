@@ -54,6 +54,9 @@ public:
 
    Node *head;
 
+   // initialise tile bag list
+   void iniTileBag();
+
 private:
    
 };

@@ -25,6 +25,7 @@ public:
 
    // setter for tile and next
    void setTile(Colour colour, Shape shape);
+   void setTile(Tile *tile);
    void setPrev(Node *node);
    void setNext(Node *node);
 

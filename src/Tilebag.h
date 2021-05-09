@@ -9,6 +9,8 @@ class TileBag
 public:
     TileBag();
     ~TileBag();
+
+    LinkedList *tile_bag;
     
     void loadTileBag(std::vector<std::string> tileArray);
 
@@ -28,7 +30,7 @@ public:
     int getSize();
 
 private:
-    LinkedList *tile_bag;
+    
 };
 
 #endif // ASSIGN2_TILEBAG_H
