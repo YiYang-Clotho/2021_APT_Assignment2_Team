@@ -6,7 +6,7 @@
 class Node
 {
 public:
-   Node(Tile *tile, Node *prev, Node *next);
+   Node();
    Node(Node &other);
    ~Node();
 
@@ -31,6 +31,7 @@ public:
    Node *getIndex(int index);
 
 private:
+
 };
 
 #endif // ASSIGN2_NODE_H

@@ -19,13 +19,37 @@ bool isValidInstruction(std::string inputInstruction, Player *player);
 
 int main(void)
 {
+	// TileBag *tileBag = new TileBag();
+	// tileBag->get1stTile();
+
 	LinkedList *list = new LinkedList();
+	Tile *tile1 = new Tile('R', 1);
+	Tile *tile2 = new Tile('R', 2);
+	Tile *tile3 = new Tile('R', 3);
+
+	Node *node1 = new Node();
+	node1->tile = tile1;
+	Node *node2 = new Node();
+	node2->tile = tile2;
+	Node *node3 = new Node();
+	node3->tile = tile3;
+
+	list->setHead(node1);
+	list->addNodeToEnd(node2);
+	list->addNodeToEnd(node3);
+
+	std::cout << "list size: " << list->getSize() << std::endl;
+	// std::cout << "list 2nd node: " << list->getHeadNode()->getNext()->getTile()->getColour() << list->getHeadNode()->getNext()->getTile()->getShape() << std::endl;
+	// std::cout << "list 2nd node: " << list->getTile(2) << std::endl;
+	// std::cout << "list 3rd node: " << list->getTile(3) << std::endl;
 
 	//qwirkle();
 	int selection = getSelectionFromMenu();
 	if (selection == 1)
 	{
-		newGame();
+		std::cout << "nonono" << std::endl;
+		//tileBag->getSize();
+		//newGame();
 	}
 	else if (selection == 2)
 	{
@@ -43,8 +67,6 @@ int main(void)
 	{
 		std::cout << "Goodbye" << std::endl;
 	}
-
-	delete list;
 
 	return EXIT_SUCCESS;
 }

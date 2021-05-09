@@ -18,7 +18,7 @@ public:
    void addNodeFrom1st(Node *node);
 
    // add node to the middle of the list
-   void addNode(Node *node);
+   void addNode(Node *node, int position);
 
    // add node to the end of the list
    void addNodeToEnd(Node *node);
@@ -46,11 +46,16 @@ public:
    //get a tile with a position
    Tile *getTile(int position);
 
-   // get first node
-   Node *getHeadNode();
+   //get the node with a position
+   Node *getNode(int position);
+
+   // set first node
+   void setHead(Node *node);
+
+   Node *head;
 
 private:
-   Node *head;
+   
 };
 
 #endif // ASSIGN2_LINKEDLIST_H

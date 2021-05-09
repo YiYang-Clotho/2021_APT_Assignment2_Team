@@ -11,7 +11,6 @@ Player::Player(std::string name)
 // Used to reload from file
 Player::Player(std::string name, int score, LinkedList *tilesInHand)
 {
-
 	this->name = name;
 	this->score = score;
 	this->tilesInHand = tilesInHand;
@@ -119,7 +118,7 @@ LinkedList *Player::getTilesInHand()
 std::string Player::displayTilesInHand()
 {
 	std::string tiles = "";
-	Node *currentNode = this->tilesInHand->getHeadNode();
+	Node *currentNode = this->tilesInHand->head;
 	Tile *currentTile = currentNode->getTile();
 
 	// add tiles detail to string

@@ -1,7 +1,6 @@
 #ifndef ASSIGN2_TILEBAG_H
 #define ASSIGN2_TILEBAG_H
 #include "LinkedList.h"
-#include "Tile.h"
 #include <string>
 #include <vector>
 
@@ -24,6 +23,9 @@ public:
 
     // remove the first tile and reload tileBag
     LinkedList* remove1stTile();
+
+    // get tiles number in the bag;
+    int getSize();
 
 private:
     LinkedList *tile_bag;

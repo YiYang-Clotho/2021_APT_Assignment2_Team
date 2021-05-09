@@ -1,15 +1,18 @@
 #include <iostream>
 #include "Node.h"
 
-Node::Node(Tile *tile, Node *prev, Node *next)
+Node::Node()
 {
-   this->tile = tile;
-   this->prev = prev;
-   this->next = next;
+   this->tile = nullptr;
+   this->prev = nullptr;
+   this->next = nullptr;
 }
 
 Node::~Node()
 {
+   this->tile = nullptr;
+   this->prev = nullptr;
+   this->next = nullptr;
    delete tile;
    delete prev;
    delete next;
@@ -17,7 +20,7 @@ Node::~Node()
 
 Node::Node(Node &other)
 {
-   Node *node = new Node(nullptr, nullptr, nullptr);
+   Node *node = new Node();
    node->setTile(other.getTile()->colour, other.getTile()->shape);
    node->setPrev(other.getPrev());
    node->setNext(other.getNext());
@@ -25,19 +28,19 @@ Node::Node(Node &other)
 
 Tile *Node::getTile()
 {
-   return tile;
+   return this->tile;
 }
 
 // get front-coodinate of the node
 Node *Node::getPrev()
 {
-   return prev;
+   return this->prev;
 }
 
 // get next-coodinate of the node
 Node *Node::getNext()
 {
-   return next;
+   return this->next;
 }
 
 void Node::setTile(Colour colour, Shape shape)
@@ -49,7 +52,7 @@ void Node::setTile(Colour colour, Shape shape)
 void Node::setPrev(Node *node)
 {
    this->prev = node;
-   node->next = this->prev;
+   node->next = this;
 }
 
 // Node *Node::getIndex(int index)
@@ -59,6 +62,6 @@ void Node::setPrev(Node *node)
 void Node::setNext(Node *node)
 {
    this->next = node;
-   node->prev = this->next;
+   node->prev = this;
 }
 
