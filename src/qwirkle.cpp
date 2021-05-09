@@ -36,7 +36,7 @@ int main(void)
 
 	list->setHead(node1);
 	list->addNodeToEnd(node2);
-	list->addNodeToEnd(node3);
+	// list->addNodeToEnd(node3);
 
 	std::cout << "list size: " << list->getSize() << std::endl;
 	// std::cout << "list 2nd node: " << list->getHeadNode()->getNext()->getTile()->getColour() << list->getHeadNode()->getNext()->getTile()->getShape() << std::endl;

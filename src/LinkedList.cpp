@@ -25,17 +25,20 @@ LinkedList::LinkedList(LinkedList &other)
 int LinkedList::getSize()
 {
    int size = 0;
-   if (this->head == nullptr)
+   Node *currentNode = new Node();
+   currentNode = this->head;
+   if (currentNode == nullptr)
    {
       return size;
    }
    else
    {
-      while (this->head->next != nullptr)
+      while (currentNode->next != nullptr)
       {
+         currentNode = currentNode->next;
          size++;
       }
-      return size;
+      return size++;
    }
 }
 
