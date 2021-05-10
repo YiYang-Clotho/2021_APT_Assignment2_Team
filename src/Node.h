@@ -17,22 +17,29 @@ public:
    // get tile colour of the node
    Tile *getTile();
 
-   // get front-coodinate of the node
+   // set tile colour of the node
+   void setTile(Colour colour, Shape shape);
+   void setTile(Tile *tile);
+
+   // get previous-coodinate of the node
    Node *getPrev();
+
+   // set previous-coodinate of the node
+   void setPrev(Node *node);
 
    // get next-coodinate of the node
    Node *getNext();
 
-   // setter for tile and next
-   void setTile(Colour colour, Shape shape);
-   void setTile(Tile *tile);
-   void setPrev(Node *node);
+   // set next-coodinate of the node   
    void setNext(Node *node);
 
-   Node *getIndex(int index);
+   // set node  
+   void setNode(Node *node);
+
+   // get node
+   Node *getNode();
 
 private:
-
 };
 
 #endif // ASSIGN2_NODE_H

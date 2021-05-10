@@ -24,24 +24,22 @@ bool Player::addTile(Tile *tile)
 	return true;
 }
 
-// put one tile on the board, Not matched,return NULL
-Tile *Player::playOneTile(int color, char shape)
+// remove the tile that has been place on the board
+// reload the tilesInHand
+void Player::playOneTile(Colour colour, Shape shape)
 {
 	int len = this->tilesInHand->getSize();
-	for (int i = 0; i < len; i++)
+	for (unsigned int counter = 1; counter <= len; counter++)
 	{
-		Tile *tmp = this->tilesInHand->getTile(i);
-		if (tmp->getColour() == color && tmp->getShape() == shape)
+		Tile *tmp = this->tilesInHand->getNode(counter)->getTile();
+		if (tmp->colour == colour && tmp->shape == shape)
 		{
 			// Copy this Tile
 			Tile *copyTmp = new Tile(*tmp);
-			this->tilesInHand->remove(i);
+			this->tilesInHand->remove(counter);
 			this->lastPlayedTile = copyTmp;
-			return copyTmp;
 		}
 	}
-	// if NO matched Tiles in hand, Return Null
-	return NULL;
 }
 
 // Withdraw last played tile
@@ -115,8 +113,34 @@ LinkedList *Player::getTilesInHand()
 	return this->tilesInHand;
 }
 // display tiles string
-std::string  Player::displayTilesInHand()
+void Player::printTilesInHand()
 {
+	std::string tiles;
+	for (unsigned int counter = 1; counter <= this->tilesInHand->getSize(); counter++)
+	{
+		Node *currentNode = this->tilesInHand->getNode(counter);
+		Tile *currentTile = currentNode->getTile();
+		Colour tempColour = currentTile->colour;
+		Shape tempShape = currentTile->shape;
+		tiles += tempColour + std::to_string(tempShape);
+
+	}
+	// print
+	for (unsigned int counter = 0; counter < tiles.size(); counter++)
+	{
+		if (counter % 2 == 1)
+		{
+			std::cout << tiles[counter];
+			std::cout << " " ;
+		}else{
+			std::cout << tiles[counter];
+		}
+	}
+	std::cout << std::endl;
+}
+
+// display tiles string
+std::string Player::getTilesString(){
 	std::string tiles;
 	for (unsigned int counter = 1; counter <= this->tilesInHand->getSize(); counter++)
 	{
@@ -150,5 +174,18 @@ void Player::initialiseTilesInHand(LinkedList* tileBag){
 			this->tilesInHand->addNodeToEnd(temp);
 		}
 	}
+}
+
+// get a new tile after place one
+void Player::getNewTile(LinkedList *tileBag){
+	if (this->tilesInHand->getSize() > 0)
+	{
+		Node *temp = tileBag->getNode(1);
+		tileBag->remove(1);
+		temp->next = nullptr;
+		temp->prev = nullptr;
+		this->tilesInHand->addNodeToEnd(temp);
+	}
+	
 }
 

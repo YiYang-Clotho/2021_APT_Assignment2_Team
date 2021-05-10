@@ -5,12 +5,22 @@
 
 Board::Board()
 {
-    position.resize(BOARD_SIZE);
+    this->position.resize(BOARD_SIZE);
 
-    for (unsigned int row = 0; row < position.size(); row++)
+    for (unsigned int row = 0; row < this->position.size(); row++)
     {
         this->position[row].resize(BOARD_SIZE);
     }
+
+   
+    for (unsigned int row = 0; row < this->position.size(); row++){
+		for (unsigned int col = 0; col < this->position[row].size(); col++){
+            Node *node = new Node();
+            //this->position[row][col]->setNode(node);
+            this->position[row][col] = node;
+        }
+    }
+
 }
 
 // deep copy the board
@@ -38,7 +48,10 @@ Board::~Board()
 //save the position of the tile
 void Board::putTile2Board(Colour colour, Shape shape, int row, int col)
 {
-    this->position[row][col]->setTile(colour, shape);
+    Tile *tile = new Tile();
+    tile->colour = colour;
+    tile->shape = shape;
+    this->position[row][col]->setTile(tile);
 }
 
 // print current board
@@ -75,12 +88,14 @@ void Board::printBoard()
         {
             //Node *node = this->position[row][col];
             
-            if (this->position[row][col] == nullptr){
+            if (this->position[row][col]->tile == nullptr){
                 std::cout << "  |";
             }
             else{
-                // std::cout << tile->getColour();
-                // std::cout << *tile->getShape() + '0';
+                Colour colour = this->position[row][col]->tile->colour;
+                Shape shape = this->position[row][col]->tile->shape;
+                std::cout << colour;
+                std::cout << shape;
                 std::cout << "|";
             }
         }

@@ -65,6 +65,14 @@ void Node::setNext(Node *node)
    node->prev = this;
 }
 
-// Node *Node::getIndex(int index)
-// {
-// }
+// set node  
+void Node::setNode(Node *node){
+   this->tile = node->tile;
+   this->prev = node->prev;
+   this->next = node->next;
+}
+
+// get node
+Node *Node::getNode(){
+   return this;
+}
