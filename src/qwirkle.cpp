@@ -149,8 +149,8 @@ void newGame()
 
 		board->putTile2Board(colour, shape, row, col);
 
-		// player1->playOneTile(colour, shape);
-		// player1->getNewTile(tileBag);
+		player1->playOneTile(colour, shape);
+		player1->getNewTile(tileBag);
 
 		// increase the score
 		player1->increaseScore(1);

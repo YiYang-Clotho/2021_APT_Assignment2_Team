@@ -29,17 +29,20 @@ bool Player::addTile(Tile *tile)
 void Player::playOneTile(Colour colour, Shape shape)
 {
 	int len = this->tilesInHand->getSize();
+	int flag = 0;
+	// record the position of the tile
 	for (unsigned int counter = 1; counter <= len; counter++)
 	{
 		Tile *tmp = this->tilesInHand->getNode(counter)->getTile();
 		if (tmp->colour == colour && tmp->shape == shape)
 		{
-			// Copy this Tile
-			Tile *copyTmp = new Tile(*tmp);
-			this->tilesInHand->remove(counter);
-			this->lastPlayedTile = copyTmp;
+			flag = counter;
 		}
 	}
+	// Copy this Tile to last played tile, remove in the list
+	Tile *copyTmp = new Tile(colour, shape);
+	this->tilesInHand->remove(flag);
+	this->lastPlayedTile = copyTmp;
 }
 
 // Withdraw last played tile
