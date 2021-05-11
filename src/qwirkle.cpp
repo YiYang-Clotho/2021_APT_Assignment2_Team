@@ -16,12 +16,81 @@ bool isFileExist(std::string fileName);
 bool isValidInstruction(std::string inputInstruction, Player *player);
 
 int main(void)
-{	
-	//qwirkle();
+{
+	// int playerFlag = 1;
+	// std::string name1 = "A";
+	// std::string name2 = "B";
+	// Player *p1 = new Player(name1);
+	// Player *p2 = new Player(name2);
+	// Player *tp = new Player();
+	// int size = 10;
+	// int Asize = 3;
+	// int Bsize = 3;
+	// int c = 5;
+	// int c1 = 3;
+	// while (size > 0 || Asize > 0 || Bsize > 0)
+	// {
+	// 	if (size > 0)
+	// 	{
+	// 		for (unsigned int turn = 0; turn < c; turn++)
+	// 		{
+	// 			if (playerFlag == 1)
+	// 			{
+	// 				tp = p1;
+	// 				std::cout << "size: " << size << std::endl;
+	// 				// player 1's turn
+	// 				std::cout << tp->getName() << std::endl;
+	// 				playerFlag = 2;
+	// 				size--;
+	// 				std::cout << "size: " << size << std::endl;
+	// 			}
+	// 			if (playerFlag == 2)
+	// 			{
+	// 				tp = p2;
+	// 				std::cout << "size: " << size << std::endl;
+	// 				// player 1's turn
+	// 				std::cout << tp->getName() << std::endl;
+	// 				playerFlag = 1;
+	// 				size--;
+	// 				std::cout << "size: " << size << std::endl;
+	// 			}
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		for (unsigned int turn = 0; turn < c1; turn++)
+	// 		{
+	// 			if (playerFlag == 1)
+	// 			{
+	// 				tp = p1;
+	// 				std::cout << "size: " << size << std::endl;
+	// 				std::cout << "Asize: " << Asize << std::endl;
+	// 				// player 1's turn
+	// 				std::cout << tp->getName() << std::endl;
+	// 				playerFlag = 2;
+	// 				Asize--;
+	// 				std::cout << "Asize: " << Asize << std::endl;
+	// 			}
+	// 			if (playerFlag == 2)
+	// 			{
+	// 				tp = p2;
+	// 				std::cout << "size: " << size << std::endl;
+	// 				std::cout << "Bsize: " << Bsize << std::endl;
+	// 				// player 1's turn
+	// 				std::cout << tp->getName() << std::endl;
+	// 				playerFlag = 1;
+	// 				Bsize--;
+	// 				std::cout << "Bsize: " << Bsize << std::endl;
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+	qwirkle();
 	int selection = getSelectionFromMenu();
 	if (selection == 1)
 	{
-		//newGame();
+		newGame();
 	}
 	else if (selection == 2)
 	{
@@ -67,10 +136,8 @@ int getSelectionFromMenu()
 * =================== Menu Method ==================
 */
 void newGame()
-{	
-	int flag = 1;
+{
 
-	
 	std::string player1_name, player2_name;
 	std::cout << "Starting a New Game\n"
 			  << std::endl;
@@ -109,122 +176,280 @@ void newGame()
 	player1->initialiseTilesInHand(tileBag);
 	player2->initialiseTilesInHand(tileBag);
 
-
-	while (tileBag->getSize() > 0)
+	int tilesBagCounter = ROUND_NUM * 2;
+	int p1Counter = TILES_IN_HAND_NUM;
+	int p2Counter = TILES_IN_HAND_NUM;
+	int playerFlag = 1;
+	std::string instructure;
+	int inputCount = 0;
+	while (tileBag->getSize() > 0 
+		|| player1->getTilesInHand()->getSize() > 2 
+		|| player2->getTilesInHand()->getSize() > 2)
 	{
-		if (flag == 1)
+		if (tileBag->getSize() > 0)
 		{
-			// player 1's turn
-			flag = 2;
+			for (unsigned int turn = 0; turn < ROUND_NUM; turn++)
+			{
+				if (playerFlag == 1)
+				{
+					// player 1's turn
+					// palyer 1 place one tile
+					std::cout << player1->getName();
+					std::cout << " it's your turn" << std::endl;
+					std::cout << "Score for " << player1_name << ": ";
+					std::cout << player1->getScore() << std::endl;
+
+					std::cout << "Score for " << player2_name << ": ";
+					std::cout << player2->getScore() << std::endl;
+
+					board->printBoard();
+
+					// display tiles in hand
+					std::cout << "Your hand is" << std::endl;
+					player1->printTilesInHand();
+
+					if (inputCount == 0)
+					{
+						std::cin.ignore();
+						inputCount++;
+					}
+
+					instructure.clear();
+					std::getline(std::cin, instructure);
+
+					// if the input is valid, put the tile on the board
+					// unvalid, show better valid input, input again
+					if (isValidInstruction(instructure, player1) == false)
+					{
+						std::cout << "Invalid Input" << std::endl;
+						std::getline(std::cin, instructure);
+					}
+					else
+					{
+						// put the tile on the board, update tiles in hand
+						// update tile bag
+						Colour colour = instructure[6];
+						Shape shape = instructure[7] - '0';
+
+						int row = -1;
+						int col = -1;
+						int digits = instructure[14] - '0';
+						int tens = (instructure[13] - '0') * 10;
+						if (instructure.size() == 14)
+						{
+							col = instructure[13] - '0';
+						}
+						else if (instructure.size() == 15)
+						{
+							col = tens + digits;
+						}
+						row = instructure[12] - '0' - ASCII_DIF;
+
+						board->putTile2Board(colour, shape, row, col);
+
+						player1->playOneTile(colour, shape);
+						player1->getNewTile(tileBag);
+
+						// increase the score
+						player1->increaseScore(1);
+					}
+
+					playerFlag = 2;
+					tilesBagCounter--;
+				}
+				if (playerFlag == 2)
+				{
+					// player 2's turn
+					// palyer 2 place one tile
+					std::cout << player2_name;
+					std::cout << " it's your turn" << std::endl;
+					std::cout << "Score for " << player1_name << ": ";
+					std::cout << player1->getScore() << std::endl;
+
+					std::cout << "Score for " << player2_name << ": ";
+					std::cout << player2->getScore() << std::endl;
+
+					board->printBoard();
+
+					// display tiles in hand
+					std::cout << "Your hand is" << std::endl;
+					player2->printTilesInHand();
+
+					instructure.clear();
+					std::getline(std::cin, instructure);
+
+					// if the input is valid, put the tile on the board
+					// unvalid, show better valid input, input again
+					if (isValidInstruction(instructure, player2) == false)
+					{
+						std::cout << "Invalid Input" << std::endl;
+						std::getline(std::cin, instructure);
+					}
+					else
+					{
+						// put the tile on the board, update tiles in hand
+						// update tile bag
+						Colour colour = instructure[6];
+						Shape shape = instructure[7] - '0';
+
+						int row = -1;
+						int col = -1;
+						int digits = instructure[14] - '0';
+						int tens = (instructure[13] - '0') * 10;
+						if (instructure.size() == 14)
+						{
+							col = instructure[13] - '0';
+						}
+						else if (instructure.size() == 15)
+						{
+							col = tens + digits;
+						}
+						row = instructure[12] - '0' - ASCII_DIF;
+
+						board->putTile2Board(colour, shape, row, col);
+
+						player2->playOneTile(colour, shape);
+						player2->getNewTile(tileBag);
+
+						// increase the score
+						player2->increaseScore(2);
+					}
+					playerFlag = 1;
+					tilesBagCounter--;
+				}
+			}
 		}
-		if (flag == 2)
+		else
 		{
-			// player 2's turn
-			flag = 1;
+			for (unsigned emptyBagCounter = 0;
+				 emptyBagCounter < EMPTY_TILE_BAG_ROUND_NUM; emptyBagCounter++)
+			{
+				for (unsigned int turn = 0; turn < TILES_IN_HAND_NUM; turn++)
+				{
+					if (playerFlag == 1)
+					{
+						// player 1's turn
+						// palyer 1 place one tile
+						std::cout << player1->getName();
+						std::cout << " it's your turn" << std::endl;
+						std::cout << "Score for " << player1_name << ": ";
+						std::cout << player1->getScore() << std::endl;
+
+						std::cout << "Score for " << player2_name << ": ";
+						std::cout << player2->getScore() << std::endl;
+
+						board->printBoard();
+
+						// display tiles in hand
+						std::cout << "Your hand is" << std::endl;
+						player1->printTilesInHand();
+
+						instructure.clear();
+						std::getline(std::cin, instructure);
+
+						// if the input is valid, put the tile on the board
+						// unvalid, show better valid input, input again
+						if (isValidInstruction(instructure, player1) == false)
+						{
+							std::cout << "Invalid Input" << std::endl;
+							std::getline(std::cin, instructure);
+						}
+						else
+						{
+							// put the tile on the board, update tiles in hand
+							// update tile bag
+							Colour colour = instructure[6];
+							Shape shape = instructure[7] - '0';
+
+							int row = -1;
+							int col = -1;
+							int digits = instructure[14] - '0';
+							int tens = (instructure[13] - '0') * 10;
+							if (instructure.size() == 14)
+							{
+								col = instructure[13] - '0';
+							}
+							else if (instructure.size() == 15)
+							{
+								col = tens + digits;
+							}
+							row = instructure[12] - '0' - ASCII_DIF;
+
+							board->putTile2Board(colour, shape, row, col);
+
+							player1->playOneTile(colour, shape);
+							player1->getNewTile(tileBag);
+
+							// increase the score
+							player1->increaseScore(1);
+						}
+						playerFlag = 2;
+						p1Counter--;
+					}
+					if (playerFlag == 2)
+					{
+						// player 2's turn
+						// palyer 2 place one tile
+						std::cout << player2_name;
+						std::cout << " it's your turn" << std::endl;
+						std::cout << "Score for " << player1_name << ": ";
+						std::cout << player1->getScore() << std::endl;
+
+						std::cout << "Score for " << player2_name << ": ";
+						std::cout << player2->getScore() << std::endl;
+
+						board->printBoard();
+
+						// display tiles in hand
+						std::cout << "Your hand is" << std::endl;
+						player2->printTilesInHand();
+
+						instructure.clear();
+						std::getline(std::cin, instructure);
+
+					// if the input is valid, put the tile on the board
+					// unvalid, show better valid input, input again
+						if (isValidInstruction(instructure, player2) == false)
+						{
+							std::cout << "Invalid Input" << std::endl;
+							std::getline(std::cin, instructure);
+						}
+						else
+						{
+							// put the tile on the board, update tiles in hand
+							// update tile bag
+							Colour colour = instructure[6];
+							Shape shape = instructure[7] - '0';
+
+							int row = -1;
+							int col = -1;
+							int digits = instructure[14] - '0';
+							int tens = (instructure[13] - '0') * 10;
+							if (instructure.size() == 14)
+							{
+								col = instructure[13] - '0';
+							}
+							else if (instructure.size() == 15)
+							{
+								col = tens + digits;
+							}
+							row = instructure[12] - '0' - ASCII_DIF;
+
+							board->putTile2Board(colour, shape, row, col);
+
+							player2->playOneTile(colour, shape);
+							player2->getNewTile(tileBag);
+
+							// increase the score
+							player2->increaseScore(2);
+						}
+						playerFlag = 1;
+						p2Counter--;
+					}
+				}
+			}
 		}
-		
 	}
-
-	// palyer 1 place one tile
-	std::cout << player1_name << " it's your turn" << std::endl;
-	std::cout << "Score for " << player1_name << ": ";
-	std::cout << player1->getScore() << std::endl;
-
-	std::cout << "Score for " << player2_name << ": ";
-	std::cout << player2->getScore() << std::endl;
-
-	board->printBoard();
-
-	// display tiles in hand
-	std::cout << "Your hand is" << std::endl;
-	player1->printTilesInHand();
-
-	std::string placeInstructure;
-	std::cin.ignore();
-	std::getline(std::cin, placeInstructure);
-
-	// if the input is valid, put the tile on the board
-	// otherwise, show better valid input and ask for input again
-	if(isValidInstruction(placeInstructure, player1) == false){
-		std::cout << "Invalid Input" << std::endl;
-		std::getline(std::cin, placeInstructure);
-	}else{
-		// put the tile on the board, update tiles in hand
-		// update tile bag
-		Colour colour = placeInstructure[6];
-		Shape shape = placeInstructure[7] - '0';
-
-		int row = -1;
-		int col = -1;
-		if (placeInstructure.size() == 14)
-		{
-			col = placeInstructure[13] - '0';
-		}
-		else if (placeInstructure.size() == 15)
-		{
-			col = (placeInstructure[13] - '0') * 10 + placeInstructure[14] - '0';
-		}
-		row = placeInstructure[12] - '0' - ASCII_DIFFERENCE;
-
-		board->putTile2Board(colour, shape, row, col);
-
-		player1->playOneTile(colour, shape);
-		player1->getNewTile(tileBag);
-
-		// increase the score
-		player1->increaseScore(1);
-	}
-
-	// palyer 2 place one tile
-	std::cout << player2_name << " it's your turn" << std::endl;
-	std::cout << "Score for " << player1_name << ": ";
-	std::cout << player1->getScore() << std::endl;
-
-	std::cout << "Score for " << player2_name << ": ";
-	std::cout << player2->getScore() << std::endl;
-
-	board->printBoard();
-
-	// display tiles in hand
-	std::cout << "Your hand is" << std::endl;
-	player2->printTilesInHand();
-
-	placeInstructure.clear();
-	std::getline(std::cin, placeInstructure);
-
-	// if the input is valid, put the tile on the board
-	// otherwise, show better valid input and ask for input again
-	if(isValidInstruction(placeInstructure, player2) == false){
-		std::cout << "Invalid Input" << std::endl;
-		std::getline(std::cin, placeInstructure);
-	}else{
-		// put the tile on the board, update tiles in hand
-		// update tile bag
-		Colour colour = placeInstructure[6];
-		Shape shape = placeInstructure[7] - '0';
-
-		int row = -1;
-		int col = -1;
-		if (placeInstructure.size() == 14)
-		{
-			col = placeInstructure[13] - '0';
-		}
-		else if (placeInstructure.size() == 15)
-		{
-			col = (placeInstructure[13] - '0') * 10 + placeInstructure[14] - '0';
-		}
-		row = placeInstructure[12] - '0' - ASCII_DIFFERENCE;
-
-		board->putTile2Board(colour, shape, row, col);
-
-		// player1->playOneTile(colour, shape);
-		// player1->getNewTile(tileBag);
-
-		// increase the score
-		player2->increaseScore(2);
-	}
-
-	
 }
 
 void loadGame(std::string fileName)
@@ -277,7 +502,8 @@ bool isValidInstruction(std::string inputInstruction, Player *player)
 	}
 
 	// check the structure of the instruction
-	if (inputInstruction.compare(0, 6, "place ") == 0 && inputInstruction.compare(8, 4, " at ") == 0)
+	if (inputInstruction.compare(0, 6, "place ") == 0 
+		&& inputInstruction.compare(8, 4, " at ") == 0)
 	{
 		validFlag = true;
 	}
@@ -302,7 +528,7 @@ bool isValidInstruction(std::string inputInstruction, Player *player)
 
 	// check the position that is in the board area
 	// check the col
-	int col = inputInstruction[12] - '0' - ASCII_DIFFERENCE;
+	int col = inputInstruction[12] - '0' - ASCII_DIF;
 	if (col <= BOARD_SIZE && col >= 0)
 	{
 		validFlag = true;

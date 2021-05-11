@@ -7,6 +7,8 @@
 
 class Player {
 public:
+	// Initial a new start player.
+	Player();
 
 	// Initial a new start player.
 	Player(std::string name);

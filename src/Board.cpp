@@ -27,9 +27,11 @@ Board::Board()
 Board::Board(Board &other) : position(other.position)
 {
     // initilise the size of the board, get rid of junk
-    for (unsigned int row = 0; row < BOARD_ROW; row++)
+    this->position.resize(BOARD_SIZE);
+
+    for (unsigned int row = 0; row < this->position.size(); row++)
     {
-        this->position[row].resize(BOARD_COL);
+        this->position[row].resize(BOARD_SIZE);
     }
     // copy
     for (unsigned int row = 0; row < this->position.size(); row++)

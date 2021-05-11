@@ -3,6 +3,14 @@
 #include <iostream>
 
 // Initial a new start player.
+Player::Player(){
+	this->name = "";
+	this->score = 0;
+	this->tilesInHand = nullptr;
+	this->lastPlayedTile = nullptr;
+}
+
+// Initial a new start player.
 Player::Player(std::string name)
 {
 	this->name = name;
