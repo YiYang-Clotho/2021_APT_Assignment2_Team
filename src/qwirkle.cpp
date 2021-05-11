@@ -17,11 +17,11 @@ bool isValidInstruction(std::string inputInstruction, Player *player);
 
 int main(void)
 {	
-	qwirkle();
+	//qwirkle();
 	int selection = getSelectionFromMenu();
 	if (selection == 1)
 	{
-		newGame();
+		//newGame();
 	}
 	else if (selection == 2)
 	{
@@ -67,7 +67,10 @@ int getSelectionFromMenu()
 * =================== Menu Method ==================
 */
 void newGame()
-{
+{	
+	int flag = 1;
+
+	
 	std::string player1_name, player2_name;
 	std::cout << "Starting a New Game\n"
 			  << std::endl;
@@ -105,6 +108,22 @@ void newGame()
 	// initialise tiles in players' hands
 	player1->initialiseTilesInHand(tileBag);
 	player2->initialiseTilesInHand(tileBag);
+
+
+	while (tileBag->getSize() > 0)
+	{
+		if (flag == 1)
+		{
+			// player 1's turn
+			flag = 2;
+		}
+		if (flag == 2)
+		{
+			// player 2's turn
+			flag = 1;
+		}
+		
+	}
 
 	// palyer 1 place one tile
 	std::cout << player1_name << " it's your turn" << std::endl;
