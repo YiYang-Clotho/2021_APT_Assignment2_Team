@@ -259,6 +259,7 @@ void LinkedList::iniTileBag()
       }
    }
 
+   // shuffled the tiles
    std::random_device engine;
    int random = 0;
 

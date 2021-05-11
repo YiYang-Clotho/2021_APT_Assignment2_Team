@@ -82,7 +82,7 @@ Player::~Player()
 
 std::string Player::getName()
 {
-	return name;
+	return this->name;
 }
 
 void Player::setName(std::string name)
@@ -92,7 +92,7 @@ void Player::setName(std::string name)
 
 int Player::getScore()
 {
-	return score;
+	return this->score;
 }
 
 // Add the earned score in once play.
@@ -153,6 +153,8 @@ std::string Player::getTilesString(){
 	}
 	return tiles;
 }
+
+
 
 void Player::initialiseTilesInHand(LinkedList* tileBag){
 	for (unsigned int counter = 0; counter < TILES_IN_HAND_NUM; counter++)

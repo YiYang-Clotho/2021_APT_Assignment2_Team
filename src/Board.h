@@ -25,8 +25,10 @@ public:
    // save the position of the tile
    void putTile2Board(Colour colour, Shape shape, int row, int col);
 
-private:
    vector<vector<Node*> > position;
+
+private:
+   
 };
 
 #endif // ASSIGN2_BOARD_H

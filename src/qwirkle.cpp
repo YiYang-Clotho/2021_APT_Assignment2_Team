@@ -17,7 +17,7 @@ bool isValidInstruction(std::string inputInstruction, Player *player);
 
 int main(void)
 {	
-	//qwirkle();
+	qwirkle();
 	int selection = getSelectionFromMenu();
 	if (selection == 1)
 	{
