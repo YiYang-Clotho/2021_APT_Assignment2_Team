@@ -1,7 +1,9 @@
 #include <iostream>
+#include <vector>
 
 #include "Board.h"
 #include "Types.h"
+using namespace std;
 
 Board::Board()
 {
@@ -20,7 +22,6 @@ Board::Board()
             this->position[row][col] = node;
         }
     }
-
 }
 
 // deep copy the board
@@ -30,6 +31,7 @@ Board::Board(Board &other) : position(other.position)
     this->position.resize(BOARD_SIZE);
 
     for (unsigned int row = 0; row < this->position.size(); row++)
+
     {
         this->position[row].resize(BOARD_SIZE);
     }
@@ -37,6 +39,7 @@ Board::Board(Board &other) : position(other.position)
     for (unsigned int row = 0; row < this->position.size(); row++)
     {
         for (unsigned int col = 0; col < this->position[row].size(); col++)
+
         {
             //this->position[row][col](other.position[row][col]);
         }
@@ -45,10 +48,11 @@ Board::Board(Board &other) : position(other.position)
 
 Board::~Board()
 {
+    delete tile;
 }
 
-//save the position of the tile
-void Board::putTile2Board(Colour colour, Shape shape, int row, int col)
+// save the position of the tile
+void Board::putTile2Board(Tile *tile, vector<vector<char> > position)
 {
     Tile *tile = new Tile();
     tile->colour = colour;
@@ -57,7 +61,7 @@ void Board::putTile2Board(Colour colour, Shape shape, int row, int col)
 }
 
 // print current board
-void Board::printBoard()
+vector<vector<char> > Board::printBoard()
 {
     // first line
     std::cout << "   ";

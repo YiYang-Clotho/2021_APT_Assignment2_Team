@@ -3,6 +3,7 @@
 #define ASSIGN2_TILE_H
 #include <vector>
 #include "Types.h"
+using namespace std;
 
 // Define a Colour type
 typedef char Colour;
@@ -27,6 +28,9 @@ public:
    Shape getShape();
 
 private:
+   Colour colour = '\0';
+   Shape  shape = 0;
+   std::string empty = "";
 };
 
 #endif // ASSIGN2_TILE_H

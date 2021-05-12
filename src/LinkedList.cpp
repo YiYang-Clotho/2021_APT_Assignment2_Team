@@ -26,12 +26,23 @@ LinkedList::LinkedList(LinkedList &other)
 int LinkedList::getSize()
 {
    int size = 0;
+<<<<<<< HEAD:src/LinkedList.cpp
    Node *currentNode = new Node();
    currentNode = this->head;
    while (currentNode != nullptr)
    {
       size++;
       currentNode = currentNode->next;
+=======
+   if (this->head = nullptr){
+      return size;
+   }
+   else{
+      while (this->head->next != nullptr){
+         size++;
+      }
+      return size;
+>>>>>>> 4ca592634ea308da6e6f7af8c7a7d68796ec1e16:starter_code/LinkedList.cpp
    }
    return size;
 }
@@ -86,6 +97,7 @@ void LinkedList::removeNode(Node *node)
    }
 }
 
+<<<<<<< HEAD:src/LinkedList.cpp
 // remove node from known position
 void LinkedList::remove(int position)
 {
@@ -124,6 +136,8 @@ void LinkedList::remove(int position)
 
 }
 
+=======
+>>>>>>> 4ca592634ea308da6e6f7af8c7a7d68796ec1e16:starter_code/LinkedList.cpp
 //add a node at the front
 void LinkedList::addTileTo1st(Tile *tile)
 {
@@ -192,6 +206,7 @@ Node *LinkedList::getNode(int position)
    }
 }
 
+<<<<<<< HEAD:src/LinkedList.cpp
 //return a tile on top of a list
 Tile *LinkedList::getFirstTile()
 {
@@ -293,3 +308,20 @@ void LinkedList::iniTileBag()
    //tempTile_bag->remove1stNode();
    delete tempTile_bag;
 }
+=======
+// //delete a node at given position
+// void LinkedList::deleteTile(int position){
+//     Node *currentNode = this->head;
+//     Node *temp = this->head;
+//     int count = 0;
+//     if(position >= 0 && position < this->getSize()){
+//       while(count < position){
+//          temp = node;
+//          node = node->next;
+//          count++;
+//       }
+//       temp->next = node->next;
+//       delete node;
+//     }
+// }
+>>>>>>> 4ca592634ea308da6e6f7af8c7a7d68796ec1e16:starter_code/LinkedList.cpp

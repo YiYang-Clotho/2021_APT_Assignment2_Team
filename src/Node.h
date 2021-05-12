@@ -1,3 +1,4 @@
+
 #ifndef ASSIGN2_NODE_H
 #define ASSIGN2_NODE_H
 
@@ -14,7 +15,7 @@ public:
    Node *prev;
    Node *next;
 
-   // get tile colour of the node
+   // get rtile-coodinate of the node
    Tile *getTile();
 
    // set tile colour of the node
@@ -40,6 +41,7 @@ public:
    Node *getNode();
 
 private:
+
 };
 
 #endif // ASSIGN2_NODE_H
