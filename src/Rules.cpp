@@ -16,6 +16,302 @@ Rules::Rules(){
     
 }
 
+//Check the legal move of a tile placed
+bool Rules::boardRules(unsigned int rowsInt, unsigned int columns, std::vector<std::vector<Tile*>> board, Tile* tile, int turn){
+    bool check = true;
+    bool upVerticalLine = true;
+    bool downVerticalLine = true;
+    bool leftHorizontalLine = true;
+    bool rightHorizontalLine = true;
+
+//横向开始循环，小于26
+    for(unsigned int horizontalCounter = 0; horizontalCounter < board.size(); horizontalCounter++)
+    {
+        if(rowsInt == horizontalCounter)
+        {
+            //纵向开始循环，小于row长度，26
+            for(unsigned int verticalCounter = 0; verticalCounter < board[horizontalCounter].size(); verticalCounter++)
+            {
+                if(columns == verticalCounter)
+                {   
+                    //如果这个tile，或者说这个点颜色形状都是0或者空，起始点
+                    if(board[horizontalCounter][verticalCounter]->getColour() == '\0' && board[horizontalCounter][verticalCounter]->getShape() == 0)
+                    {
+                        //Corner (Edges)
+                        //如果游戏不是最开始的一轮，同时是第一次横向循环
+                        if((turn > 0) && (horizontalCounter == 0))
+                        {
+                            //whole upper
+                            //left upper corner
+                            //也是第一次纵向循环，棋盘左上角
+                            if(verticalCounter == 0)
+                            {
+                                //判断左上角右边和下面是不是初始值，意味着边上没别的tile，如果是得到false
+                                if((RIGHT->getColour() == '\0' && RIGHT->getShape() == 0)
+                                && (DOWN->getColour() == '\0' && DOWN->getShape() == 0))
+                                {
+                                    check = false;
+                                }
+                                //如果右边和下面都不是初始值，那么意味着要用下面的函数检查，存在的tile是否满足放的条件
+                                if(RIGHT->getColour() != '\0' && RIGHT->getShape() != 0)
+                                {
+                                    //如果检查的条件不满足，会得到false
+                                    rightHorizontalLine = rightVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(DOWN->getColour() != '\0' && DOWN->getShape() != 0)
+                                {
+                                    downVerticalLine = downVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                            }
+                            //目前假设check = false，
+                            //right upper corner
+                            //同样检查右上角，棋盘最大宽度减一就是右上角
+                            else if(verticalCounter == board[horizontalCounter].size() - 1)
+                            {
+
+                                if((LEFT->getColour() == '\0' && LEFT->getShape() == 0)
+                                && (DOWN->getColour() == '\0' && DOWN->getShape() == 0))
+                                {
+                                    check = false;
+                                }
+
+                                if(LEFT->getColour() != '\0' && LEFT->getShape() != 0)
+                                {
+                                    leftHorizontalLine = leftVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(DOWN->getColour() != '\0' && DOWN->getShape() != 0)
+                                {
+                                    downVerticalLine = downVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                            }
+                            //如果vertical不是0，意味着在第一横排，但不是第一列
+                            else
+                            {
+                                //上方是地图边缘，所以要判定其他三个方向
+                                if((LEFT->getColour() == '\0' && LEFT->getShape() == 0)
+                                && (RIGHT->getColour() == '\0' && RIGHT->getShape() == 0)
+                                && (DOWN->getColour() == '\0' && DOWN->getShape() == 0))
+                                {
+                                    check = false;
+                                }
+
+                                if(LEFT->getColour() != '\0' && LEFT->getShape() != 0)
+                                {
+                                    leftHorizontalLine = leftVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(RIGHT->getColour() != '\0' && RIGHT->getShape() != 0)
+                                {
+                                    rightHorizontalLine = rightVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(DOWN->getColour() != '\0' && DOWN->getShape() != 0)
+                                {
+                                    downVerticalLine = downVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                            }
+                            //假设目前check=false
+                            //如果前面判定得到的三个方向中任意一个失败，那么意味着这个位子不能放tile，会和边上其中一个tile冲突
+                            if(downVerticalLine == false 
+                            || leftHorizontalLine == false || rightHorizontalLine == false)
+                            {
+                                check = false;
+                            }
+                            
+                        }
+                        //从棋盘最底下一行开始判定
+                        //whole lower
+                        else if((turn > 0) && (horizontalCounter == board.size() - 1))
+                        {
+                            //left lower corner
+                            //左下角，判定上和右边
+                            if(verticalCounter == 0)
+                            {
+                                if((RIGHT->getColour() == '\0' && RIGHT->getShape() == 0)
+                                && (UP->getColour() == '\0' && UP->getShape() == 0))
+                                {
+                                    check = false;
+                                }
+
+                                if(RIGHT->getColour() != '\0' && RIGHT->getShape() != 0)
+                                {
+                                    rightHorizontalLine = rightVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(UP->getColour() != '\0' && UP->getShape() != 0)
+                                {
+                                    upVerticalLine = upVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                            }
+                            //right lower corner
+                            //判定左下角
+                            else if(verticalCounter == board[horizontalCounter].size() - 1)
+                            {
+                                if((LEFT->getColour() == '\0' && LEFT->getShape() == 0)
+                                && (UP->getColour() == '\0' && UP->getShape() == 0))
+                                {
+                                    check = false;
+                                }
+
+                                if(LEFT->getColour() != '\0' && LEFT->getShape() != 0)
+                                {
+                                    leftHorizontalLine = leftVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(UP->getColour() != '\0' && UP->getShape() != 0)
+                                {
+                                    upVerticalLine = upVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                            }
+                            //如果不是第一列，但是是最后一行
+                            else
+                            {
+                                //下边是地图边缘，判定其他三个方向
+                                if((LEFT->getColour() == '\0' && LEFT->getShape() == 0)
+                                && (UP->getColour() == '\0' && UP->getShape() == 0)
+                                && (RIGHT->getColour() == '\0' && RIGHT->getShape() == 0))
+                                {
+                                    check = false;
+                                }
+
+                                if(LEFT->getColour() != '\0' && LEFT->getShape() != 0)
+                                {
+                                    leftHorizontalLine = leftVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(UP->getColour() != '\0' && UP->getShape() != 0)
+                                {
+                                    upVerticalLine = upVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(RIGHT->getColour() != '\0' && RIGHT->getShape() != 0)
+                                {
+                                    rightHorizontalLine = rightVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                            }
+                            //如果前面判定得到的三个方向中任意一个失败，那么意味着这个位子不能放tile，会和边上其中一个tile冲突
+                            if(upVerticalLine == false
+                            || leftHorizontalLine == false || rightHorizontalLine == false)
+                            {
+                                check = false;
+                            }
+                        }
+                        //棋盘的第一行和最后一行前面已经判定过了，所以排除，判断纵向第一列或最后一列
+                        else if((turn > 0)
+                        && (horizontalCounter != 0 && horizontalCounter != board.size() - 1)
+                        && (verticalCounter == 0 || verticalCounter == board[horizontalCounter].size() - 1))
+                        {
+                            //left columns with rows
+                            //第一列，左边是地图边缘，判断其他三个方向，排除第一行和最后一行
+                            if(verticalCounter == 0)
+                            {
+                                if((RIGHT->getColour() == '\0' && RIGHT->getShape() == 0)
+                                && (DOWN->getColour() == '\0' && DOWN->getShape() == 0)
+                                && (UP->getColour() == '\0' && UP->getShape() == 0))
+                                {
+                                    check = false;
+                                }
+
+                                if(RIGHT->getColour() != '\0' && RIGHT->getShape() != 0)
+                                {
+                                    rightHorizontalLine = rightVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(DOWN->getColour() != '\0' && DOWN->getShape() != 0)
+                                {
+                                    downVerticalLine = downVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(UP->getColour() != '\0' && UP->getShape() != 0)
+                                {
+                                    upVerticalLine = upVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                            }
+                            //假设目前是空check=false
+                            //最后一列，右边是地图边缘，判断其他三个方向，排除第一行和最后一行
+                            else if(verticalCounter == board[horizontalCounter].size() - 1)
+                            {
+                                if((LEFT->getColour() == '\0' && LEFT->getShape() == 0)
+                                && (DOWN->getColour() == '\0' && DOWN->getShape() == 0)
+                                && (UP->getColour() == '\0' && UP->getShape() == 0))
+                                {
+                                    check = false;
+                                }
+
+                                if(LEFT->getColour() != '\0' && LEFT->getShape() != 0)
+                                {
+                                    leftHorizontalLine = leftVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(DOWN->getColour() != '\0' && DOWN->getShape() != 0)
+                                {
+                                    downVerticalLine = downVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                                if(UP->getColour() != '\0' && UP->getShape() != 0)
+                                {
+                                    upVerticalLine = upVerticalLineCheck(rowsInt, columns, board, tile);
+                                }
+                            }
+                            //只要四个方向任意一个放置判定失败就false
+                            if(upVerticalLine == false || downVerticalLine == false 
+                            || leftHorizontalLine == false || rightHorizontalLine == false)
+                            {
+                                check = false;
+                            }
+                        }
+                        //No corner 
+                        //四条边界都判定过了，判定棋盘中间位置，每个位置四个方向
+                        else if((turn > 0)
+                        && (horizontalCounter != 0 && horizontalCounter != board.size() - 1)
+                        && (verticalCounter != 0 && verticalCounter != board[horizontalCounter].size() - 1))
+                        {
+                            //check 4 directions
+                            //四个方向都是空
+                            if((UP->getColour() == '\0' && UP->getShape() == 0)
+                            && (RIGHT->getColour() == '\0' && RIGHT->getShape() == 0)
+                            && (DOWN->getColour() == '\0' && DOWN->getShape() == 0)
+                            && (LEFT->getColour() == '\0' && LEFT->getShape() == 0))
+                            {
+                                check = false;
+                            }
+                            //四个方向如果有其他tile进行判定
+                            if(UP->getColour() != '\0' && UP->getShape() != 0)
+                            {
+                                upVerticalLine = upVerticalLineCheck(rowsInt, columns, board, tile);
+                            }
+                            if(DOWN->getColour() != '\0' && DOWN->getShape() != 0)
+                            {
+                                downVerticalLine = downVerticalLineCheck(rowsInt, columns, board, tile);
+                            }
+                            if(LEFT->getColour() != '\0' && LEFT->getShape() != 0)
+                            {
+                                leftHorizontalLine = leftVerticalLineCheck(rowsInt, columns, board, tile);
+                            }
+                            if(RIGHT->getColour() != '\0' && RIGHT->getShape() != 0)
+                            {
+                                rightHorizontalLine = rightVerticalLineCheck(rowsInt, columns, board, tile);
+                            }
+                            //四个方向任意一个错了就不能放false
+                            if(upVerticalLine == false || downVerticalLine == false 
+                            || leftHorizontalLine == false || rightHorizontalLine == false)
+                            {
+                                check = false;
+                            }
+                        }
+                        //前面是turn>0,如果是新游戏最开始，随便放true
+                        else if(turn == 0)
+                        {
+                            check = true;
+                        }
+                        //turn不能是负数
+                        else
+                        {
+                            check = false;
+                        }  
+                    }
+                    //如果起始点不是“0”，0，那就false
+                    else
+                    {
+                        check = false;
+                    }
+                }
+            }
+        }
+    }
+    //除了新游戏开始，后面不管任何时候放tile，边上必然有其它tile，leftHorizontalLine必然要进行这四个方向判定，独立存在的tile是不可以放的，返回ture说明可以放
+    return check;
+}
 
 //Helper method - check any common field between the current tile and the right hand size if not empty
 bool Rules::rightVerticalLineCheck(int rows, int columns, std::vector<std::vector<Tile*>> board, Tile* tile){
@@ -74,7 +370,7 @@ bool Rules::rightVerticalLineCheck(int rows, int columns, std::vector<std::vecto
     {
         check = rightDuplicationTiles(rows, columns, board, tile);
     }
-    //要想返回true，得经过上面重复函数的检查，没有重复，同时满足右边相邻的tile颜色一样活着形状一样才能行
+    //要想返回true，得经过上面重复函数的检查，没有重复，同时满足右边相邻的tile颜色一样或者形状一样，其中一个才能行
     return check;
 }
 
@@ -235,7 +531,7 @@ bool Rules::rightDuplicationTiles(int rows, int columns, vector<vector<Tile*>> b
     //循环右边的棋盘，小于row
     for(unsigned int verticalCounter = columns+1; verticalCounter < board[rows].size(); verticalCounter++)
     {
-        //如果这个位置不为空，那么证明exist存在
+        //如果这个位置不为空，那么证明有tile存在
         if(board[rows][verticalCounter]->getColour() != '\0' && board[rows][verticalCounter]->getShape() != 0)
         {
             //如果已经有六个tile了，那么也不能继续放了
@@ -347,6 +643,7 @@ int Rules::scoreRules(unsigned int rowsInt, unsigned int columns, vector<vector<
 //基本上就是判断各个方向
     if(rowsInt == 0)
     {
+        //
         if(columns == 0)
         {
             downScore += downTileScore(rowsInt, columns, board);
