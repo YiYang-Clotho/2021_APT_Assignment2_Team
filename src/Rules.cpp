@@ -15,6 +15,169 @@ using std::vector;
 Rules::Rules(){
     
 }
+//Helper method - check any common field between the current tile and the right hand size if not empty
+bool Rules::rightVerticalLineCheck(int rows, int columns, std::vector<std::vector<Tile*>> board, Tile* tile){
+    std::string common = "";
+    bool check = true;
+    //判断右边相邻tile，右边两个都不能为空，右边两个col都有tile
+    if((board[rows][columns+1]->getColour() != '\0' && board[rows][columns+1]->getShape() != 0)
+    && (board[rows][columns+2]->getColour() != '\0' && board[rows][columns+2]->getShape() != 0))
+    {
+        //如果相邻的两个tile颜色相同，返回common值colour
+        if(board[rows][columns+1]->getColour() == board[rows][columns+2]->getColour())
+        {
+            common = "colour";
+        }
+        //如果相邻的俩形状相同，返回common值shape
+        if(board[rows][columns+1]->getShape() == board[rows][columns+2]->getShape())
+        {
+            common = "shape";
+        }
+    }
+    //右边只有一个tile，可以没有第二个
+    else if(board[rows][columns+1]->getColour() != '\0' && board[rows][columns+1]->getShape() != 0)
+    {
+        //如果右边的一个tile颜色和第一个tile或者说正在判定的tile相同，返回有值的common
+        if(board[rows][columns+1]->getColour() == tile->getColour())
+        {
+            common = "colour";
+        }
+        else if(board[rows][columns+1]->getShape() == tile->getShape())
+        {
+            common = "shape";
+        }
+    }
+    //经过上面的判定common有值，不为空
+    //因为一模一样的两个tile不能在无间隔的同一行或者一列，所以相邻的要么颜色一样要么形状一样
+    if(common != "")
+    {
+        //如果是右边有两个tile+1+2，上面没有和判定的tile进行判定，所以判定的tile就还需要和相邻的右边的一个判定一次，如果颜色不一样判定失败
+        if(common == "colour" && tile->getColour() != board[rows][columns+1]->getColour())
+        {
+            check = false;
+        }
+        else if(common == "shape" && tile->getShape() != board[rows][columns+1]->getShape())
+        {
+            check = false;
+        }
+    }
+    //如果是空判定失败
+    else if(common == "")
+    {
+        check = false;
+    }
+    if(check == true)
+    {
+        check = rightDuplicationTiles(rows, columns, board, tile);
+    }
+    return check;
+}
+
+//Helper method - check for duplication - for loop through the right hand of the board (columns)
+bool Rules::rightDuplicationTiles(int rows, int columns, vector<vector<Tile*>> board, Tile* tile){
+    bool check = true;
+    int exist = 1;
+    //循环右边的棋盘，小于row
+    for(unsigned int verticalCounter = columns+1; verticalCounter < board[rows].size(); verticalCounter++)
+    {
+        //如果这个位置不为空，那么证明exist存在
+        if(board[rows][verticalCounter]->getColour() != '\0' && board[rows][verticalCounter]->getShape() != 0)
+        {
+            //如果已经有六个tile了，那么也不能继续放了
+            if(exist > 5)
+            {
+                check = false;
+            }
+            //依次判定右边的每一个tile
+            else if(exist < 6)
+            {
+                //如果右边的tile颜色和形状同时和判定tile相同，那么判定失败，不能放
+                if(board[rows][verticalCounter]->getColour() == tile->getColour() && board[rows][verticalCounter]->getShape() == tile->getShape())
+                {
+                    check = false;
+                }
+            }
+            exist++;
+        }
+    }
+    //如果判定的tile右边五个tile都没有重复，同时个数小于6，那么意味着可以放返回true
+    return check;
+}
+
+//Helper method - check for duplication - for loop through the down hand of the board (rows)
+bool Rules::downDuplicationTiles(int rows, int columns, vector<vector<Tile*>> board, Tile* tile){
+    bool check = true;
+    int exist = 1;
+    for(unsigned int horizontalCounter = rows+1; horizontalCounter < board.size(); horizontalCounter++)
+    {
+        if(board[horizontalCounter][columns]->getColour() != '\0' && board[horizontalCounter][columns]->getShape() != 0)
+        {
+            if(exist > 5)
+            {
+                check = false;
+            }
+            else if(exist < 6)
+            {
+                if(board[horizontalCounter][columns]->getColour() == tile->getColour() && board[horizontalCounter][columns]->getShape() == tile->getShape())
+                {
+                    check = false;
+                }
+            }
+            exist++;
+        }
+    }
+    return check;
+}
+
+//Helper method - check for duplication - for loop throught the left hand of board (columns)
+bool Rules::leftDuplicationTiles(int rows, int columns, vector<vector<Tile*>> board, Tile* tile){
+    bool check = true;
+    int exist = 1;
+    for(int verticalCounter = columns-1; verticalCounter >= 0; verticalCounter--)
+    {
+        if(board[rows][verticalCounter]->getColour() != '\0' && board[rows][verticalCounter]->getShape() != 0)
+        {
+            if(exist > 5)
+            {
+                check = false;
+            }
+            else if(exist < 6)
+            {
+                if(board[rows][verticalCounter]->getColour() == tile->getColour() && board[rows][verticalCounter]->getShape() == tile->getShape())
+                {
+                    check = false;
+                }
+            }
+            exist++;
+        }
+    }
+    return check;
+}
+
+//Helper method - check for duplication - for loop throught the upper hand of board (rows)
+bool Rules::upDuplicationTiles(int rows, int columns, vector<vector<Tile*>> board, Tile* tile){
+    bool check = true;
+    int exist = 1;
+    for(int horizontalCounter = rows-1; horizontalCounter >= 0; horizontalCounter--)
+    {
+        if(board[horizontalCounter][columns]->getColour() != '\0' && board[horizontalCounter][columns]->getShape() != 0)
+        {
+            if(exist > 5)
+            {
+                check = false;
+            }
+            else if(exist < 6)
+            {
+                if(board[horizontalCounter][columns]->getColour() == tile->getColour() && board[horizontalCounter][columns]->getShape() == tile->getShape())
+                {
+                    check = false;
+                }
+            }
+            exist++;
+        }
+    }
+    return check;
+}
 
 //名字参数啥的你看着改，需要define就define
 //vector<vector<Node*>> position;我需要用到的就是tile的颜色和形状，你node好像从tile获取了这俩，相当于中间转了一次，我不知道有没有影响，就没用，你可以看着改
