@@ -23,7 +23,26 @@ bool saveGame(std::string savePath, Player* player1, Player* player2, TileBag* t
 bool loadGame(std::string loadPath, Player* player1, Player* player2, TileBag* tileBag, Board* board);
 
 // Verify the input command instruction
-int isValidInstruction(std::string inputInstruction,Player* player);
+int isValidInstruction(std::string inputInstruction, Player* player) {
+	if (inputInstruction.size() < 1) {
+		return 0;
+	}
+	int inputType = -1;
+	switch (inputInstruction[0])
+	{
+	case '0':
+
+		break;
+	case '1':
+		break;
+	case '2':
+		break;
+	case '3':
+		break;
+	default:
+		break;
+	}
+}
 
 
 
