@@ -11,7 +11,7 @@ bool saveGame(std::string savePath, Player * player1, Player * player2, TileBag 
 	for (int i = 0; i < tiles->getSize(); i++)
 	{
 		Tile*t = tiles->getTile(i);
-		file << t->getColour << t->getShape ;
+		file << t->getColour() << t->getShape() ;
 		if (i < tiles->getSize() - 1) {
 			file << ',';
 		}
@@ -26,7 +26,7 @@ bool saveGame(std::string savePath, Player * player1, Player * player2, TileBag 
 	for (int i = 0; i < tiles->getSize(); i++)
 	{
 		Tile* t = tiles->getTile(i);
-		file << t->getColour << t->getShape;
+		file << t->getColour() << t->getShape();
 		if (i < tiles->getSize() - 1) {
 			file << ',';
 		}
@@ -44,7 +44,7 @@ bool saveGame(std::string savePath, Player * player1, Player * player2, TileBag 
 	for (int i = 0; i < tiles->getSize(); i++)
 	{
 		Tile* t = tiles->getTile(i);
-		file << t->getColour << t->getShape;
+		file << t->getColour() << t->getShape();
 		if (i < tiles->getSize() - 1) {
 			file << ',';
 		}
@@ -104,7 +104,7 @@ bool loadGame(std::string loadPath, Player * player1, Player * player2, TileBag 
 		for (int i = 0; i < vecTiles.size(); i++)
 		{
 			Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
-			player->addTile(tmp);
+			//player->addTile(tmp);
 		}
 
 	}

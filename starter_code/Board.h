@@ -4,7 +4,8 @@
 #include <vector>
 #include "Tile.h"
 #include "Types.h"
-
+#include <iostream>
+#include <vector>
 using namespace std;
 
 class Board
@@ -21,8 +22,8 @@ public:
    void putTile2Board(Tile *tile, vector<vector<char> > position);
 
 private:
+   //Tile* tile;
    vector<vector<char> > position;
-   Tile *tile;
    int row;
    int col;
 };

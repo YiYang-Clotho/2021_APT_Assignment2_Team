@@ -2,9 +2,6 @@
 #ifndef ASSIGN2_TILE_H
 #define ASSIGN2_TILE_H
 #include <vector>
-
-#include "Board.h"
-#include "Types.h"
 using namespace std;
 
 // Define a Colour type
@@ -19,8 +16,8 @@ public:
    Tile();
    Tile(Colour colour, Shape shape);
    Tile(Tile &other);
-   Colour colour;
-   Shape shape;
+   //Colour colour;
+   //Shape shape;
    ~Tile();
 
    // get colour of the tile

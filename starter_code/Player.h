@@ -6,7 +6,6 @@
 
 class Player{
 public:
-    Player(std::string name, int score, LinkedList *tilesInHand);
 
 	// Initial a new start player.
 	Player(std::string name);

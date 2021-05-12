@@ -8,11 +8,11 @@
 #include <sstream>
 #include <fstream>
 
-const static int CMD_ILLEGAL=0;
-const static int CMD_PLACE_TILE=1;
-const static int CMD_REPLACE =2;
-const static int CMD_SAVE=3;
-const static int CMD_QUIT=4;
+//const static int CMD_ILLEGAL=0;
+//const static int CMD_PLACE_TILE=1;
+//const static int CMD_REPLACE =2;
+//const static int CMD_SAVE=3;
+//const static int CMD_QUIT=4;
 
 
 
@@ -22,6 +22,8 @@ bool saveGame(std::string savePath, Player* player1, Player* player2, TileBag* t
 // Load history Game data from file 
 bool loadGame(std::string loadPath, Player* player1, Player* player2, TileBag* tileBag, Board* board);
 
+
+/*
 // Verify the input command instruction
 int isValidInstruction(std::string inputInstruction, Player* player) {
 	if (inputInstruction.size() < 1) {
@@ -43,7 +45,7 @@ int isValidInstruction(std::string inputInstruction, Player* player) {
 		break;
 	}
 }
-
+*/
 
 
 #endif
