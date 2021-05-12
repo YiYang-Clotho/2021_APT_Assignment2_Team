@@ -2,7 +2,7 @@
 #ifndef ASSIGN2_TILE_H
 #define ASSIGN2_TILE_H
 #include <vector>
-using namespace std;
+#include "Types.h"
 
 // Define a Colour type
 typedef char Colour;
@@ -16,8 +16,8 @@ public:
    Tile();
    Tile(Colour colour, Shape shape);
    Tile(Tile &other);
-   //Colour colour;
-   //Shape shape;
+   Colour colour;
+   Shape shape;
    ~Tile();
 
    // get colour of the tile
@@ -27,9 +27,6 @@ public:
    Shape getShape();
 
 private:
-   Colour colour = '\0';
-   Shape  shape = 0;
-   std::string empty = "";
 };
 
 #endif // ASSIGN2_TILE_H

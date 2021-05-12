@@ -1,3 +1,7 @@
+#include <vector>
+
+#include "Tile.h"
+#include "Node.h"
 
 Tile::Tile()
 {

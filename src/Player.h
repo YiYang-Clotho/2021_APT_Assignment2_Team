@@ -1,65 +1,77 @@
 #ifndef ASSIGN2_PLAYER_H
 #define ASSIGN2_PLAYER_H
-#include "LinkedList.h"
+
 #include <string>
+#include "LinkedList.h"
 
 
-class Player{
+class Player {
 public:
+	// Initial a new start player.
+	Player();
 
 	// Initial a new start player.
 	Player(std::string name);
 
 	// Used to reload from file
 	Player(std::string name, int score, LinkedList *tilesInHand);
-
+	
 	// Add a new Tile to current palyer hand 
 	bool addTile(Tile* tile);
 
-	// put one tile on the board, Not matched,return NULL
-	Tile * playOneTile(int color, char shape);
+	// remove the tile that has been place on the board
+	// reload the tilesInHand
+	void playOneTile(Colour colour, Shape shape);
 
-	// Withdraw last played tile
+	// get a new tile after place one
+	void getNewTile(LinkedList *tileBag);
+
+	// Withdraw last played tile,如果出牌错误，请撤回上一次出的牌
 	bool withdrawLastPlayedTile();
 
-	// Replace tile，add one to tilesInHand from tile bag, 
+	// replace tile
 	bool replaceOneTile(Tile* newTile, char oldTileColor, int oldTileShape);
 
 	// Free the pointer.
 	~Player();
 
 	// Encapsulate the name
-	string getName();
+	std::string getName();
 	void setName(std::string name);
 
 	// Get current score
 	int getScore();
 
-	void setScore(int score) {
-		this->score = score;
-	}
-
 	// Add the earned score in once play.
 	void increaseScore(int earnedScore);
 
-	// Set Tiles in hand
+	// Set the Tile
 	void setTilesInHand(LinkedList *tilesInHand);
 
-	// Get Tiles in hand
+	// get the Tile
 	LinkedList* getTilesInHand();
 
+	// display tiles string
+	void printTilesInHand();
 
+	// display tiles string
+	std::string getTilesString();
 
+	// set initilise tiles in hand before the 1st round
+	//LinkedList* initialiseTilesInHand(TileBag *tileBag, Player player);
+
+	void initialiseTilesInHand(LinkedList *tileBag);
+
+	
 private:
 	// The Tiles in curent player hand
-	LinkedList* tilesInHand;
-
+	LinkedList *tilesInHand = new LinkedList();
 	// Player's name 
-	string name;
-
+	std::string name;
+	
 	// Player's score
 	int score;
-
+	
 	// Used for withdraw last time played Tile, 
 	Tile* lastPlayedTile;
 };
