@@ -514,7 +514,7 @@ bool isValidInstruction(std::string inputInstruction, Player *player)
 
 	// check if the player has the tile
 	std::string tilesString = player->getTilesString();
-	for (int pos = 0; pos < tilesString.size() - 2; pos += 2)
+	for (unsigned int pos = 0; pos < tilesString.size() - 2; pos += 2)
 	{
 		if (inputInstruction.compare(6, 2, tilesString.substr(pos, 2)) == 0)
 		{
