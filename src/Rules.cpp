@@ -15,6 +15,8 @@ using std::vector;
 Rules::Rules(){
     
 }
+
+
 //Helper method - check any common field between the current tile and the right hand size if not empty
 bool Rules::rightVerticalLineCheck(int rows, int columns, std::vector<std::vector<Tile*>> board, Tile* tile){
     std::string common = "";
@@ -52,6 +54,7 @@ bool Rules::rightVerticalLineCheck(int rows, int columns, std::vector<std::vecto
     if(common != "")
     {
         //如果是右边有两个tile+1+2，上面没有和判定的tile进行判定，所以判定的tile就还需要和相邻的右边的一个判定一次，如果颜色不一样判定失败
+        //如果颜色不一样，不能放，如果形状不一样不能放false，想要放牌只能满足其中一个条件
         if(common == "colour" && tile->getColour() != board[rows][columns+1]->getColour())
         {
             check = false;
@@ -66,9 +69,161 @@ bool Rules::rightVerticalLineCheck(int rows, int columns, std::vector<std::vecto
     {
         check = false;
     }
+
     if(check == true)
     {
         check = rightDuplicationTiles(rows, columns, board, tile);
+    }
+    //要想返回true，得经过上面重复函数的检查，没有重复，同时满足右边相邻的tile颜色一样活着形状一样才能行
+    return check;
+}
+
+//Helper method - check any common field between the current tile and the one below if not empty
+bool Rules::downVerticalLineCheck(int rows, int columns, std::vector<std::vector<Tile*>> board, Tile* tile){
+    bool check = true;
+    std::string common = "";
+   
+    if((board[rows+1][columns]->getColour() != '\0' && board[rows+1][columns]->getShape() != 0)
+    && (board[rows+2][columns]->getColour() != '\0' && board[rows+2][columns]->getShape() != 0))
+    {
+        if(board[rows+1][columns]->getColour() == board[rows+2][columns]->getColour())
+        {
+            common = "colour";
+        }
+        if(board[rows+1][columns]->getShape() == board[rows+2][columns]->getShape())
+        {
+            common = "shape";
+        }
+    }
+    else if(board[rows+1][columns]->getColour() != '\0' && board[rows+1][columns]->getShape() != 0)
+    {
+        if(board[rows+1][columns]->getColour() == tile->getColour())
+        {
+            common = "colour";
+        }
+        else if(board[rows+1][columns]->getShape() == tile->getShape())
+        {
+            common = "shape";
+        }
+    }
+    if(common != "")
+    {
+        if(common == "colour" && tile->getColour() != board[rows+1][columns]->getColour())
+        {
+            check = false;
+        }
+        else if(common == "shape" && tile->getShape() != board[rows+1][columns]->getShape())
+        {
+            check = false;
+        }
+    }
+    else if(common == "")
+    {
+        check = false;
+    }
+    if(check == true)
+    {
+        check = downDuplicationTiles(rows, columns, board, tile);
+    }
+    return check;
+}
+
+//Helper method - check any common field between the current tile and the one upper if not empty
+bool Rules::upVerticalLineCheck(int rows, int columns, std::vector<std::vector<Tile*>> board, Tile* tile){
+    std::string common = "";
+    bool check = true;
+
+    if((board[rows-1][columns]->getColour() != '\0' && board[rows-1][columns]->getShape() != 0)
+    && (board[rows-2][columns]->getColour() != '\0' && board[rows-2][columns]->getShape() != 0))
+    {
+        if(board[rows-1][columns]->getColour() == board[rows-2][columns]->getColour())
+        {
+            common = "colour";
+        }
+        if(board[rows-1][columns]->getShape() == board[rows-2][columns]->getShape())
+        {
+            common = "shape";
+        }
+    }
+    else if(board[rows-1][columns]->getColour() != '\0' && board[rows-1][columns]->getShape() != 0)
+    {
+        if(board[rows-1][columns]->getColour() == tile->getColour())
+        {
+            common = "colour";
+        }
+        else if(board[rows-1][columns]->getShape() == tile->getShape())
+        {
+            common = "shape";
+        }
+    }
+    if(common != "")
+    {
+        if(common == "colour" && tile->getColour() != board[rows-1][columns]->getColour())
+        {
+            check = false;
+        }
+        else if(common == "shape" && tile->getShape() != board[rows-1][columns]->getShape())
+        {
+            check = false;
+        }
+    }
+    else if(common == "")
+    {
+        check = false;
+    }
+    if(check == true)
+    {
+        check = upDuplicationTiles(rows, columns, board, tile);
+    }
+    return check;
+}
+
+//Helper method - check any common field between the current tile and the left hand size if not empty
+bool Rules::leftVerticalLineCheck(int rows, int columns, std::vector<std::vector<Tile*>> board, Tile* tile){
+    std::string common = "";
+    bool check = true;
+
+    if((board[rows][columns-1]->getColour() != '\0' && board[rows][columns-1]->getShape() != 0)
+    && (board[rows][columns-2]->getColour() != '\0' && board[rows][columns-2]->getShape() != 0))
+    {
+        if(board[rows][columns-1]->getColour() == board[rows][columns-2]->getColour())
+        {
+            common = "colour";
+        }
+        if(board[rows][columns-1]->getShape() == board[rows][columns-2]->getShape())
+        {
+            common = "shape";
+        }
+    }
+    else if(board[rows][columns-1]->getColour() != '\0' && board[rows][columns-1]->getShape() != 0)
+    {
+        if(board[rows][columns-1]->getColour() == tile->getColour())
+        {
+            common = "colour";
+        }
+        else if(board[rows][columns-1]->getShape() == tile->getShape())
+        {
+            common = "shape";
+        }
+    }
+    if(common != "")
+    {
+        if(common == "colour" && tile->getColour() != board[rows][columns-1]->getColour())
+        {
+            check = false;
+        }
+        else if(common == "shape" && tile->getShape() != board[rows][columns-1]->getShape())
+        {
+            check = false;
+        }
+    }
+    else if(common == "")
+    {
+        check = false;
+    }
+    if(check == true)
+    {
+        check = leftDuplicationTiles(rows, columns, board, tile);
     }
     return check;
 }
@@ -298,7 +453,7 @@ int Rules::rightTileScore(int rowsInt, int columns, vector<vector<Tile*>> board)
             empty = true;
         }    
     }
-    //当你score能加5分意味着达成了两种qwirkle的前置条件，再放一个就qwirkle
+    //当你score能加5分意味着达成了两种qwirkle的前置条件，再放一个就qwirkle，同时上面计分函数里score从第一个tile开始就是1
     if(score == 5)
     {
         qwirkle = true;
