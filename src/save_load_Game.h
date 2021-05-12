@@ -1,9 +1,8 @@
-#ifndef __SAVE_LOAD_GAME__
-#define __SAVE_LOAD_GAME__
+#ifndef ASSIGN2_SAVE_LOAD_GAME_H
+#define ASSIGN2_SAVE_LOAD_GAME_H
 
 #include "Player.h"
 #include "Board.h"
-#include "TileBag.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -17,33 +16,17 @@ const static int CMD_QUIT=4;
 
 
 // Save Game data to file 
-bool saveGame(std::string savePath, Player* player1, Player* player2, TileBag* tileBag, Board* board);
+bool saveGame(std::string savePath, Player *currentPlayer, 
+			Player *player1, Player *player2,
+			  LinkedList *tileBag, Board *board);
 
 // Load history Game data from file 
-bool loadGame(std::string loadPath, Player* player1, Player* player2, TileBag* tileBag, Board* board);
+bool loadGame(std::string loadPath);
 
-// Verify the input command instruction
-int isValidInstruction(std::string inputInstruction, Player* player) {
-	if (inputInstruction.size() < 1) {
-		return 0;
-	}
-	int inputType = -1;
-	switch (inputInstruction[0])
-	{
-	case '0':
+vector<std::string> split(std::string s, char delim);
 
-		break;
-	case '1':
-		break;
-	case '2':
-		break;
-	case '3':
-		break;
-	default:
-		break;
-	}
-}
+bool loadPlayerFromStream(Player *player, std::ifstream &inStream);
 
 
 
-#endif
+#endif // ASSIGN2_SAVE_LOAD_GAME_H

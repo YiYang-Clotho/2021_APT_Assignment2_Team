@@ -65,6 +65,8 @@
         "utility": "cpp",
         "vector": "cpp",
         "filesystem": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "numeric": "cpp",
+        "random": "cpp"
     }
 }

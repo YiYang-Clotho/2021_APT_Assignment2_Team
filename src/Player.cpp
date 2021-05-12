@@ -1,5 +1,4 @@
 #include "Player.h"
-<<<<<<< HEAD:src/Player.cpp
 #include <stdio.h>
 #include <iostream>
 
@@ -16,22 +15,6 @@ Player::Player(std::string name)
 {
 	this->name = name;
 }
-=======
-
-// Initial a new start player.
-Player::Player(string name) {
-	LinkedList *tilesInHand = new LinkedList;
-	Player(name, 0, tilesInHand);
-}
-
-// Free the pointer.
-Player::~Player() {
-	delete this->tilesInHand;
-}
-
-// Used to reload from file
-Player::Player(string name, int score, LinkedList * tilesInHand) {
->>>>>>> 4ca592634ea308da6e6f7af8c7a7d68796ec1e16:starter_code/Player.cpp
 
 // Used to reload from file
 Player::Player(std::string name, int score, LinkedList *tilesInHand)
@@ -85,13 +68,9 @@ bool Player::withdrawLastPlayedTile()
 	}
 }
 
-<<<<<<< HEAD:src/Player.cpp
 // replace one tile
 bool Player::replaceOneTile(Tile *newTile, char oldTileColor, int oldTileShape)
 {
-=======
-bool Player::replaceOneTile(Tile * newTile, char oldTileColor, int oldTileShape) {
->>>>>>> 4ca592634ea308da6e6f7af8c7a7d68796ec1e16:starter_code/Player.cpp
 	int len = this->tilesInHand->getSize();
 	for (int i = 0; i < len; i++)
 	{
@@ -106,7 +85,6 @@ bool Player::replaceOneTile(Tile * newTile, char oldTileColor, int oldTileShape)
 	return false;
 }
 
-<<<<<<< HEAD:src/Player.cpp
 // Free the pointer.
 Player::~Player()
 {
@@ -120,13 +98,6 @@ std::string Player::getName()
 
 void Player::setName(std::string name)
 {
-=======
-string Player::getName() {
-	return name;
-}
-
-void Player::setName(string name) {
->>>>>>> 4ca592634ea308da6e6f7af8c7a7d68796ec1e16:starter_code/Player.cpp
 	this->name = name;
 }
 
@@ -135,13 +106,17 @@ int Player::getScore()
 	return this->score;
 }
 
+// set score
+void Player::setScore(int score){
+	this->score = score;
+}
+
 // Add the earned score in once play.
 void Player::increaseScore(int earnedScore)
 {
 	this->score += earnedScore;
 }
 
-<<<<<<< HEAD:src/Player.cpp
 // set the tiles
 void Player::setTilesInHand(LinkedList *tilesInHand)
 {
@@ -231,14 +206,3 @@ void Player::getNewTile(LinkedList *tileBag){
 	}
 	
 }
-
-=======
-void Player::setTilesInHand(LinkedList * tilesInHand) {
-	this->tilesInHand = tilesInHand;
-}
-
-LinkedList * Player::getTilesInHand()
-{
-	return this->tilesInHand;
-}
->>>>>>> 4ca592634ea308da6e6f7af8c7a7d68796ec1e16:starter_code/Player.cpp

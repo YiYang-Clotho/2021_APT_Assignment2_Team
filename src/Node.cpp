@@ -72,12 +72,7 @@ void Node::setNode(Node *node){
    this->next = node->next;
 }
 
-<<<<<<< HEAD:src/Node.cpp
 // get node
 Node *Node::getNode(){
    return this;
-=======
-Node *Node::getIndex(int index)
-{
->>>>>>> 4ca592634ea308da6e6f7af8c7a7d68796ec1e16:starter_code/Node.cpp
 }

@@ -1,9 +1,7 @@
 #include <iostream>
-#include <vector>
 
 #include "Board.h"
 #include "Types.h"
-using namespace std;
 
 Board::Board()
 {
@@ -22,6 +20,7 @@ Board::Board()
             this->position[row][col] = node;
         }
     }
+
 }
 
 // deep copy the board
@@ -31,7 +30,6 @@ Board::Board(Board &other) : position(other.position)
     this->position.resize(BOARD_SIZE);
 
     for (unsigned int row = 0; row < this->position.size(); row++)
-
     {
         this->position[row].resize(BOARD_SIZE);
     }
@@ -39,7 +37,6 @@ Board::Board(Board &other) : position(other.position)
     for (unsigned int row = 0; row < this->position.size(); row++)
     {
         for (unsigned int col = 0; col < this->position[row].size(); col++)
-
         {
             //this->position[row][col](other.position[row][col]);
         }
@@ -48,11 +45,10 @@ Board::Board(Board &other) : position(other.position)
 
 Board::~Board()
 {
-    delete tile;
 }
 
-// save the position of the tile
-void Board::putTile2Board(Tile *tile, vector<vector<char> > position)
+//save the position of the tile
+void Board::putTile2Board(Colour colour, Shape shape, int row, int col)
 {
     Tile *tile = new Tile();
     tile->colour = colour;
@@ -61,7 +57,7 @@ void Board::putTile2Board(Tile *tile, vector<vector<char> > position)
 }
 
 // print current board
-vector<vector<char> > Board::printBoard()
+void Board::printBoard()
 {
     // first line
     std::cout << "   ";
@@ -82,15 +78,16 @@ vector<vector<char> > Board::printBoard()
     std::cout << std::endl;
 
     // second line
-    std::cout << "  -------------------------------------------------------------------------------";
+    std::cout << "  -------------------------------------------------------";
+    std::cout << "------------------------";
     std::cout << std::endl;
 
-    for (unsigned int row = 0; row < position.size(); row++)
+    for (unsigned int row = 0; row < this->position.size(); row++)
     {
         char c;
         c = row + 'A';
         std::cout << c << " |";
-        for (unsigned int col = 0; col < position[row].size(); col++)
+        for (unsigned int col = 0; col < this->position[row].size(); col++)
         {
             //Node *node = this->position[row][col];
             
