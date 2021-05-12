@@ -66,6 +66,9 @@
         "vector": "cpp",
         "filesystem": "cpp",
         "numeric": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "*.tcc": "cpp",
+        "clocale": "cpp",
+        "memory_resource": "cpp"
     }
 }
