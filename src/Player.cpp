@@ -39,7 +39,7 @@ void Player::playOneTile(Colour colour, Shape shape)
 	int len = this->tilesInHand->getSize();
 	int flag = 0;
 	// record the position of the tile
-	for (unsigned int counter = 1; counter <= len; counter++)
+	for (int counter = 1; counter <= len; counter++)
 	{
 		Tile *tmp = this->tilesInHand->getNode(counter)->getTile();
 		if (tmp->colour == colour && tmp->shape == shape)
@@ -76,7 +76,7 @@ void Player::replaceOneTile(Tile *newTile,
 	int len = this->tilesInHand->getSize();
 	int flag = 0;
 	// record the position of the tile
-	for (unsigned int counter = 1; counter <= len; counter++)
+	for ( int counter = 1; counter <= len; counter++)
 	{
 		Tile *tmp = this->tilesInHand->getNode(counter)->getTile();
 		if (tmp->colour == colour && tmp->shape == shape)
@@ -143,7 +143,7 @@ LinkedList *Player::getTilesInHand()
 void Player::printTilesInHand()
 {
 	std::string tiles;
-	for (unsigned int counter = 1; counter <= this->tilesInHand->getSize(); counter++)
+	for (int counter = 1; counter <= this->tilesInHand->getSize(); counter++)
 	{
 		Node *currentNode = this->tilesInHand->getNode(counter);
 		Tile *currentTile = currentNode->getTile();
@@ -169,7 +169,7 @@ void Player::printTilesInHand()
 // display tiles string
 std::string Player::getTilesString(){
 	std::string tiles;
-	for (unsigned int counter = 1; counter <= this->tilesInHand->getSize(); counter++)
+	for (int counter = 1; counter <= this->tilesInHand->getSize(); counter++)
 	{
 		Node *currentNode = this->tilesInHand->getNode(counter);
 		Tile *currentTile = currentNode->getTile();

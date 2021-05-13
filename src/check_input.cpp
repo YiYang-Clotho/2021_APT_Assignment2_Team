@@ -52,7 +52,7 @@ bool isValidPlaceTile(std::string input, Player *player)
     int counter = 0;
     // check if the player has the tile
     std::string tilesString = player->getTilesString();
-    for (int pos = 0; pos < tilesString.size() - 2; pos += 2)
+    for (unsigned int pos = 0; pos < tilesString.size() - 2; pos += 2)
     {
         if (input.compare(6, 2, tilesString.substr(pos, 2)) == 0)
         {
@@ -149,7 +149,7 @@ bool isValidReplace(std::string input, Player *player)
     int counter = 0;
     // check if the player has the tile
     std::string tilesString = player->getTilesString();
-    for (int pos = 0; pos < tilesString.size() - 2; pos += 2)
+    for (unsigned int pos = 0; pos < tilesString.size() - 2; pos += 2)
     {
         if (input.compare(8, 2, tilesString.substr(pos, 2)) == 0)
         {
