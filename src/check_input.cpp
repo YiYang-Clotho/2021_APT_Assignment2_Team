@@ -2,7 +2,7 @@
 #include <cctype>
 
 // check player's Name, should be capital
-bool checkValidPlayerName(std::string playerName)
+bool isValidPlayerName(std::string playerName)
 {
     int count = 0;
     for (unsigned int index = 0; index < playerName.size(); index++)
@@ -225,28 +225,7 @@ bool isQuit(std::string input)
 // replace the tile, return 2
 // save the game, return 3
 // quit return 4
-int checkInstruction(std::string input)
-{
-    int flag = 0;
-    if (checkValidPlayerName(input))
-    {
-        flag = CMD_VALID;
-    }
 
-    if (isValidSave(input))
-    {
-        // std::string fileName = input.substr(5, input.size() - 5);
-        
-        flag = CMD_SAVE;
-    }
-    
-    if (isQuit(input))
-    {
-        flag = CMD_QUIT;
-    }
-
-    return flag;
-}
 int checkInstruction(std::string input, Player *player)
 {
     int flag = 0;
@@ -258,6 +237,16 @@ int checkInstruction(std::string input, Player *player)
     if (isValidReplace(input, player))
     {
         flag = CMD_REPLACE;
+    }
+
+    if (isValidSave(input))
+    {   
+        flag = CMD_SAVE;
+    }
+    
+    if (isQuit(input))
+    {
+        flag = CMD_QUIT;
     }
 
     return flag;

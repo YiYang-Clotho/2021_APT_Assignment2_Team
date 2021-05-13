@@ -3,7 +3,8 @@
 #include <iostream>
 
 // Initial a new start player.
-Player::Player(){
+Player::Player()
+{
 	this->name = "";
 	this->score = 0;
 	this->tilesInHand = nullptr;
@@ -69,9 +70,8 @@ bool Player::withdrawLastPlayedTile()
 }
 
 // replace one tile
-void Player::replaceOneTile(Tile *newTile, 
-				Colour colour, Shape shape, LinkedList *tileBag)
-{	
+void Player::replaceOneTile(Colour colour, Shape shape, LinkedList *tileBag)
+{
 	// delete current tile in hand
 	int len = this->tilesInHand->getSize();
 	int flag = 0;
@@ -118,7 +118,8 @@ int Player::getScore()
 }
 
 // set score
-void Player::setScore(int score){
+void Player::setScore(int score)
+{
 	this->score = score;
 }
 
@@ -150,7 +151,6 @@ void Player::printTilesInHand()
 		Colour tempColour = currentTile->colour;
 		Shape tempShape = currentTile->shape;
 		tiles += tempColour + std::to_string(tempShape);
-
 	}
 	// print
 	for (unsigned int counter = 0; counter < tiles.size(); counter++)
@@ -158,8 +158,10 @@ void Player::printTilesInHand()
 		if (counter % 2 == 1)
 		{
 			std::cout << tiles[counter];
-			std::cout << " " ;
-		}else{
+			std::cout << " ";
+		}
+		else
+		{
 			std::cout << tiles[counter];
 		}
 	}
@@ -167,7 +169,8 @@ void Player::printTilesInHand()
 }
 
 // display tiles string
-std::string Player::getTilesString(){
+std::string Player::getTilesString()
+{
 	std::string tiles;
 	for (unsigned int counter = 1; counter <= this->tilesInHand->getSize(); counter++)
 	{
@@ -176,12 +179,12 @@ std::string Player::getTilesString(){
 		Colour tempColour = currentTile->colour;
 		Shape tempShape = currentTile->shape;
 		tiles += tempColour + std::to_string(tempShape);
-
 	}
 	return tiles;
 }
 
-void Player::initialiseTilesInHand(LinkedList* tileBag){
+void Player::initialiseTilesInHand(LinkedList *tileBag)
+{
 	for (unsigned int counter = 0; counter < TILES_IN_HAND_NUM; counter++)
 	{
 		if (counter == 0)
@@ -190,10 +193,9 @@ void Player::initialiseTilesInHand(LinkedList* tileBag){
 			tileBag->remove(1);
 			this->tilesInHand->head->next = nullptr;
 			this->tilesInHand->head->prev = nullptr;
-
 		}
 		else
-		{   
+		{
 			Node *temp = tileBag->getNode(1);
 			tileBag->remove(1);
 			temp->next = nullptr;
@@ -204,7 +206,8 @@ void Player::initialiseTilesInHand(LinkedList* tileBag){
 }
 
 // get a new tile after place one
-void Player::getNewTile(LinkedList *tileBag){
+void Player::getNewTile(LinkedList *tileBag)
+{
 	if (this->tilesInHand->getSize() > 0)
 	{
 		Node *temp = tileBag->getNode(1);
@@ -213,5 +216,4 @@ void Player::getNewTile(LinkedList *tileBag){
 		temp->prev = nullptr;
 		this->tilesInHand->addNodeToEnd(temp);
 	}
-	
 }

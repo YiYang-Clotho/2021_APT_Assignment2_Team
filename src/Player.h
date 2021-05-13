@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "LinkedList.h"
+#include "Board.h"
 
 
 class Player {
@@ -27,12 +28,11 @@ public:
 	// get a new tile after place one
 	void getNewTile(LinkedList *tileBag);
 
-	// Withdraw last played tile,如果出牌错误，请撤回上一次出的牌
+	// Withdraw last played tile,
 	bool withdrawLastPlayedTile();
 
 	// replace tile
-	void Player::replaceOneTile(Tile *newTile, 
-				Colour colour, Shape shape, LinkedList *tileBag);
+	void replaceOneTile(Colour colour, Shape shape, LinkedList *tileBag);
 
 	// Free the pointer.
 	~Player();
@@ -66,6 +66,8 @@ public:
 	//LinkedList* initialiseTilesInHand(TileBag *tileBag, Player player);
 
 	void initialiseTilesInHand(LinkedList *tileBag);
+
+	void placeLastTile(Board *board);
 
 	
 private:

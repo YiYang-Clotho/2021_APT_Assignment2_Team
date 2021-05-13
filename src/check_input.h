@@ -24,7 +24,7 @@ bool isValidSave(std::string input);
 bool isQuit(std::string input);
 
 // check player's Name, should be capital
-bool checkValidPlayerName(std::string playerName);
+bool isValidPlayerName(std::string playerName);
 
 // check load game
 bool isFileExist(std::string fileName);
@@ -37,7 +37,6 @@ bool isFileExist(std::string fileName);
 // save the game, return 3
 // quit return 4
 int checkInstruction(std::string input, Player *player);
-int checkInstruction(std::string input);
 
 
 #endif // ASSIGN2_CHECK_INPUT_H
