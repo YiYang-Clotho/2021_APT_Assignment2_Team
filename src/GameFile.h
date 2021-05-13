@@ -20,13 +20,16 @@ public:
 	bool saveGame(std::string savePath, Player *currentPlayer, Player *player1, Player *player2, LinkedList *tileBag, Board *board);
 
 	// Load history Game data from file 
-	bool loadGame(std::string loadPath);
-	void TEST();
+	bool loadGame(std::string loadPath, Player **currentPlayer, Player **player1, Player **player2, LinkedList **tileBag, Board **board);
+	void test_save_game_file();
+	void test_load_game_file();
 private:
-	vector<std::string> split(std::string s, char delim);
 
 	bool loadPlayerFromStream(Player *player, std::ifstream &inStream);
-	
+
+	vector<std::string> split(std::string s, char delim);
+	std::string& trim(std::string &s);;
+
 
 };
 

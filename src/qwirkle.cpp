@@ -113,7 +113,8 @@ void newGame()
 
 #ifdef TEST_GAME_FILE
 	GameFile gameFile;
-	gameFile.TEST();
+	gameFile.test_save_game_file();
+	gameFile.test_load_game_file();
 	exit(0);
 #endif
 
