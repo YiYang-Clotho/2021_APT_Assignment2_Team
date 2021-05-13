@@ -5,6 +5,7 @@
 #include "Tile.h"
 #include "LinkedList.h"
 #include "Player.h"
+#include "Rules.h"
 
 
 

@@ -212,7 +212,13 @@ void scores(Player *player1, Player *player2)
 
 void placeTIle(Player *currentPlayer, Board *board, 
             LinkedList *tileBag, std::string instructure)
-{
+{   
+    int turn = 0;
+    if (tileBag->getSize() < 60 )
+    {
+        turn = 1;
+    }
+    
     // put the tile on the board, update tiles in hand
     // update tile bag
     Colour colour = instructure[6];
@@ -231,14 +237,21 @@ void placeTIle(Player *currentPlayer, Board *board,
         col = tens + digits;
     }
     row = instructure[12] - '0' - ASCII_DIF;
-
-    board->putTile2Board(colour, shape, row, col);
+    Rules *rule = new Rules();
+    bool check = rule->boardRules(row, col, board, 
+                colour, shape, turn);
+    int earnedScore = 0; 
+    if (check == true)
+    {
+        board->putTile2Board(colour, shape, row, col);
+        earnedScore = rule->scoreRules(row, col, board, turn);
+    }
 
     currentPlayer->playOneTile(colour, shape);
     currentPlayer->getNewTile(tileBag);
 
     // increase the score
-    currentPlayer->increaseScore(1);
+    currentPlayer->increaseScore(earnedScore);
 }
 
 void game(Player *currentPlayer, Player *player1, Player *player2, 
