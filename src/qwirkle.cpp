@@ -3,8 +3,11 @@
 
 #include <iostream>
 #include <string>
+#include "GameFile.h"
 
 #define EXIT_SUCCESS 0
+
+#define TEST_GAME_FILE
 
 void qwirkle();
 int getSelectionFromMenu();
@@ -107,6 +110,12 @@ void newGame()
 	// initialise tiles in players' hands
 	player1->initialiseTilesInHand(tileBag);
 	player2->initialiseTilesInHand(tileBag);
+
+#ifdef TEST_GAME_FILE
+	GameFile gameFile;
+	gameFile.TEST();
+	exit(0);
+#endif
 
 	int tilesBagCounter = ROUND_NUM * 2;
 	int p1Counter = TILES_IN_HAND_NUM;
