@@ -1,6 +1,7 @@
 #ifndef ASSIGN2_PLAYER_H
 #define ASSIGN2_PLAYER_H
 
+#include <iostream>
 #include <string>
 #include "LinkedList.h"
 

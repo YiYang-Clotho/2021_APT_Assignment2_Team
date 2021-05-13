@@ -7,13 +7,6 @@
 #include <sstream>
 #include <fstream>
 
-const static int CMD_ILLEGAL=0;
-const static int CMD_PLACE_TILE=1;
-const static int CMD_REPLACE =2;
-const static int CMD_SAVE=3;
-const static int CMD_QUIT=4;
-
-
 
 // Save Game data to file 
 bool saveGame(std::string savePath, Player *currentPlayer, 
