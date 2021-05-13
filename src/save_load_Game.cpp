@@ -228,6 +228,4 @@ bool loadGame(std::string loadPath)
 		return true;
 		std::cout << "Qwirkle game successfully loaded" << std::endl;
 	}
-	
-	
 }
