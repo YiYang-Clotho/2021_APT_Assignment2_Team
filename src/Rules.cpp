@@ -32,299 +32,312 @@ bool Rules::boardRules(int row, int col, Board *board,
     }
     else
     {
-        for (unsigned int hor = 1; hor <= BOARD_SIZE; hor++)
+        for (unsigned int hor = 0; hor < BOARD_SIZE; hor++)
         {
-            for (unsigned int ver = 1; ver <= BOARD_SIZE; ver++)
+            for (unsigned int ver = 0; ver < BOARD_SIZE; ver++)
             {
-                // if you want to put to Upper left corner
-                if (hor == 1 && ver == 1)
+                if (hor == row && ver == col)
                 {
-                    if (DOWN->tile == nullptr && RIGHT->tile == nullptr)
+                    // if you want to put to Upper left corner
+                    if (hor == 0 && ver == 0)
                     {
-                        check = false;
-                    }
-                    else if (DOWN->tile != nullptr)
-                    {
-                        if (RIGHT->tile == nullptr)
+                        if (DOWN->tile != nullptr)
                         {
-                            downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                        }
-                        else
-                        {
-                            downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                            rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
-                        }
-                        
-                    }
-                }
-
-                // if you want to put to Upper right corner
-                if (hor == BOARD_SIZE && ver == BOARD_SIZE)
-                {
-                    if (DOWN->tile == nullptr && LEFT->tile == nullptr)
-                    {
-                        check = false;
-                    }
-                    else if (DOWN->tile != nullptr)
-                    {
-                        if (LEFT->tile == nullptr)
-                        {
-                            downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                        }
-                        else
-                        {
-                            downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                            leftHorizontalLine = leftHorCheck(row, col, 
-                                                    board, colour, shape);
-                        }
-                        
-                    }
-                }
-
-                // if you want to put to Bottom right corner
-                if (hor == 1 && ver == BOARD_SIZE)
-                {
-                    if (UP->tile == nullptr && LEFT->tile == nullptr)
-                    {
-                        check = false;
-                    }
-                    else if (UP->tile != nullptr)
-                    {
-                        if (LEFT->tile == nullptr)
-                        {
-                            upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                        }
-                        else
-                        {
-                            upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                            leftHorizontalLine = leftHorCheck(row, col, 
-                                                    board, colour, shape);
-                        }
-                        
-                    }
-                }
-
-                // if you want to put to Bottom left corner
-                if (hor == 1 && ver == BOARD_SIZE)
-                {
-                    if (UP->tile == nullptr && RIGHT->tile == nullptr)
-                    {
-                        check = false;
-                    }
-                    else if (UP->tile != nullptr)
-                    {
-                        if (RIGHT->tile == nullptr)
-                        {
-                            upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                        }
-                        else
-                        {
-                            upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                            rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
-                        }
-                        
-                    }
-                }
-
-                // if you want to put to upper aside
-                if (hor != 1 && ver == 1)
-                {
-                    if (DOWN->tile == nullptr && RIGHT->tile == nullptr
-                            && LEFT->tile == nullptr)
-                    {
-                        check = false;
-                    }
-                    else if (DOWN->tile != nullptr)
-                    {
-                        if (RIGHT->tile == nullptr)
-                        {
-                            if (LEFT->tile != nullptr)
+                            if (RIGHT->tile == nullptr)
                             {
-                                downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                                leftHorizontalLine = leftHorCheck(row, col, 
-                                                    board, colour, shape);
+                                downVerticalLine = downVerCheck(hor, ver, 
+                                                        board, colour, shape);
+                                std::cout << "check down: " << downVerticalLine << std::endl;
                             }
                             else
                             {
-                                downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
+                                downVerticalLine = downVerCheck(hor, ver, 
+                                                        board, colour, shape);
+                                rightHorizontalLine = rightHorCheck(hor, ver, 
+                                                        board, colour, shape);
+                                std::cout << "down2: " << downVerticalLine << std::endl;
+                                std::cout << "right1: " << rightHorizontalLine << std::endl;
                             }
                         }
                         else
+                        {
+                            if (RIGHT->tile != nullptr)
+                            {
+                                rightHorizontalLine = rightHorCheck(hor, ver, 
+                                                        board, colour, shape);
+                                std::cout << "check right: " << rightHorizontalLine << std::endl;
+                            }
+                            else
+                            {
+                                check = false;
+                            }
+                        }
+                    }
+
+                    // if you want to put to Upper right corner
+                    if (hor == BOARD_SIZE - 1 && ver == BOARD_SIZE - 1)
+                    {
+                        if (DOWN->tile == nullptr && LEFT->tile == nullptr)
+                        {
+                            check = false;
+                        }
+                        else if (DOWN->tile != nullptr)
                         {
                             if (LEFT->tile == nullptr)
                             {
                                 downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                                rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
+                                                        board, colour, shape);
                             }
                             else
                             {
                                 downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                                rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
+                                                        board, colour, shape);
                                 leftHorizontalLine = leftHorCheck(row, col, 
-                                                    board, colour, shape);
+                                                        board, colour, shape);
                             }
+                            
                         }
                     }
-                }
 
-                // if you want to put to bottom aside
-                if (hor != 1 && ver == BOARD_SIZE)
-                {
-                    if (UP->tile == nullptr && RIGHT->tile == nullptr
-                            && LEFT->tile == nullptr)
+                    // if you want to put to Bottom right corner
+                    if (hor == 0 && ver == BOARD_SIZE - 1)
                     {
-                        check = false;
-                    }
-                    else if (UP->tile != nullptr)
-                    {
-                        if (RIGHT->tile == nullptr)
+                        if (UP->tile == nullptr && LEFT->tile == nullptr)
                         {
-                            if (LEFT->tile != nullptr)
-                            {
-                                upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                                leftHorizontalLine = leftHorCheck(row, col, 
-                                                    board, colour, shape);
-                            }
-                            else
-                            {
-                                upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                            }
+                            check = false;
                         }
-                        else
+                        else if (UP->tile != nullptr)
                         {
                             if (LEFT->tile == nullptr)
                             {
                                 upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                                rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
+                                                        board, colour, shape);
                             }
                             else
                             {
                                 upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                                rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
+                                                        board, colour, shape);
                                 leftHorizontalLine = leftHorCheck(row, col, 
-                                                    board, colour, shape);
+                                                        board, colour, shape);
                             }
+                            
                         }
                     }
-                }
-                // if you want to put to left aside
-                if (hor == 1 && ver != 1)
-                {
-                    if (DOWN->tile == nullptr && RIGHT->tile == nullptr
-                            && UP->tile == nullptr)
-                    {
-                        check = false;
-                    }
-                    else if (RIGHT->tile != nullptr)
-                    {
-                        if (UP->tile == nullptr)
-                        {
-                            if (DOWN->tile != nullptr)
-                            {
-                                downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                                rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
-                            }
-                            else
-                            {
-                                rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
-                            }
-                        }
-                        else
-                        {
-                            if (DOWN->tile == nullptr)
-                            {
-                                upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                                rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
-                            }
-                            else
-                            {
-                                downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                                rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
-                                upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                            }
-                        }
-                    }
-                }
 
-                // if you want to put to right aside
-                if (hor == 1 && ver != 1)
-                {
-                    if (DOWN->tile == nullptr && LEFT->tile == nullptr
-                            && UP->tile == nullptr)
+                    // if you want to put to Bottom left corner
+                    if (hor == 0 && ver == BOARD_SIZE - 1)
                     {
-                        check = false;
-                    }
-                    else if (LEFT->tile != nullptr)
-                    {
-                        if (UP->tile == nullptr)
+                        if (UP->tile == nullptr && RIGHT->tile == nullptr)
                         {
-                            if (DOWN->tile != nullptr)
+                            check = false;
+                        }
+                        else if (UP->tile != nullptr)
+                        {
+                            if (RIGHT->tile == nullptr)
                             {
-                                downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                                leftHorizontalLine = leftHorCheck(row, col, 
-                                                    board, colour, shape);
+                                upVerticalLine = upVerCheck(row, col, 
+                                                        board, colour, shape);
                             }
                             else
                             {
-                                leftHorizontalLine = leftHorCheck(row, col, 
-                                                    board, colour, shape);
-                            }
-                        }
-                        else
-                        {
-                            if (DOWN->tile == nullptr)
-                            {
                                 upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                                leftHorizontalLine = leftHorCheck(row, col, 
-                                                    board, colour, shape);
+                                                        board, colour, shape);
+                                rightHorizontalLine = rightHorCheck(row, col, 
+                                                        board, colour, shape);
                             }
-                            else
-                            {
-                                downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                                upVerticalLine = upVerCheck(row, col, 
-                                                    board, colour, shape);
-                                leftHorizontalLine = leftHorCheck(row, col, 
-                                                    board, colour, shape);
-                            }
+                            
                         }
                     }
-                }
 
-                // if you want to put in the middle
-                if (hor == 1 && ver != 1)
+                    // if you want to put to upper aside
+                    if (hor != 0 && ver == 0)
+                    {
+                        if (DOWN->tile == nullptr && RIGHT->tile == nullptr
+                                && LEFT->tile == nullptr)
+                        {
+                            check = false;
+                        }
+                        else if (DOWN->tile != nullptr)
+                        {
+                            if (RIGHT->tile == nullptr)
+                            {
+                                if (LEFT->tile != nullptr)
+                                {
+                                    downVerticalLine = downVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    leftHorizontalLine = leftHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                                else
+                                {
+                                    downVerticalLine = downVerCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                            }
+                            else
+                            {
+                                if (LEFT->tile == nullptr)
+                                {
+                                    downVerticalLine = downVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    rightHorizontalLine = rightHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                                else
+                                {
+                                    downVerticalLine = downVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    rightHorizontalLine = rightHorCheck(row, col, 
+                                                        board, colour, shape);
+                                    leftHorizontalLine = leftHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                            }
+                        }
+                    }
+
+                    // if you want to put to bottom aside
+                    if (hor != 0 && ver == BOARD_SIZE - 1)
+                    {
+                        if (UP->tile == nullptr && RIGHT->tile == nullptr
+                                && LEFT->tile == nullptr)
+                        {
+                            check = false;
+                        }
+                        else if (UP->tile != nullptr)
+                        {
+                            if (RIGHT->tile == nullptr)
+                            {
+                                if (LEFT->tile != nullptr)
+                                {
+                                    upVerticalLine = upVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    leftHorizontalLine = leftHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                                else
+                                {
+                                    upVerticalLine = upVerCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                            }
+                            else
+                            {
+                                if (LEFT->tile == nullptr)
+                                {
+                                    upVerticalLine = upVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    rightHorizontalLine = rightHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                                else
+                                {
+                                    upVerticalLine = upVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    rightHorizontalLine = rightHorCheck(row, col, 
+                                                        board, colour, shape);
+                                    leftHorizontalLine = leftHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                            }
+                        }
+                    }
+                    // if you want to put to left aside
+                    if (hor == 0 && ver != 0)
+                    {
+                        if (DOWN->tile == nullptr && RIGHT->tile == nullptr
+                                && UP->tile == nullptr)
+                        {
+                            check = false;
+                        }
+                        else if (RIGHT->tile != nullptr)
+                        {
+                            if (UP->tile == nullptr)
+                            {
+                                if (DOWN->tile != nullptr)
+                                {
+                                    downVerticalLine = downVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    rightHorizontalLine = rightHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                                else
+                                {
+                                    rightHorizontalLine = rightHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                            }
+                            else
+                            {
+                                if (DOWN->tile == nullptr)
+                                {
+                                    upVerticalLine = upVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    rightHorizontalLine = rightHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                                else
+                                {
+                                    downVerticalLine = downVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    rightHorizontalLine = rightHorCheck(row, col, 
+                                                        board, colour, shape);
+                                    upVerticalLine = upVerCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                            }
+                        }
+                    }
+
+                    // if you want to put to right aside
+                    if (hor == 0 && ver != 0)
+                    {
+                        if (DOWN->tile == nullptr && LEFT->tile == nullptr
+                                && UP->tile == nullptr)
+                        {
+                            check = false;
+                        }
+                        else if (LEFT->tile != nullptr)
+                        {
+                            if (UP->tile == nullptr)
+                            {
+                                if (DOWN->tile != nullptr)
+                                {
+                                    downVerticalLine = downVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    leftHorizontalLine = leftHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                                else
+                                {
+                                    leftHorizontalLine = leftHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                            }
+                            else
+                            {
+                                if (DOWN->tile == nullptr)
+                                {
+                                    upVerticalLine = upVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    leftHorizontalLine = leftHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                                else
+                                {
+                                    downVerticalLine = downVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    upVerticalLine = upVerCheck(row, col, 
+                                                        board, colour, shape);
+                                    leftHorizontalLine = leftHorCheck(row, col, 
+                                                        board, colour, shape);
+                                }
+                            }
+                        }
+                    }
+
+                    // if you want to put in the middle
+                    if (hor == 0 && ver != 0)
                 {
                     if (DOWN->tile == nullptr && LEFT->tile == nullptr
                             && UP->tile == nullptr && RIGHT->tile == nullptr)
@@ -494,7 +507,7 @@ bool Rules::boardRules(int row, int col, Board *board,
                         }
                     }
                 }
-
+                }
             }
         }
 
@@ -538,7 +551,9 @@ bool Rules::rightHorCheck(int row, int col, Board *board,
         }
     }
     // only have one tile on the right
-    else if(board->position[row + 1][col]->tile != nullptr)
+    else if(board->position[row + 1][col]->tile != nullptr
+            && ( board->position[row + 1][col]->tile == nullptr 
+                || row == BOARD_SIZE - 1 ))
     {
         // same colour
         if(board->position[row + 1][col]->tile->colour == colour)
@@ -587,7 +602,8 @@ bool Rules::downVerCheck(int row, int col, Board *board,
     std::string common = "";
    
     if(board->position[row][col + 1]->tile != nullptr
-        && board->position[row][col + 2]->tile != nullptr)
+        && (board->position[row][col + 2]->tile != nullptr
+            || col == BOARD_SIZE - 1))
     {
         // same colour
         if(board->position[row][col + 1]->tile->colour == 
@@ -648,7 +664,8 @@ bool Rules::upVerCheck(int row, int col, Board *board,
     std::string common = "";
    
     if(board->position[row][col - 1]->tile != nullptr
-        && board->position[row][col - 2]->tile != nullptr)
+        && (board->position[row][col - 2]->tile != nullptr
+            || col == 0))
     {
         // same colour
         if(board->position[row][col - 1]->tile->colour == 
@@ -711,7 +728,8 @@ bool Rules::leftHorCheck(int row, int col, Board *board,
     // Determine the adjacent tiles on the right, 
     // two tiles cannot be empty and should have same colour or shape
     if(board->position[row - 1][col]->tile != nullptr
-        && board->position[row - 2][col]->tile != nullptr)
+        && (board->position[row - 2][col]->tile != nullptr
+         || row == 0))
     {
         // same colour
         if(board->position[row - 1][col]->tile->colour == 
@@ -776,7 +794,7 @@ bool Rules::rightDuplicat(int row, int col, Board *board,
     int exist = 1;
     // check list number
     for(unsigned int verticalCounter = row + 1; 
-                        verticalCounter <BOARD_SIZE; verticalCounter++)
+                        verticalCounter < BOARD_SIZE - 1; verticalCounter++)
     {
         if(board->position[verticalCounter][col]->tile != nullptr)
         {
@@ -786,7 +804,7 @@ bool Rules::rightDuplicat(int row, int col, Board *board,
 
     // check the same tile
     for(unsigned int verticalCounter = row + 1; 
-                        verticalCounter <BOARD_SIZE; verticalCounter++)
+                        verticalCounter < BOARD_SIZE - 1; verticalCounter++)
     {
         if(board->position[verticalCounter][col]->tile->colour == colour
             && board->position[verticalCounter][col]->tile->shape == shape)
@@ -805,7 +823,7 @@ bool Rules::downDuplicat(int row, int col, Board *board,
     int exist = 1;
    // check list number
     for(unsigned int horizontalCounter = col + 1; 
-            horizontalCounter < BOARD_SIZE; horizontalCounter++)
+            horizontalCounter < BOARD_SIZE - 1; horizontalCounter++)
     {
         if(board->position[row][horizontalCounter]->tile != nullptr)
         {
@@ -815,7 +833,7 @@ bool Rules::downDuplicat(int row, int col, Board *board,
 
     // check the same tile
     for (unsigned int horizontalCounter = col + 1; 
-            horizontalCounter < BOARD_SIZE; horizontalCounter++)
+            horizontalCounter < BOARD_SIZE - 1; horizontalCounter++)
     {
        if(exist > 5)
         {
@@ -909,16 +927,16 @@ int Rules::scoreRules(int row, int col, Board *board, int turn){
     int leftScore = 1;
     int rightScore = 1;
     // if current tile is on the first col
-    if(col == 1)
+    if(col == 0)
     {
         // if it's on the first row, check right and down
-        if(row == 1)
+        if(row == 0)
         {
             downScore += downTileScore(row, col, board);
             rightScore += rightTileScore(row, col, board);
         }
         // if it's on the last row, check left and down
-        else if(row == BOARD_SIZE)
+        else if(row == BOARD_SIZE - 1)
         {
             downScore += downTileScore(row, col, board);
             leftScore += leftTileScore(row, col, board);
@@ -932,7 +950,7 @@ int Rules::scoreRules(int row, int col, Board *board, int turn){
         } 
     }
     // if current tile is on the last col
-    else if(col == BOARD_SIZE)
+    else if(col == BOARD_SIZE - 1)
     {
         // if it's on the first row, check right and up
         if(row == 1)
@@ -941,7 +959,7 @@ int Rules::scoreRules(int row, int col, Board *board, int turn){
             rightScore += rightTileScore(row, col, board);
         }
         // if it's on the last row, check left and up
-        else if(row == BOARD_SIZE)
+        else if(row == BOARD_SIZE - 1)
         {
             upScore += upTileScore(row, col, board);
             leftScore += leftTileScore(row, col, board);
@@ -954,18 +972,18 @@ int Rules::scoreRules(int row, int col, Board *board, int turn){
             leftScore += leftTileScore(row, col, board);
         } 
     }
-    else if((col != 0 && col != BOARD_SIZE)
-    && (row == 1 || row == BOARD_SIZE))
+    else if((col != 0 && col != BOARD_SIZE - 1)
+    && (row == 0 || row == BOARD_SIZE - 1))
     {
         // the tile is on the first row, check vertical and right
-        if(row == 1)
+        if(row == 0)
         {
             upScore += upTileScore(row, col, board);
             rightScore += rightTileScore(row, col, board);
             downScore += downTileScore(row, col, board);
         }
         // the tile is on the last row, check vertical and left
-        else if(row == BOARD_SIZE)
+        else if(row == BOARD_SIZE - 1)
         {
             upScore += upTileScore(row, col, board);
             leftScore += leftTileScore(row, col, board);
@@ -973,8 +991,8 @@ int Rules::scoreRules(int row, int col, Board *board, int turn){
         }
     }
     // the tile is in the middle, check 4 direction
-    else if((row != 0 && row != BOARD_SIZE)
-    && (col != 0 && col != BOARD_SIZE))
+    else if((row != 0 && row != BOARD_SIZE - 1)
+    && (col != 0 && col != BOARD_SIZE - 1))
     {
         upScore += upTileScore(row, col, board);
         rightScore += rightTileScore(row, col, board);
@@ -1015,7 +1033,7 @@ int Rules::rightTileScore(int row, int col, Board *board){
     int score = 0;
     bool empty =  false;
     for(unsigned int verticalCounter = row + 1; 
-            verticalCounter < BOARD_SIZE; verticalCounter++)
+            verticalCounter < BOARD_SIZE - 1; verticalCounter++)
     {
         if(board->position[verticalCounter][col]->tile != nullptr 
                                                 && empty == false)
