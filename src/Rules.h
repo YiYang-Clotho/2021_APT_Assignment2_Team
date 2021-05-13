@@ -9,20 +9,29 @@ using std::vector;
 class Rules{
 public: 
     Rules();
-    bool boardRules(unsigned int rowsInt, unsigned int columns, Board *board, Tile* tile, int turn);
+    bool boardRules(int row, int col, Board *board, 
+                Colour colour, Shape shape, int turn);
 
-    bool rightDuplicat(int rows, int columns, Board *board, Tile* tile);
-    bool downDuplicat(int rows, int columns, Board *board, Tile* tile);
-    bool leftDuplicat(int rows, int columns, Board *board, Tile* tile);
-    bool upDuplicat(int rows, int columns, Board *board, Tile* tile);
+    bool rightDuplicat(int row, int col, Board *board, 
+                                Colour colour, Shape shape);
+    bool downDuplicat(int row, int col, Board *board, 
+                                Colour colour, Shape shape);
+    bool leftDuplicat(int row, int col, Board *board, 
+                                Colour colour, Shape shape);
+    bool upDuplicat(int row, int col, Board *board, 
+                                Colour colour, Shape shape);
 
-    bool rightCheck(int rows, int columns, Board *board, Tile* tile);
-    bool downCheck(int rows, int columns, Board *board, Tile* tile);
-    bool leftCheck(int rows, int columns, Board *board, Tile* tile);
-    bool upCheck(int rows, int columns, Board *board, Tile* tile);
+    bool rightHorCheck(int row, int col, Board *board, 
+                            Colour colour, Shape shape);
+    bool downVerCheck(int row, int col, Board *board, 
+                            Colour colour, Shape shape);
+    bool leftHorCheck(int row, int col, Board *board, 
+                            Colour colour, Shape shape);
+    bool upVerCheck(int row, int col, Board *board, 
+                            Colour colour, Shape shape);
     
     
-    int scoreRules(unsigned int rowsInt, unsigned int columns, Board *board, int turn);
+    int scoreRules(int rowsInt, int columns, Board *board, int turn);
     int downTileScore(int rowsInt, int columns, Board *board);
     int rightTileScore(int rowsInt, int columns, Board *board);
     int leftTileScore(int rowsInt, int columns, Board *board);
