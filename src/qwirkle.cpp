@@ -17,7 +17,6 @@ int main(void)
 			std::string fileName;
 			std::cout << "Enter the filename from which load a game" << std::endl;
 			std::cin >> fileName;
-
 			loadGame(fileName);
 		}
 		else if (selection == 3)
