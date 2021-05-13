@@ -69,20 +69,31 @@ bool Player::withdrawLastPlayedTile()
 }
 
 // replace one tile
-bool Player::replaceOneTile(Tile *newTile, char oldTileColor, int oldTileShape)
-{
+void Player::replaceOneTile(Tile *newTile, 
+				Colour colour, Shape shape, LinkedList *tileBag)
+{	
+	// delete current tile in hand
 	int len = this->tilesInHand->getSize();
-	for (int i = 0; i < len; i++)
+	int flag = 0;
+	// record the position of the tile
+	for (unsigned int counter = 1; counter <= len; counter++)
 	{
-		Tile *tmp = this->tilesInHand->getTile(i);
-		if (tmp->getColour() == oldTileColor && tmp->getShape() == oldTileShape)
+		Tile *tmp = this->tilesInHand->getNode(counter)->getTile();
+		if (tmp->colour == colour && tmp->shape == shape)
 		{
-			this->tilesInHand->remove(i);
-			this->tilesInHand->addTileToEnd(newTile);
-			return true;
+			flag = counter;
 		}
 	}
-	return false;
+	this->tilesInHand->remove(flag);
+
+	// add current tile to the last of bag
+	Node *node = new Node();
+	Tile *copyTmp = new Tile(colour, shape);
+	node->tile = copyTmp;
+	tileBag->addNodeToEnd(node);
+
+	// add a new tile in hand
+	this->getNewTile(tileBag);
 }
 
 // Free the pointer.
@@ -169,6 +180,7 @@ std::string Player::getTilesString(){
 	}
 	return tiles;
 }
+
 void Player::initialiseTilesInHand(LinkedList* tileBag){
 	for (unsigned int counter = 0; counter < TILES_IN_HAND_NUM; counter++)
 	{
