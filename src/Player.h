@@ -31,8 +31,7 @@ public:
 	bool withdrawLastPlayedTile();
 
 	// replace tile
-	void Player::replaceOneTile(Tile *newTile, 
-				Colour colour, Shape shape, LinkedList *tileBag);
+	void replaceOneTile(Tile *newTile, Colour colour, Shape shape, LinkedList *tileBag);
 
 	// Free the pointer.
 	~Player();
