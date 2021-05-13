@@ -20,7 +20,12 @@ bool isValidInstruction(std::string inputInstruction, Player *player);
 
 int main(void)
 {
-
+#ifdef TEST_GAME_FILE
+	GameFile gameFile;
+	gameFile.test_save_game_file();
+	gameFile.test_load_game_file();
+	exit(0);
+#endif
 	qwirkle();
 	int selection = getSelectionFromMenu();
 	if (selection == 1)
@@ -111,12 +116,7 @@ void newGame()
 	player1->initialiseTilesInHand(tileBag);
 	player2->initialiseTilesInHand(tileBag);
 
-#ifdef TEST_GAME_FILE
-	GameFile gameFile;
-	gameFile.test_save_game_file();
-	gameFile.test_load_game_file();
-	exit(0);
-#endif
+
 
 	int tilesBagCounter = ROUND_NUM * 2;
 	int p1Counter = TILES_IN_HAND_NUM;
