@@ -9,7 +9,7 @@ using std::vector;
 class Rules{
 public: 
     Rules();
-    bool boardRules(int row, int col, Board *board, 
+    bool boardRules(unsigned int row, unsigned int col, Board *board, 
                 Colour colour, Shape shape, int turn);
 
     bool rightDuplicat(int row, int col, Board *board, 
@@ -31,7 +31,7 @@ public:
                             Colour colour, Shape shape);
     
     
-    int scoreRules(int rowsInt, int columns, Board *board, int turn);
+    int scoreRules(unsigned int rowsInt, unsigned int columns, Board *board, int turn);
     int downTileScore(int rowsInt, int columns, Board *board);
     int rightTileScore(int rowsInt, int columns, Board *board);
     int leftTileScore(int rowsInt, int columns, Board *board);
