@@ -210,7 +210,7 @@ void scores(Player *player1, Player *player2)
     std::cout << player2->getScore() << std::endl;
 }
 
-void placeTIle(Player *currentPlayer, Board *board, 
+void placeTile(Player *currentPlayer, Board *board, 
             LinkedList *tileBag, std::string instructure)
 {
     // put the tile on the board, update tiles in hand
@@ -270,7 +270,7 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
     int toDo = checkInstruction(instructure, currentPlayer);
     if (toDo == 1)
     {
-        placeTIle(currentPlayer, board, tileBag, instructure);
+        placeTile(currentPlayer, board, tileBag, instructure);
         if (tilesBagCounter != 0)
         {
             tilesBagCounter--;

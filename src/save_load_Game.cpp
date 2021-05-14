@@ -62,7 +62,7 @@ bool saveGame(std::string savePath, Player *currentPlayer,
 		{
 			if (board->position[row][col]->tile == nullptr)
 			{
-				return;
+				return false;
 			}
 			else
 			{
@@ -151,7 +151,7 @@ bool loadPlayerFromStream(Player *player, std::ifstream &inStream)
 	std::string strTiles;
 	getline(inStream, strTiles);
 	vector<std::string> vecTiles = split(strTiles, ',');
-	for (int i = 0; i < vecTiles.size(); i++)
+	for (unsigned int i = 0; i < vecTiles.size(); i++)
 	{
 		Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
 		player->addTile(tmp);
@@ -182,7 +182,7 @@ bool loadGame(std::string loadPath)
 		std::string shapeStr;
 		getline(inStream, shapeStr);
 		vector<std::string> vecTiles = split(shapeStr, ',');
-		for (int i = 0; i < vecTiles.size(); i++)
+		for (unsigned int i = 0; i < vecTiles.size(); i++)
 		{
 			Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
 			player1->addTile(tmp);
