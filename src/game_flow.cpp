@@ -210,7 +210,7 @@ void scores(Player *player1, Player *player2)
     std::cout << player2->getScore() << std::endl;
 }
 
-void placeTIle(Player *currentPlayer, Board *board, 
+void placeTile(Player *currentPlayer, Board *board, 
             LinkedList *tileBag, std::string instructure)
 {   
     int turn = 0;
@@ -244,7 +244,8 @@ void placeTIle(Player *currentPlayer, Board *board,
     if (check == true)
     {
         board->putTile2Board(colour, shape, row, col);
-        earnedScore = rule->scoreRules(row, col, board, turn);
+        //earnedScore = rule->scoreRules(row, col, board, turn);
+        earnedScore = 10;
     }
 
     currentPlayer->playOneTile(colour, shape);
@@ -283,7 +284,7 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
     int toDo = checkInstruction(instructure, currentPlayer);
     if (toDo == 1)
     {
-        placeTIle(currentPlayer, board, tileBag, instructure);
+        placeTile(currentPlayer, board, tileBag, instructure);
         if (tilesBagCounter != 0)
         {
             tilesBagCounter--;

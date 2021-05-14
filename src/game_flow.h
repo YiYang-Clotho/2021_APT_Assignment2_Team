@@ -13,7 +13,7 @@ void qwirkle();
 int getSelectionFromMenu();
 void newGame();
 void scores(Player *player1, Player *player2);
-void placeTIle();
+void placeTile();
 void loadGame(std::string fileName);
 void credits();
 void checkEnd(LinkedList *tileBag, Player *player1, Player *player2);
