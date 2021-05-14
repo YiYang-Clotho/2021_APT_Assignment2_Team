@@ -244,8 +244,11 @@ void placeTile(Player *currentPlayer, Board *board,
     if (check == true)
     {
         board->putTile2Board(colour, shape, row, col);
-        //earnedScore = rule->scoreRules(row, col, board, turn);
-        earnedScore = 10;
+        earnedScore = rule->scoreRules(row, col, board, turn);
+    }
+    else
+    {
+        std::cout << "Cannot place the tile!" << std::endl;
     }
 
     currentPlayer->playOneTile(colour, shape);
