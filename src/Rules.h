@@ -9,7 +9,7 @@ using std::vector;
 class Rules{
 public: 
     Rules();
-    bool boardRules(unsigned int row, unsigned int col, Board *board, 
+    bool boardRules(unsigned int row, unsigned int col, Board *board,
                 Colour colour, Shape shape, int turn);
 
     bool rightDuplicat(int row, int col, Board *board, 
