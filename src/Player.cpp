@@ -76,7 +76,7 @@ void Player::replaceOneTile(Colour colour, Shape shape, LinkedList *tileBag)
 	int len = this->tilesInHand->getSize();
 	int flag = 0;
 	// record the position of the tile
-	for ( int counter = 1; counter <= len; counter++)
+	for (int counter = 1; counter <= len; counter++)
 	{
 		Tile *tmp = this->tilesInHand->getNode(counter)->getTile();
 		if (tmp->colour == colour && tmp->shape == shape)
@@ -84,7 +84,15 @@ void Player::replaceOneTile(Colour colour, Shape shape, LinkedList *tileBag)
 			flag = counter;
 		}
 	}
-	this->tilesInHand->remove(flag);
+	if (flag == 0)
+	{
+		std::cout << "You don't have the tile!" << std::endl;
+	}
+	else
+	{
+		this->tilesInHand->remove(flag);
+	}
+	
 
 	// add current tile to the last of bag
 	Node *node = new Node();
@@ -210,10 +218,13 @@ void Player::getNewTile(LinkedList *tileBag)
 {
 	if (this->tilesInHand->getSize() > 0)
 	{
-		Node *temp = tileBag->getNode(1);
-		tileBag->remove(1);
-		temp->next = nullptr;
-		temp->prev = nullptr;
-		this->tilesInHand->addNodeToEnd(temp);
+		if (tileBag->getSize() != 0)
+		{
+			Node *temp = tileBag->getNode(1);
+			tileBag->remove(1);
+			temp->next = nullptr;
+			temp->prev = nullptr;
+			this->tilesInHand->addNodeToEnd(temp);
+		}
 	}
 }

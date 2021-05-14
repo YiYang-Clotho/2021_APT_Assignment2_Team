@@ -40,7 +40,8 @@ bool isValidPlaceTile(std::string input, Player *player)
     }
 
     // check the structure of the instruction
-    if (input.compare(0, 6, "place ") == 0 && input.compare(8, 4, " at ") == 0)
+    if (input.compare(0, 6, "place ") == 0 
+            && input.compare(8, 4, " at ") == 0)
     {
         validFlag = true;
     }

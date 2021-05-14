@@ -99,7 +99,8 @@ void newGame()
 		else
 		{
 			for (unsigned emptyBagCounter = 0;
-				 emptyBagCounter < EMPTY_TILE_BAG_ROUND_NUM; emptyBagCounter++)
+				 emptyBagCounter < EMPTY_TILE_BAG_ROUND_NUM; 
+                                            emptyBagCounter++)
 			{
 				for (unsigned int turn = 0; turn < TILES_IN_HAND_NUM; turn++)
 				{
@@ -110,7 +111,6 @@ void newGame()
                         game(currentPlayer, player1, player2, board, tileBag,
                                             instructure, tilesBagCounter, 
                                         p1Counter, p2Counter, inputCount);
-                        
                         playerFlag = 2;
 						
 					}
@@ -121,7 +121,6 @@ void newGame()
                         game(currentPlayer, player1, player2, board, tileBag,
                                             instructure, tilesBagCounter, 
                                         p1Counter, p2Counter, inputCount);
-                        
                         playerFlag = 1;
 					}
                 
@@ -210,9 +209,15 @@ void scores(Player *player1, Player *player2)
     std::cout << player2->getScore() << std::endl;
 }
 
-void placeTIle(Player *currentPlayer, Board *board, 
+void placeTile(Player *currentPlayer, Board *board, 
             LinkedList *tileBag, std::string instructure)
-{
+{   
+    int turn = 0;
+    if (tileBag->getSize() < 60 )
+    {
+        turn = 1;
+    }
+    
     // put the tile on the board, update tiles in hand
     // update tile bag
     Colour colour = instructure[6];
@@ -232,13 +237,25 @@ void placeTIle(Player *currentPlayer, Board *board,
     }
     row = instructure[12] - '0' - ASCII_DIF;
 
-    board->putTile2Board(colour, shape, row, col);
+    Rules *rule = new Rules();
+    bool check = rule->boardRules(row, col, board, 
+                colour, shape, turn);
+    int earnedScore = 0; 
+    if (check == true)
+    {
+        board->putTile2Board(colour, shape, row, col);
+        earnedScore = rule->scoreRules(row, col, board, turn);
+    }
+    else
+    {
+        std::cout << "Cannot place the tile in this place!" << std::endl;
+    }
 
     currentPlayer->playOneTile(colour, shape);
     currentPlayer->getNewTile(tileBag);
 
     // increase the score
-    currentPlayer->increaseScore(1);
+    currentPlayer->increaseScore(earnedScore);
 }
 
 void game(Player *currentPlayer, Player *player1, Player *player2, 
@@ -246,6 +263,7 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
             int tilesBagCounter, int p1Counter, int p2Counter, int inputCount)
 {
     // turn
+    std::cout << std::endl;
     std::cout << currentPlayer->getName();
     std::cout << " it's your turn" << std::endl;
 
@@ -270,7 +288,7 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
     int toDo = checkInstruction(instructure, currentPlayer);
     if (toDo == 1)
     {
-        placeTIle(currentPlayer, board, tileBag, instructure);
+        placeTile(currentPlayer, board, tileBag, instructure);
         if (tilesBagCounter != 0)
         {
             tilesBagCounter--;
