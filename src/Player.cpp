@@ -84,7 +84,15 @@ void Player::replaceOneTile(Colour colour, Shape shape, LinkedList *tileBag)
 			flag = counter;
 		}
 	}
-	this->tilesInHand->remove(flag);
+	if (flag == 0)
+	{
+		std::cout << "You don't have the tile" << std::endl;
+	}
+	else
+	{
+		this->tilesInHand->remove(flag);
+	}
+	
 
 	// add current tile to the last of bag
 	Node *node = new Node();

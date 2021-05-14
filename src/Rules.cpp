@@ -345,42 +345,62 @@ bool Rules::rightHorCheck(int row, int col, Board *board,
 {
     std::string colourStr = "colour";
     std::string shapeStr = "shape";
-    std::string common = "";
     bool check = true;
+    std::string common = "";
     // Determine the adjacent tiles on the right, 
-    // two tiles cannot be empty and should have same colour or shape
-    if(board->position[row][col + 1]->tile != nullptr
-        && board->position[row][col + 2]->tile != nullptr)
+    // only have one tile at the bottom
+    if (col + 1 == BOARD_SIZE - 1)
     {
-        // same colour
-        if(board->position[row][col + 1]->tile->colour == 
-                board->position[row][col + 2]->tile->colour)
+        //next tile is ont the edge
+        if(board->position[row][col + 1]->tile != nullptr)
         {
-            common = "colour";
-        }
-        // same shape
-        if(board->position[row][col + 1]->tile->shape == 
-                board->position[row][col + 2]->tile->shape)
-        {
-            common = "shape";
+            // same colour
+            if(board->position[row][col + 1]->tile->colour == colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            else if(board->position[row][col + 1]->tile->shape == shape)
+            {
+                common = "shape";
+            }
         }
     }
-    // only have one tile on the right
-    else if(board->position[row][col + 1]->tile != nullptr
-            && ( board->position[row][col + 2]->tile == nullptr 
-                || col == BOARD_SIZE - 1 ))
+    else
     {
-        // same colour
-        if(board->position[row][col + 1]->tile->colour == colour)
+        if(board->position[row][col + 1]->tile != nullptr
+                && board->position[row][col + 2]->tile == nullptr)
         {
-            common = "colour";
+            // same colour
+            if(board->position[row][col + 1]->tile->colour == colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            else if(board->position[row][col + 1]->tile->shape == shape)
+            {
+                common = "shape";
+            }
         }
-        // same shape
-        else if(board->position[row][col + 1]->tile->shape == shape)
+
+        if(board->position[row][col + 1]->tile != nullptr
+            && board->position[row][col + 2]->tile != nullptr)
         {
-            common = "shape";
+            // same colour
+            if(board->position[row][col + 1]->tile->colour == 
+                    board->position[row][col + 2]->tile->colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            if(board->position[row][col + 1]->tile->shape == 
+                    board->position[row][col + 2]->tile->shape)
+            {
+                common = "shape";
+            }
         }
     }
+
     if(common.compare("colour") == 0 
             && (colour != board->position[row][col + 1]->tile->colour))
     {
@@ -414,44 +434,60 @@ bool Rules::downVerCheck(int row, int col, Board *board,
     std::string shapeStr = "shape";
     bool check = true;
     std::string common = "";
-   std::cout << "check ver1: " << check << std::endl;
     // Determine the adjacent tiles on the right, 
-    // two tiles cannot be empty and should have same colour or shape
-    if(board->position[row + 1][col]->tile != nullptr
-        && board->position[row + 2][col]->tile != nullptr)
-    {
-        // same colour
-        if(board->position[row + 1][col]->tile->colour == 
-                board->position[row + 2][col]->tile->colour)
-        {
-            common = "colour";
-        }
-        // same shape
-        if(board->position[row + 1][col]->tile->shape == 
-                board->position[row + 2][col]->tile->shape)
-        {
-            common = "shape";
-        }
-    }
     // only have one tile at the bottom
-    else if(board->position[row + 1][col]->tile != nullptr
-            && ( board->position[row + 2][col]->tile == nullptr 
-                || row == BOARD_SIZE || row + 2 == BOARD_SIZE))
+    if (row + 1 == BOARD_SIZE - 1)
     {
-        // same colour
-        if(board->position[row + 1][col]->tile->colour == colour)
+        std::cout << "row + 1: " << row + 1 << std::endl;
+        //next tile is ont the edge
+        if(board->position[row + 1][col]->tile != nullptr)
         {
-            std::cout << "colour same" << std::endl;
-            common = "colour";
-        }
-        // same shape
-        else if(board->position[row + 1][col]->tile->shape == shape)
-        {
-            std::cout << "shape same" << std::endl;
-            common = "shape";
+            // same colour
+            if(board->position[row + 1][col]->tile->colour == colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            else if(board->position[row + 1][col]->tile->shape == shape)
+            {
+                common = "shape";
+            }
         }
     }
-    std::cout << common << std::endl;
+    else
+    {
+        if(board->position[row + 1][col]->tile != nullptr
+                && board->position[row + 2][col]->tile == nullptr)
+        {
+            // same colour
+            if(board->position[row + 1][col]->tile->colour == colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            else if(board->position[row + 1][col]->tile->shape == shape)
+            {
+                common = "shape";
+            }
+        }
+
+        if(board->position[row + 1][col]->tile != nullptr
+            && board->position[row + 2][col]->tile != nullptr)
+        {
+            // same colour
+            if(board->position[row + 1][col]->tile->colour == 
+                    board->position[row + 2][col]->tile->colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            if(board->position[row + 1][col]->tile->shape == 
+                    board->position[row + 2][col]->tile->shape)
+            {
+                common = "shape";
+            }
+        }
+    }
 
     if(common.compare("colour") == 0 
             && (colour != board->position[row + 1][col]->tile->colour))
@@ -470,13 +506,9 @@ bool Rules::downVerCheck(int row, int col, Board *board,
         check = false;
     }
 
-    std::cout << "check ver1: " << check << std::endl;
-
     if(check == true)
     {
-        std::cout << "check dup1: " << check << std::endl;
         check = downDuplicat(row, col, board, colour, shape);
-        std::cout << "check dup2: " << check << std::endl;
     }
 
     return check;
@@ -490,41 +522,60 @@ bool Rules::upVerCheck(int row, int col, Board *board,
     std::string shapeStr = "shape";
     bool check = true;
     std::string common = "";
-   
-        // Determine the adjacent tiles on the right, 
-    // two tiles cannot be empty and should have same colour or shape
-    if(board->position[row - 1][col]->tile != nullptr
-        && board->position[row - 2][col]->tile != nullptr)
+    // Determine the adjacent tiles on the right, 
+    // only have one tile at the bottom
+    if (row - 1 == 0)
     {
-        // same colour
-        if(board->position[row - 1][col]->tile->colour == 
-                board->position[row - 2][col]->tile->colour)
+        //next tile is ont the edge
+        if(board->position[row - 1][col]->tile != nullptr)
         {
-            common = "colour";
-        }
-        // same shape
-        if(board->position[row - 1][col]->tile->shape == 
-                board->position[row - 2][col]->tile->shape)
-        {
-            common = "shape";
+            // same colour
+            if(board->position[row - 1][col]->tile->colour == colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            else if(board->position[row - 1][col]->tile->shape == shape)
+            {
+                common = "shape";
+            }
         }
     }
-    // only have one tile on the right
-    else if(board->position[row - 1][col]->tile != nullptr
-            && ( board->position[row - 2][col]->tile == nullptr 
-                || row == 0 ))
+    else
     {
-        // same colour
-        if(board->position[row - 1][col]->tile->colour == colour)
+        if(board->position[row - 1][col]->tile != nullptr
+                && board->position[row - 2][col]->tile == nullptr)
         {
-            common = "colour";
+            // same colour
+            if(board->position[row - 1][col]->tile->colour == colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            else if(board->position[row - 1][col]->tile->shape == shape)
+            {
+                common = "shape";
+            }
         }
-        // same shape
-        else if(board->position[row - 1][col]->tile->shape == shape)
+
+        if(board->position[row - 1][col]->tile != nullptr
+            && board->position[row - 2][col]->tile != nullptr)
         {
-            common = "shape";
+            // same colour
+            if(board->position[row - 1][col]->tile->colour == 
+                    board->position[row - 2][col]->tile->colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            if(board->position[row - 1][col]->tile->shape == 
+                    board->position[row - 2][col]->tile->shape)
+            {
+                common = "shape";
+            }
         }
     }
+
     if(common.compare("colour") == 0 
             && (colour != board->position[row - 1][col]->tile->colour))
     {
@@ -557,42 +608,62 @@ bool Rules::leftHorCheck(int row, int col, Board *board,
 {
     std::string colourStr = "colour";
     std::string shapeStr = "shape";
-    std::string common = "";
     bool check = true;
+    std::string common = "";
     // Determine the adjacent tiles on the right, 
-    // two tiles cannot be empty and should have same colour or shape
-    if(board->position[row][col - 1]->tile != nullptr
-        && board->position[row][col - 2]->tile != nullptr)
+    // only have one tile at the bottom
+    if (col - 1 == 0)
     {
-        // same colour
-        if(board->position[row][col - 1]->tile->colour == 
-                board->position[row][col - 2]->tile->colour)
+        //next tile is ont the edge
+        if(board->position[row][col - 1]->tile != nullptr)
         {
-            common = "colour";
-        }
-        // same shape
-        if(board->position[row][col - 1]->tile->shape == 
-                board->position[row][col - 2]->tile->shape)
-        {
-            common = "shape";
+            // same colour
+            if(board->position[row][col - 1]->tile->colour == colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            else if(board->position[row][col - 1]->tile->shape == shape)
+            {
+                common = "shape";
+            }
         }
     }
-    // only have one tile on the right
-    else if(board->position[row][col - 1]->tile != nullptr
-            && ( board->position[row][col - 2]->tile == nullptr 
-                || col == 0 ))
+    else
     {
-        // same colour
-        if(board->position[row][col - 1]->tile->colour == colour)
+        if(board->position[row][col - 1]->tile != nullptr
+                && board->position[row][col - 2]->tile == nullptr)
         {
-            common = "colour";
+            // same colour
+            if(board->position[row][col - 1]->tile->colour == colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            else if(board->position[row][col - 1]->tile->shape == shape)
+            {
+                common = "shape";
+            }
         }
-        // same shape
-        else if(board->position[row][col - 1]->tile->shape == shape)
+
+        if(board->position[row][col - 1]->tile != nullptr
+            && board->position[row][col - 2]->tile != nullptr)
         {
-            common = "shape";
+            // same colour
+            if(board->position[row][col - 1]->tile->colour == 
+                    board->position[row][col - 2]->tile->colour)
+            {
+                common = "colour";
+            }
+            // same shape
+            if(board->position[row][col - 1]->tile->shape == 
+                    board->position[row][col - 2]->tile->shape)
+            {
+                common = "shape";
+            }
         }
     }
+
     if(common.compare("colour") == 0 
             && (colour != board->position[row][col - 1]->tile->colour))
     {
