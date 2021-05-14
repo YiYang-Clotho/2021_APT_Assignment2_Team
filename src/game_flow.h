@@ -15,7 +15,7 @@ void scores(Player *player1, Player *player2);
 void placeTIle();
 void loadGame(std::string fileName);
 void credits();
-void checkEnd();
+void checkEnd(LinkedList *tileBag, Player *player1, Player *player2);
 void game(Player *currentPlayer, Player *player1, Player *player2, 
             Board *board, LinkedList *tileBag, std::string instructure,
         int tilesBagCounter, int p1Counter, int p2Counter, int inputCount);
