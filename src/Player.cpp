@@ -76,7 +76,11 @@ void Player::replaceOneTile(Colour colour, Shape shape, LinkedList *tileBag)
 	int len = this->tilesInHand->getSize();
 	int flag = 0;
 	// record the position of the tile
+<<<<<<< HEAD
 	for (int counter = 1; counter <= len; counter++)
+=======
+	for ( int counter = 1; counter <= len; counter++)
+>>>>>>> b0c992b274901cb3e2ab7d8eae04fc7f1984a5fd
 	{
 		Tile *tmp = this->tilesInHand->getNode(counter)->getTile();
 		if (tmp->colour == colour && tmp->shape == shape)

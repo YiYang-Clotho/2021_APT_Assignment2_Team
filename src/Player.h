@@ -32,6 +32,7 @@ public:
 	bool withdrawLastPlayedTile();
 
 	// replace tile
+
 	void replaceOneTile(Colour colour, Shape shape, LinkedList *tileBag);
 
 	// Free the pointer.
