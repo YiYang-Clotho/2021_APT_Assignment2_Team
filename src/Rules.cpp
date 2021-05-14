@@ -17,7 +17,7 @@ Rules::Rules(){
 }
 
 // Check the legal move of a tile placed
-bool Rules::boardRules(int row, int col, Board *board, 
+bool Rules::boardRules(unsigned int row, unsigned int col, Board *board, 
                 Colour colour, Shape shape, int turn)
 {
     bool check = true;
@@ -920,7 +920,7 @@ bool Rules::upDuplicat(int row, int col, Board *board,
 
 // Calculate the player's score based on the tile they placed
 // look for QWIRKLE!
-int Rules::scoreRules(int row, int col, Board *board, int turn){
+int Rules::scoreRules(unsigned int row, unsigned int col, Board *board, int turn){
     int score = 0;
     int upScore = 1; 
     int downScore = 1; 
