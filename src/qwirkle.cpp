@@ -1,5 +1,6 @@
 #include "game_flow.h"
-
+using std::cout;
+using std::endl;
 #define EXIT_SUCCESS 0
 
 int main(void)
@@ -15,7 +16,7 @@ int main(void)
 		else if (selection == 2)
 		{
 			std::string fileName;
-			std::cout << "Enter the filename from which load a game" << std::endl;
+			cout << "Enter the filename from which load a game" << endl;
 			std::cin >> fileName;
 			loadGame(fileName);
 		}

@@ -1,16 +1,11 @@
 #include "Rules.h"
-
 #include <iostream>
-
-#define UP      board->position[hor - 1][ver]
-#define RIGHT   board->position[hor][ver + 1]
-#define DOWN    board->position[hor + 1][ver]
-#define LEFT    board->position[hor][ver - 1]
 #define QWIRKLE 6
 
 using std::cout;
 using std::endl;
 using std::vector;
+using std::string;
 
 Rules::Rules(){
     
@@ -21,10 +16,6 @@ bool Rules::boardRules(unsigned int row, unsigned int col, Board *board,
                 Colour colour, Shape shape, int turn)
 {
     bool check = true;
-    bool upVerticalLine = true;
-    bool downVerticalLine = true;
-    bool leftHorizontalLine = true;
-    bool rightHorizontalLine = true; 
      
     if (turn == 0)
     {
@@ -32,858 +23,185 @@ bool Rules::boardRules(unsigned int row, unsigned int col, Board *board,
     }
     else
     {
-        for (unsigned int hor = 0; hor < BOARD_SIZE; hor++)
-        {
-            for (unsigned int ver = 0; ver < BOARD_SIZE; ver++)
-            {
-                if (hor == row && ver == col)
-                {
-                    // if you want to put to Upper left corner
-                    if (row == 0 && col == 0)
-                    {
-                        if (DOWN->tile != nullptr)
-                        {
-                            downVerticalLine = downVerCheck(row, col, 
-                                                    board, colour, shape);
-                        }
-                        if (RIGHT->tile != nullptr)
-                        {
-                            rightHorizontalLine = rightHorCheck(row, col, 
-                                                    board, colour, shape);
-                        }
-                        if (DOWN->tile == nullptr && RIGHT->tile == nullptr)
-                        {
-                            check = false;
-                        }
-                        if(downVerticalLine == false
-                                    || rightHorizontalLine == false)
-                        {
-                            std::cout << "check1: " << check << std::endl;
-                            check = false;
-                            std::cout << "check2: " << check << std::endl;
-                        }
-                    }
+        bool horizontalCheck = horCheck(row, col, board, colour, shape);
+        bool verticalCheck = verCheck(row, col, board, colour, shape);
 
-                    // if you want to put to Upper right corner
-                    if (row == 0 && col == BOARD_SIZE - 1)
-                    {
-                        if (DOWN->tile == nullptr && LEFT->tile == nullptr)
-                        {
-                            std::cout << "check: " << check << std::endl;
-                            check = false;
-                            std::cout << "check: " << check << std::endl;
-                        }
-                        if (DOWN->tile != nullptr)
-                        {
-                            downVerticalLine = downVerCheck(row, col, 
-                                                board, colour, shape);
-                            std::cout << "down: " << downVerticalLine << std::endl;
-                        }
-                        if (LEFT->tile != nullptr)
-                        {
-                            leftHorizontalLine = leftHorCheck(row, col, 
-                                                board, colour, shape);
-                            std::cout << "left: " << leftHorizontalLine << std::endl;
-                        }
-                        if(downVerticalLine == false
-                                    || leftHorizontalLine == false)
-                        {
-                            std::cout << "check1: " << check << std::endl;
-                            check = false;
-                            std::cout << "check2: " << check << std::endl;
-                        }
-                    }
-
-                    // if you want to put to Bottom left corner
-                    if (row == BOARD_SIZE - 1 && col == 0)
-                    {
-                        if (UP->tile == nullptr && RIGHT->tile == nullptr)
-                        {
-                            check = false;
-                        }
-                        if (UP->tile != nullptr)
-                        {
-                            upVerticalLine = upVerCheck(row, col, 
-                                                board, colour, shape);
-                        }
-                        if (RIGHT->tile != nullptr)
-                        {
-                            rightHorizontalLine = rightHorCheck(hor, ver, 
-                                                board, colour, shape);
-                        }
-                        if(upVerticalLine == false 
-                            || rightHorizontalLine == false)
-                        {
-                            std::cout << "check1: " << check << std::endl;
-                            check = false;
-                            std::cout << "check2: " << check << std::endl;
-                        }
-                    }
-
-                    // if you want to put to Bottom right corner
-                    if (row == BOARD_SIZE - 1 && col == BOARD_SIZE - 1)
-                    {
-                        if (UP->tile == nullptr && LEFT->tile == nullptr)
-                        {
-                            check = false;
-                        }
-                        if (UP->tile != nullptr)
-                        {
-                            upVerticalLine = upVerCheck(row, col, 
-                                                board, colour, shape);
-                        }
-                        if (LEFT->tile != nullptr)
-                        {
-                            leftHorizontalLine = leftHorCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        if(upVerticalLine == false 
-                            || leftHorizontalLine == false)
-                        {
-                            std::cout << "check1: " << check << std::endl;
-                            check = false;
-                            std::cout << "check2: " << check << std::endl;
-                        }
-                    }
-
-                    // if you want to put to upper aside
-                    if (row == 0 && (col > 0 && col < BOARD_SIZE - 1))
-                    {
-                        if (DOWN->tile == nullptr && RIGHT->tile == nullptr
-                                && LEFT->tile == nullptr)
-                        {
-                            check = false;
-                        }
-                        if (DOWN->tile != nullptr)
-                        {
-                            downVerticalLine = downVerCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        if (LEFT->tile != nullptr)
-                        {
-                            leftHorizontalLine = leftHorCheck(row, col, 
-                                            board, colour, shape);
-                        }
-
-                        if (RIGHT->tile != nullptr)
-                        {
-                            rightHorizontalLine = rightHorCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        if(downVerticalLine == false
-                                    || leftHorizontalLine == false 
-                                            || rightHorizontalLine == false)
-                        {
-                            std::cout << "check1: " << check << std::endl;
-                            check = false;
-                            std::cout << "check2: " << check << std::endl;
-                        }
-                    }
-
-                    // if you want to put to bottom aside
-                    if (row == BOARD_SIZE - 1 && 
-                                        (col > 0 && col < BOARD_SIZE - 1))
-                    {
-                        if (UP->tile == nullptr && RIGHT->tile == nullptr
-                                && LEFT->tile == nullptr)
-                        {
-                            check = false;
-                        }
-                        if (UP->tile != nullptr)
-                        {
-                            upVerticalLine = upVerCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        if (LEFT->tile != nullptr)
-                        {
-                            leftHorizontalLine = leftHorCheck(row, col, 
-                                                        board, colour, shape);
-                        }
-                        if (RIGHT->tile != nullptr)
-                        {
-                            rightHorizontalLine = rightHorCheck(row, col, 
-                                                board, colour, shape);
-                        }
-                        if(upVerticalLine == false 
-                            || leftHorizontalLine == false 
-                                            || rightHorizontalLine == false)
-                        {
-                            std::cout << "check1: " << check << std::endl;
-                            check = false;
-                            std::cout << "check2: " << check << std::endl;
-                        }
-                    }
-                    // if you want to put to left aside
-                    if ((row > 0 && row < BOARD_SIZE - 1) 
-                                                && col == 0)
-                    {
-                        if (DOWN->tile == nullptr && RIGHT->tile == nullptr
-                                && UP->tile == nullptr)
-                        {
-                            check = false;
-                        }
-                        if (RIGHT->tile != nullptr)
-                        {
-                            rightHorizontalLine = rightHorCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        if (DOWN->tile != nullptr)
-                        {
-                            downVerticalLine = downVerCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        if (UP->tile != nullptr)
-                        {
-                            upVerticalLine = upVerCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        if(upVerticalLine == false 
-                            || downVerticalLine == false
-                                    || rightHorizontalLine == false)
-                        {
-                            std::cout << "check1: " << check << std::endl;
-                            check = false;
-                            std::cout << "check2: " << check << std::endl;
-                        }
-                    }
-
-                    // if you want to put to right aside
-                    if ((row > 0 && row < BOARD_SIZE - 1) 
-                                                && col == BOARD_SIZE - 1)
-                    {
-                        if (DOWN->tile == nullptr && LEFT->tile == nullptr
-                                && UP->tile == nullptr)
-                        {
-                            check = false;
-                        }
-                        if (LEFT->tile != nullptr)
-                        {
-                            leftHorizontalLine = leftHorCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        if (DOWN->tile != nullptr)
-                        {
-                            downVerticalLine = downVerCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        if (UP->tile != nullptr)
-                        {
-                            upVerticalLine = upVerCheck(row, col, 
-                                            board, colour, shape);
-                        }
-
-                        if(upVerticalLine == false 
-                            || downVerticalLine == false
-                                    || leftHorizontalLine == false)
-                        {
-                            std::cout << "check1: " << check << std::endl;
-                            check = false;
-                            std::cout << "check2: " << check << std::endl;
-                        }
-                    }
-
-                    // if you want to put in the middle
-                    if (row != 0 && col != 0 && row != BOARD_SIZE - 1 
-                                            && col != BOARD_SIZE - 1)
-                    {
-                        if (DOWN->tile == nullptr && LEFT->tile == nullptr
-                                && UP->tile == nullptr && RIGHT->tile == nullptr)
-                        {
-                            check = false;
-                        }
-                        if (RIGHT->tile != nullptr)
-                        {
-                            rightHorizontalLine = rightHorCheck(row, col, 
-                                                board, colour, shape);
-                        }
-                        if (LEFT->tile != nullptr)
-                        {
-                            leftHorizontalLine = leftHorCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        if (DOWN->tile != nullptr)
-                        {
-                            std::cout << "down check1: " << downVerticalLine << std::endl;
-                            downVerticalLine = downVerCheck(row, col, 
-                                                board, colour, shape);
-                            std::cout << "down check2: " << downVerticalLine << std::endl;
-                        }
-                        if (UP->tile != nullptr)
-                        {
-                            upVerticalLine = upVerCheck(row, col, 
-                                            board, colour, shape);
-                        }
-                        std::cout << "check0: " << check << std::endl;
-
-                        if(upVerticalLine == false 
-                            || downVerticalLine == false
-                                    || leftHorizontalLine == false 
-                                            || rightHorizontalLine == false)
-                        {
-                            std::cout << "check1: " << check << std::endl;
-                            check = false;
-                            std::cout << "check2: " << check << std::endl;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (board->position[row][col]->tile != nullptr)
+        if (horizontalCheck == false || verticalCheck == false)
         {
             check = false;
         }
-
-        std::cout << "check3: " << check << std::endl;
-        return check;
-    }
-}
-
-//check any common field between the current tile on left
-bool Rules::rightHorCheck(int row, int col, Board *board, 
-                                Colour colour, Shape shape)
-{
-    std::string colourStr = "colour";
-    std::string shapeStr = "shape";
-    bool check = true;
-    std::string common = "";
-    // Determine the adjacent tiles on the right, 
-    // only have one tile at the bottom
-    if (col + 1 == BOARD_SIZE - 1)
-    {
-        //next tile is ont the edge
-        if(board->position[row][col + 1]->tile != nullptr)
-        {
-            // same colour
-            if(board->position[row][col + 1]->tile->colour == colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            else if(board->position[row][col + 1]->tile->shape == shape)
-            {
-                common = "shape";
-            }
-        }
-    }
-    else
-    {
-        if(board->position[row][col + 1]->tile != nullptr
-                && board->position[row][col + 2]->tile == nullptr)
-        {
-            // same colour
-            if(board->position[row][col + 1]->tile->colour == colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            else if(board->position[row][col + 1]->tile->shape == shape)
-            {
-                common = "shape";
-            }
-        }
-
-        if(board->position[row][col + 1]->tile != nullptr
-            && board->position[row][col + 2]->tile != nullptr)
-        {
-            // same colour
-            if(board->position[row][col + 1]->tile->colour == 
-                    board->position[row][col + 2]->tile->colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            if(board->position[row][col + 1]->tile->shape == 
-                    board->position[row][col + 2]->tile->shape)
-            {
-                common = "shape";
-            }
-        }
+        
     }
 
-    if(common.compare("colour") == 0 
-            && (colour != board->position[row][col + 1]->tile->colour))
+    if (board->position[row][col]->tile != nullptr)
     {
         check = false;
-    }
-    
-    if(common.compare("shape") == 0 
-            && (shape != board->position[row][col + 1]->tile->shape))
-    {
-        check = false;
-    }
-    // check is false if there's no common shape or colour
-    if(common.compare("") == 0)
-    {
-        check = false;
-    }
-
-    if(check == true)
-    {
-        check = rightDuplicat(row, col, board, colour, shape);
     }
 
     return check;
-}
-
-//check any common field between the current tile and below
-bool Rules::downVerCheck(int row, int col, Board *board, 
-                                Colour colour, Shape shape)
-{
-    std::string colourStr = "colour";
-    std::string shapeStr = "shape";
-    bool check = true;
-    std::string common = "";
-    // Determine the adjacent tiles on the right, 
-    // only have one tile at the bottom
-    if (row + 1 == BOARD_SIZE - 1)
-    {
-        std::cout << "row + 1: " << row + 1 << std::endl;
-        //next tile is ont the edge
-        if(board->position[row + 1][col]->tile != nullptr)
-        {
-            // same colour
-            if(board->position[row + 1][col]->tile->colour == colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            else if(board->position[row + 1][col]->tile->shape == shape)
-            {
-                common = "shape";
-            }
-        }
-    }
-    else
-    {
-        if(board->position[row + 1][col]->tile != nullptr
-                && board->position[row + 2][col]->tile == nullptr)
-        {
-            // same colour
-            if(board->position[row + 1][col]->tile->colour == colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            else if(board->position[row + 1][col]->tile->shape == shape)
-            {
-                common = "shape";
-            }
-        }
-
-        if(board->position[row + 1][col]->tile != nullptr
-            && board->position[row + 2][col]->tile != nullptr)
-        {
-            // same colour
-            if(board->position[row + 1][col]->tile->colour == 
-                    board->position[row + 2][col]->tile->colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            if(board->position[row + 1][col]->tile->shape == 
-                    board->position[row + 2][col]->tile->shape)
-            {
-                common = "shape";
-            }
-        }
-    }
-
-    if(common.compare("colour") == 0 
-            && (colour != board->position[row + 1][col]->tile->colour))
-    {
-        check = false;
-    }
     
-    if(common.compare("shape") == 0 
-            && (shape != board->position[row + 1][col]->tile->shape))
-    {
-        check = false;
-    }
-    // check is false if there's no common shape or colour
-    if(common.compare("") == 0)
-    {
-        check = false;
-    }
-
-    if(check == true)
-    {
-        check = downDuplicat(row, col, board, colour, shape);
-    }
-
-    return check;
 }
 
-//Helper method - check any common field between the current tile and the one upper if not empty
-bool Rules::upVerCheck(int row, int col, Board *board, 
+bool Rules::verCheck(int row, int col, Board *board, 
                             Colour colour, Shape shape)
 {
-    std::string colourStr = "colour";
-    std::string shapeStr = "shape";
-    bool check = true;
-    std::string common = "";
-    // Determine the adjacent tiles on the right, 
-    // only have one tile at the bottom
-    if (row - 1 == 0)
+    vector<string> verArray;
+
+    // up check, add tile's colour and shape in the array
+    int up = row - 1;
+    string tmpStr = "";
+    tmpStr += colour;
+    tmpStr += shape + '0';
+    verArray.push_back(tmpStr);
+    while (up >= 0 
+                && (board->position[up][col]->tile != nullptr))
     {
-        //next tile is ont the edge
-        if(board->position[row - 1][col]->tile != nullptr)
+        tmpStr = "";
+        tmpStr += board->position[up][col]->tile->colour;
+        tmpStr += board->position[up][col]->tile->shape + '0';
+        // if the tile is exsit in current array
+        for (unsigned int index = 0; index < verArray.size(); index++)
         {
-            // same colour
-            if(board->position[row - 1][col]->tile->colour == colour)
+            if (verArray[index].compare(tmpStr) == 0)
             {
-                common = "colour";
-            }
-            // same shape
-            else if(board->position[row - 1][col]->tile->shape == shape)
-            {
-                common = "shape";
-            }
-        }
-    }
-    else
-    {
-        if(board->position[row - 1][col]->tile != nullptr
-                && board->position[row - 2][col]->tile == nullptr)
-        {
-            // same colour
-            if(board->position[row - 1][col]->tile->colour == colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            else if(board->position[row - 1][col]->tile->shape == shape)
-            {
-                common = "shape";
+                return false;
+                cout << "The tile is exsit." << endl;
             }
         }
 
-        if(board->position[row - 1][col]->tile != nullptr
-            && board->position[row - 2][col]->tile != nullptr)
-        {
-            // same colour
-            if(board->position[row - 1][col]->tile->colour == 
-                    board->position[row - 2][col]->tile->colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            if(board->position[row - 1][col]->tile->shape == 
-                    board->position[row - 2][col]->tile->shape)
-            {
-                common = "shape";
-            }
-        }
+        verArray.push_back(tmpStr);
+        up--;
     }
 
-    if(common.compare("colour") == 0 
-            && (colour != board->position[row - 1][col]->tile->colour))
+    // down check, add tile's colour and shape in the array
+    int down = row + 1;
+    while (down <= BOARD_SIZE - 1 
+                && (board->position[down][col]->tile != nullptr))
     {
-        check = false;
+        tmpStr = "";
+        tmpStr += board->position[down][col]->tile->colour;
+        tmpStr += board->position[down][col]->tile->shape + '0';
+        for (unsigned int index = 0; index < verArray.size(); index++)
+        {
+            if (verArray[index].compare(tmpStr) == 0)
+            {
+                return false;
+                cout << "The tile is exsit." << endl;
+            }
+        }
+        
+        verArray.push_back(tmpStr);
+        down++;
+    }
+    int countColour = 0;
+    int countShape = 0;
+    // check the array, if the colours or the shapes are the same
+    for (unsigned int index = 0; index < verArray.size(); index++)
+    {
+        if (verArray[index][0] == colour)
+        {
+            countColour++;
+        }
+        if (verArray[index][1] == (shape + '0'))
+        {
+            countShape++;
+        }
     }
     
-    if(common.compare("shape") == 0 
-            && (shape != board->position[row - 1][col]->tile->shape))
-    {
-        check = false;
-    }
-    // check is false if there's no common shape or colour
-    if(common.compare("") == 0)
-    {
-        check = false;
-    }
-
-    if(check == true)
-    {
-        check = upDuplicat(row, col, board, colour, shape);
-    }
-
-    return check;
-}
-
-// check any common field between the current tile and the left hand side
-// if not return empty
-bool Rules::leftHorCheck(int row, int col, Board *board, 
-                                Colour colour, Shape shape)
-{
-    std::string colourStr = "colour";
-    std::string shapeStr = "shape";
-    bool check = true;
-    std::string common = "";
-    // Determine the adjacent tiles on the right, 
-    // only have one tile at the bottom
-    if (col - 1 == 0)
-    {
-        //next tile is ont the edge
-        if(board->position[row][col - 1]->tile != nullptr)
-        {
-            // same colour
-            if(board->position[row][col - 1]->tile->colour == colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            else if(board->position[row][col - 1]->tile->shape == shape)
-            {
-                common = "shape";
-            }
-        }
-    }
-    else
-    {
-        if(board->position[row][col - 1]->tile != nullptr
-                && board->position[row][col - 2]->tile == nullptr)
-        {
-            // same colour
-            if(board->position[row][col - 1]->tile->colour == colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            else if(board->position[row][col - 1]->tile->shape == shape)
-            {
-                common = "shape";
-            }
-        }
-
-        if(board->position[row][col - 1]->tile != nullptr
-            && board->position[row][col - 2]->tile != nullptr)
-        {
-            // same colour
-            if(board->position[row][col - 1]->tile->colour == 
-                    board->position[row][col - 2]->tile->colour)
-            {
-                common = "colour";
-            }
-            // same shape
-            if(board->position[row][col - 1]->tile->shape == 
-                    board->position[row][col - 2]->tile->shape)
-            {
-                common = "shape";
-            }
-        }
-    }
-
-    if(common.compare("colour") == 0 
-            && (colour != board->position[row][col - 1]->tile->colour))
-    {
-        check = false;
-    }
-    
-    if(common.compare("shape") == 0 
-            && (shape != board->position[row][col - 1]->tile->shape))
-    {
-        check = false;
-    }
-    // check is false if there's no common shape or colour
-    if(common.compare("") == 0)
-    {
-        check = false;
-    }
-
-    if(check == true)
-    {
-        check = leftDuplicat(row, col, board, colour, shape);
-    }
-
-    return check;
-}
-
-// check for duplication - for loop through the right hand of the board
-bool Rules::rightDuplicat(int row, int col, Board *board, 
-                            Colour colour, Shape shape)
-{
-    bool check = true;
-    bool flag = true;
-    int exist = 0;
-    // check list number
-    for(int counter = col + 1; counter <= BOARD_SIZE - 1; counter++)
-    {
-        if(board->position[row][counter]->tile != nullptr)
-        {
-            exist++;
-        }
-    }
-
-    if (exist >= 6)
-    {
-        check = false;
-    }
-    else
-    {
-        // check the same tile
-        for(int counter = col + 1; 
-                            counter <= col + exist; counter++)
-        {
-            if(board->position[row][counter]->tile->colour == colour
-                && board->position[row][counter]->tile->shape == shape)
-            {
-                check = false;
-                flag = check;
-            }
-        }
-    }
-
-    if (flag == false)
-    {
-        return flag;
-    }
-    else
+    if (countColour == verArray.size() || countShape == verArray.size())
     {
         return true;
     }
-}
-
-// check for duplication - for loop through the down hand of the board
-bool Rules::downDuplicat(int row, int col, Board *board, 
-                            Colour colour, Shape shape)
-{
-    bool check = true;
-    bool flag = true;
-    int exist = 0;
-
-    std::cout << "exist: " << exist << std::endl;
-
-    // check list number
-    for(int counter = row + 1; counter <= BOARD_SIZE - 1; counter++)
-    {
-        if(board->position[counter][col]->tile != nullptr)
-        {
-            exist++;
-        }
-    }
-    std::cout << "exist: " << exist << std::endl;
-    
-    if (exist > 5)
-    {
-        check = false;
-    }
     else
     {
-        // check the same tile
-        for(int counter = row + 1; counter <= row + exist; counter++)
-        {
-            if(board->position[counter][col]->tile->colour == colour
-                && board->position[counter][col]->tile->shape == shape)
-            {
-                check = false;
-                flag = check;
-            }
-        }
-    }
-
-    std::cout << "flag1: " << flag << std::endl;
-
-    if (flag == false)
-    {
-        return flag;
-        std::cout << "flag2: " << flag << std::endl;
-    }
-    else
-    {
-        return true;
-        std::cout << "true" << std::endl;
+        return false;
     }
 }
 
-//check for duplication - for loop throught the left hand of board
-bool Rules::leftDuplicat(int row, int col, Board *board,
-                                    Colour colour, Shape shape)
+bool Rules::horCheck(int row, int col, Board *board, 
+                        Colour colour, Shape shape)
 {
-    bool check = true;
-    bool flag = true;
-    int exist = 0;
-    // check list number
-    for(int counter = col - 1; counter >= 0; counter--)
-    {
-        if(board->position[row][counter]->tile != nullptr)
-        {
-            exist++;
-        }
-    }
+    vector<string> horArray;
 
-    if (exist >= 6)
+    // up check, add tile's colour and shape in the array
+    int left = col - 1;
+    string tmpStr = "";
+    tmpStr += colour;
+    tmpStr += shape + '0';
+    horArray.push_back(tmpStr);
+    while (left >= 0 && (board->position[row][left]->tile != nullptr))
     {
-        check = false;
-    }
-    else
-    {
-        // check the same tile
-        for(int counter = col - 1; 
-                            counter >= col - exist; counter--)
+        tmpStr = "";
+        tmpStr += board->position[row][left]->tile->colour;
+        tmpStr += board->position[row][left]->tile->shape + '0';
+        // if the tile is exsit in current array
+        for (unsigned int index = 0; index < horArray.size(); index++)
         {
-            if(board->position[row][counter]->tile->colour == colour
-                && board->position[row][counter]->tile->shape == shape)
+            if (horArray[index].compare(tmpStr) == 0)
             {
-                check = false;
-                flag = check;
+                return false;
+                cout << "The tile is exsit." << endl;
             }
         }
+
+        horArray.push_back(tmpStr);
+        left--;
     }
 
-    if (flag == false)
+    // down check, add tile's colour and shape in the array
+    int right = col + 1;
+    while (right <= BOARD_SIZE - 1 &&
+                (board->position[row][right]->tile != nullptr))
     {
-        return flag;
+        tmpStr = "";
+        tmpStr += board->position[row][right]->tile->colour;
+        tmpStr += board->position[row][right]->tile->shape + '0';
+        for (unsigned int index = 0; index < horArray.size(); index++)
+        {
+            if (horArray[index].compare(tmpStr) == 0)
+            {
+                return false;
+                cout << "The tile is exsit." << endl;
+            }
+        }
+        
+        horArray.push_back(tmpStr);
+        right++;
     }
-    else
+
+    int countColour = 0;
+    int countShape = 0;
+    // check the array, if the colours or the shapes are the same
+    for (unsigned int index = 0; index < horArray.size(); index++)
+    {
+        if (horArray[index][0] == colour)
+        {
+            countColour++;
+        }
+        if (horArray[index][1] == (shape + '0'))
+        {
+            countShape++;
+        }
+    }
+
+    if (countColour == horArray.size() || countShape == horArray.size())
     {
         return true;
     }
-}
-
-// check for duplication - for loop throught the upper hand of board
-bool Rules::upDuplicat(int row, int col, Board *board, 
-                            Colour colour, Shape shape)
-{
-    bool check = true;
-    bool flag = true;
-    int exist = 0;
-
-    // check list number
-    for(int counter = row - 1; counter >= 0; counter--)
-    {
-        if(board->position[counter][col]->tile != nullptr)
-        {
-            exist++;
-        }
-    }
-    
-    if (exist > 5)
-    {
-        check = false;
-    }
     else
     {
-        // check the same tile
-        for(int counter = row - 1; counter >= row - exist; counter--)
-        {
-            if(board->position[counter][col]->tile->colour == colour
-                && board->position[counter][col]->tile->shape == shape)
-            {
-                check = false;
-                flag = check;
-            }
-        }
-    }
-
-    if (flag == false)
-    {
-        return flag;
-    }
-    else
-    {
-        return true;
+        return false;
     }
 }
 
 // Calculate the player's score based on the tile they placed
 // look for QWIRKLE!
-int Rules::scoreRules(unsigned int row, unsigned int col, Board *board, int turn){
+int Rules::scoreRules(int row, int col, Board *board, int turn){
     int score = 0;
-    int upScore = 1; 
-    int downScore = 1; 
-    int leftScore = 1;
-    int rightScore = 1;
+    int upScore = 0; 
+    int downScore = 0; 
+    int leftScore = 0;
+    int rightScore = 0;
     if(turn == 0)
     {
         score = 1;
@@ -896,11 +214,8 @@ int Rules::scoreRules(unsigned int row, unsigned int col, Board *board, int turn
             // if it's on the first row, check right and down
             if(row == 0)
             {
-                
                 downScore += downTileScore(row, col, board);
                 rightScore += rightTileScore(row, col, board);
-                std::cout << "downScore: " << downScore << std::endl;
-                std::cout << "rightScore: " << rightScore << std::endl;
             }
             // if it's on the last row, check right and up
             else if(row == BOARD_SIZE - 1)
@@ -914,8 +229,6 @@ int Rules::scoreRules(unsigned int row, unsigned int col, Board *board, int turn
                 downScore += downTileScore(row, col, board);
                 rightScore += rightTileScore(row, col, board);
                 upScore += upTileScore(row, col, board);
-                std::cout << "downScore: " << downScore << std::endl;
-                std::cout << "rightScore: " << rightScore << std::endl;
             } 
         }
         // if current tile is on the last col
@@ -942,20 +255,16 @@ int Rules::scoreRules(unsigned int row, unsigned int col, Board *board, int turn
             } 
         }
 
-        if((col != 0 && col != BOARD_SIZE - 1) 
-                && (row == 0 || row == BOARD_SIZE - 1))
+        if(col != 0 && col != BOARD_SIZE - 1)
         {
-            // the tile is on the first row, check vertical and right
+            // the tile is on the first row, check horizont and down
             if(row == 0)
             {
                 leftScore += leftTileScore(row, col, board);
                 rightScore += rightTileScore(row, col, board);
                 downScore += downTileScore(row, col, board);
-                std::cout << "downScore: " << downScore << std::endl;
-                std::cout << "rightScore: " << rightScore << std::endl;
-                std::cout << "leftScore: " << leftScore << std::endl;
             }
-            // the tile is on the last row, check vertical and left
+            // the tile is on the last row, check horizont and up
             else if(row == BOARD_SIZE - 1)
             {
                 leftScore += leftTileScore(row, col, board);
@@ -963,9 +272,10 @@ int Rules::scoreRules(unsigned int row, unsigned int col, Board *board, int turn
                 upScore += upTileScore(row, col, board);
             }
         }
+        
         // the tile is in the middle, check 4 direction
-        if((row != 0 && row != BOARD_SIZE - 1) 
-                    && (col != 0 && col != BOARD_SIZE - 1))
+        if(row != 0 && row != BOARD_SIZE - 1
+                    && col != 0 && col != BOARD_SIZE - 1)
         {
             upScore += upTileScore(row, col, board);
             rightScore += rightTileScore(row, col, board);
@@ -974,28 +284,32 @@ int Rules::scoreRules(unsigned int row, unsigned int col, Board *board, int turn
         }
 
     }
-
-    if(upScore > 1)
+    if (upScore > 0)
     {
-        score += upScore;
+        upScore++;
     }
-    if(downScore > 1)
+    if (downScore > 0)
     {
-        score += downScore;
+        downScore++;
     }
-    if(leftScore > 1)
+    if (leftScore > 0)
     {
-        score += leftScore;
+        leftScore++;
     }
-    if(rightScore > 1)
+    if (rightScore > 0)
     {
-        score += rightScore;
+        rightScore++;
     }
-    if(qwirkle == true)
+    score += upScore;
+    score += downScore;
+    score += leftScore;
+    score += rightScore;
+    if(this->qwirkle == true)
     {
         score += QWIRKLE;
         cout << "QWIRKLE!!!" << endl;
     }
+
     return score;
 }
 
@@ -1003,7 +317,7 @@ int Rules::scoreRules(unsigned int row, unsigned int col, Board *board, int turn
 int Rules::rightTileScore(int row, int col, Board *board){
     int score = 0;
     bool empty =  false;
-    for(int counter = col + 1; counter < BOARD_SIZE - 1; counter++)
+    for(int counter = col + 1; counter <= BOARD_SIZE - 1; counter++)
     {
         if(board->position[row][counter]->tile != nullptr && empty == false)
         {
@@ -1017,7 +331,7 @@ int Rules::rightTileScore(int row, int col, Board *board){
 
     if(score == 5)
     {
-        qwirkle = true;
+        this->qwirkle = true;
     }
 
     return score;
@@ -1027,7 +341,7 @@ int Rules::rightTileScore(int row, int col, Board *board){
 int Rules::downTileScore(int row, int col, Board *board){
     int score = 0;
     bool empty = false;
-    for(int counter = row + 1; counter <= BOARD_SIZE; counter++)
+    for(int counter = row + 1; counter <= BOARD_SIZE - 1; counter++)
     {
        if( board->position[counter][col]->tile != nullptr && empty == false)
         {
@@ -1040,7 +354,7 @@ int Rules::downTileScore(int row, int col, Board *board){
     }
     if(score == 5)
     {
-        qwirkle = true;
+        this->qwirkle = true;
     }
 
     return score;
@@ -1063,8 +377,9 @@ int Rules::leftTileScore(int row, int col, Board *board){
     }
     if(score == 5)  
     {
-        qwirkle = true;
+        this->qwirkle = true;
     }
+
     return score;
 }
 
@@ -1072,10 +387,9 @@ int Rules::leftTileScore(int row, int col, Board *board){
 int Rules::upTileScore(int row, int col, Board *board){
     int score = 0;
     bool empty = false;
-    for(unsigned int counter = row - 1; counter >= 0; counter--)
+    for(int counter = row - 1; counter >= 0; counter--)
     {
-        if(board->position[counter][col]->tile != nullptr
-            && empty == false)
+        if(board->position[counter][col]->tile != nullptr && empty == false)
         {
             score++;
         }
@@ -1086,7 +400,8 @@ int Rules::upTileScore(int row, int col, Board *board){
     }
     if(score == 5)
     {
-        qwirkle = true;
+        this->qwirkle = true;
     }
+
     return score;
 }

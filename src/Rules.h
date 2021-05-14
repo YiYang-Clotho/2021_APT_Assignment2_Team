@@ -12,26 +12,13 @@ public:
     bool boardRules(unsigned int row, unsigned int col, Board *board,
                 Colour colour, Shape shape, int turn);
 
-    bool rightDuplicat(int row, int col, Board *board, 
-                                Colour colour, Shape shape);
-    bool downDuplicat(int row, int col, Board *board, 
-                                Colour colour, Shape shape);
-    bool leftDuplicat(int row, int col, Board *board, 
-                                Colour colour, Shape shape);
-    bool upDuplicat(int row, int col, Board *board, 
-                                Colour colour, Shape shape);
-
-    bool rightHorCheck(int row, int col, Board *board, 
+    bool verCheck(int row, int col, Board *board, 
                             Colour colour, Shape shape);
-    bool downVerCheck(int row, int col, Board *board, 
-                            Colour colour, Shape shape);
-    bool leftHorCheck(int row, int col, Board *board, 
-                            Colour colour, Shape shape);
-    bool upVerCheck(int row, int col, Board *board, 
+    bool horCheck(int row, int col, Board *board, 
                             Colour colour, Shape shape);
     
     
-    int scoreRules(unsigned int rowsInt, unsigned int columns, Board *board, int turn);
+    int scoreRules(int rowsInt, int columns, Board *board, int turn);
     int downTileScore(int rowsInt, int columns, Board *board);
     int rightTileScore(int rowsInt, int columns, Board *board);
     int leftTileScore(int rowsInt, int columns, Board *board);

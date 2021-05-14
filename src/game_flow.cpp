@@ -99,7 +99,8 @@ void newGame()
 		else
 		{
 			for (unsigned emptyBagCounter = 0;
-				 emptyBagCounter < EMPTY_TILE_BAG_ROUND_NUM; emptyBagCounter++)
+				 emptyBagCounter < EMPTY_TILE_BAG_ROUND_NUM; 
+                                            emptyBagCounter++)
 			{
 				for (unsigned int turn = 0; turn < TILES_IN_HAND_NUM; turn++)
 				{
@@ -110,7 +111,6 @@ void newGame()
                         game(currentPlayer, player1, player2, board, tileBag,
                                             instructure, tilesBagCounter, 
                                         p1Counter, p2Counter, inputCount);
-                        
                         playerFlag = 2;
 						
 					}
@@ -121,7 +121,6 @@ void newGame()
                         game(currentPlayer, player1, player2, board, tileBag,
                                             instructure, tilesBagCounter, 
                                         p1Counter, p2Counter, inputCount);
-                        
                         playerFlag = 1;
 					}
                 
@@ -237,6 +236,7 @@ void placeTile(Player *currentPlayer, Board *board,
         col = tens + digits;
     }
     row = instructure[12] - '0' - ASCII_DIF;
+
     Rules *rule = new Rules();
     bool check = rule->boardRules(row, col, board, 
                 colour, shape, turn);
@@ -248,7 +248,7 @@ void placeTile(Player *currentPlayer, Board *board,
     }
     else
     {
-        std::cout << "Cannot place the tile!" << std::endl;
+        std::cout << "Cannot place the tile in this place!" << std::endl;
     }
 
     currentPlayer->playOneTile(colour, shape);
@@ -263,6 +263,7 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
             int tilesBagCounter, int p1Counter, int p2Counter, int inputCount)
 {
     // turn
+    std::cout << std::endl;
     std::cout << currentPlayer->getName();
     std::cout << " it's your turn" << std::endl;
 

@@ -71,8 +71,6 @@ void LinkedList::removeNode(Node *node)
    if (this->head == node)
    {
       this->head = node->next;
-
-      // remove node from the middle of the list or remove last node of the list
    }
    else
    {
@@ -109,10 +107,6 @@ void LinkedList::remove(int position)
       }
       else
       {
-         // std::cout << "getNode(" << position << ": " << this->getNode(position) << std::endl;
-         // std::cout << "getNode(" << position << " - 1): " << this->getNode(position - 1) << std::endl;
-         // std::cout << "getNode(" << position << " + 1): " << this->getNode(position)->next << std::endl;
-         
          this->getNode(position - 1)->setNext(this->getNode(position + 1));
          this->getNode(position)->setPrev(this->getNode(position - 1));
       }
@@ -168,7 +162,7 @@ Tile *LinkedList::getTile(int position)
       return currentNode->getTile();
    }
    else
-      std::cerr << "Invalid Input!" << std::endl;
+      std::cerr << "Invalid Tile!" << std::endl;
    return nullptr;
 }
 
