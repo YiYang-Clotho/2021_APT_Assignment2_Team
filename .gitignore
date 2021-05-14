@@ -32,3 +32,7 @@ quicle_vs/quicle_vs/SaveGame
 .vscode/settings.json
 .vscode/settings.json
 *.o
+.vscode/settings.json
+.vscode/settings.json
+quicle_vs/quicle_vs/Debug/gamefile.obj.enc
+quicle_vs/quicle_vs/Debug/player.obj.enc

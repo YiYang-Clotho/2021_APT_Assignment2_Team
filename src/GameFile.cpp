@@ -61,9 +61,9 @@ bool GameFile::saveGame(std::string savePath, Player * currentPlayer, Player * p
 		{
 			if (board->position[row][col]->tile != nullptr)
 			{
-				Colour colour = board->position[row][col]->tile->colour;
-				Shape shape = board->position[row][col]->tile->shape + '0';
-				file << colour << shape << '@';
+				/*Colour colour = board->position[row][col]->tile->colour;
+				Shape shape = board->position[row][col]->tile->shape + '0';*/
+				file << board->position[row][col]->tile->colour << board->position[row][col]->tile->shape << '@';
 				char outCol = col + ASCII_A;
 				file << outCol << row;
 				//if (row >= 10)
@@ -161,7 +161,7 @@ bool GameFile::loadGame(std::string loadPath, Player **currentPlayer, Player **p
 			char colour = vecTiles[i][0];
 			int atPos = (vecTiles[i]).find('@');
 			int shape =std::stoi( vecTiles[i].substr(1,atPos-1));
-			int row = vecTiles[i][atPos+1] - 'A'+1;
+			int row = vecTiles[i][atPos+1] - 'A';
 			int col = std::stoi(vecTiles[i].substr(atPos+2, vecTiles[i].size()));
 			(*board)->putTile2Board(colour,shape,row,col);
 			//*player1->addTile(tmp);
@@ -223,9 +223,9 @@ void GameFile::test_save_game_file()
 	// initialise board
 	Board *board = new Board();
 	//board->printBoard();
-	board->putTile2Board('B', 4, 1, 1);
-	board->putTile2Board('C', 4, 2, 2);
-	board->putTile2Board('D', 4, 8, 8);
+	board->putTile2Board('G', 4, 1, 1);
+	board->putTile2Board('P', 5, 2, 2);
+	board->putTile2Board('Y', 6, 3, 3);
 	// initialise tile bag which contains shuffled tiles
 	LinkedList *tileBag = new LinkedList();
 	tileBag->iniTileBag();
