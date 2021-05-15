@@ -52,13 +52,20 @@ public:
    // set first node
    void setHead(Node *node);
 
-   Node *head;
-
+  
    // initialise tile bag list
    void iniTileBag();
 
-private:
+ oid insertLast(Tile tile);
+   bool remove(Tile tile);
+   Tile removeFirst();
+   bool isEmpty();
+   std::string showList();
+
+  private:
+   Node* head;
    
 };
+
 
 #endif // ASSIGN2_LINKEDLIST_H
