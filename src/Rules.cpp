@@ -114,8 +114,8 @@ bool Rules::verCheck(int row, int col, Board *board,
         verArray.push_back(tmpStr);
         down++;
     }
-    int countColour = 0;
-    int countShape = 0;
+    unsigned int countColour = 0;
+    unsigned int countShape = 0;
     // check the array, if the colours or the shapes are the same
     for (unsigned int index = 0; index < verArray.size(); index++)
     {
@@ -192,8 +192,8 @@ bool Rules::horCheck(int row, int col, Board *board,
         right++;
     }
 
-    int countColour = 0;
-    int countShape = 0;
+    unsigned int countColour = 0;
+    unsigned int countShape = 0;
     // check the array, if the colours or the shapes are the same
     for (unsigned int index = 0; index < horArray.size(); index++)
     {
