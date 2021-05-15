@@ -120,8 +120,14 @@ void GameFile::saveGame(std::string savePath, Player *currentPlayer,
 }
 
 // Load history Game data from file ,
-bool GameFile::loadGame(std::string loadPath)
+void GameFile::loadGame(std::string loadPath)
 {
+	Player *player1 = new Player();
+	Player *player2 = new Player();
+	Board *board = new Board();
+	LinkedList *tileBag = new LinkedList();
+	Player *currentPlayer = new Player();
+
 	bool flag = false;
 	std::ifstream inStream(loadPath, std::ios_base::in);
 	if (!inStream.is_open())
@@ -129,92 +135,192 @@ bool GameFile::loadGame(std::string loadPath)
 		std::cout << "Game file open fails!" << std::endl;
 	}
 
-	// Read player 1
-	Player *player1 = new Player();
-	loadPlayerFromStream(player1, inStream);
-	// Read player 2
-	Player *player2 = new Player();
-	loadPlayerFromStream(player2, inStream);
-
-	//Load board
+	std::string s = "";
+	int count = 0;
+	while (getline(inStream, s))
 	{
-		// FIXME
-		Board *board = new Board();
-		std::string shapeStr;
-		while (shapeStr == "")
-		{
-			getline(inStream, shapeStr);
-		}
-
-		std::string tilesStr;
-		while (tilesStr == "")
-		{
-			getline(inStream, tilesStr);
-		}
-		vector<std::string> vecTiles = split(tilesStr, ',');
-		for (int i = 0; i < vecTiles.size(); i++)
-		{
-			Colour colour = vecTiles[i][0];
-			int atPos = (vecTiles[i]).find('@');
-			Shape shape =std::stoi( vecTiles[i].substr(1,atPos-1));
-			int row = vecTiles[i][atPos+1] - 'A';
-			int col = stoi(vecTiles[i].substr(atPos+2, vecTiles[i].size()));
-			board->position[row][col]->tile->colour = colour;
-			board->position[row][col]->tile->shape = shape;
-			//*player1->addTile(tmp);
-		}
-	}
-
-	//Load tileBag
-	LinkedList *tileBag = new LinkedList();
-	std::string strTiles;
-	while (strTiles == "")
-	{
-		getline(inStream, strTiles);
-	}	
-	vector<std::string> vecTiles = split(strTiles, ',');
-	for (unsigned int count = 0; count < vecTiles.size(); count++)
-	{
-		Node *tmpNode = new Node();
-		tmpNode->tile->colour = vecTiles[count][0];
-		tmpNode->tile->shape = vecTiles[count][1] - '0';
-		tmpNode->prev = nullptr;
-		tmpNode->next = nullptr;
 		if (count == 0)
 		{
-			(tileBag)->setHead(tmpNode);
+			player1->setName(s);
+			count++;
 		}
-		else
+		if (count == 1)
 		{
-			(tileBag)->addNodeToEnd(tmpNode);
-
+			int score;
+			std::stringstream ss;  
+			ss << s;  
+			ss >> score;
+			player1->setScore(score);
+			count++;
 		}
+		if (count == 2)
+		{
+			LinkedList *tiles = new LinkedList();
+			vector<std::string> vecTiles = split(s, ',');
+			for (unsigned int index = 0; index < vecTiles.size(); index++)
+			{
+				Colour colour = vecTiles[index][0];
+				Shape shape = vecTiles[index][1] - '0';
+				Node *tmpNode = new Node();
+				tmpNode->tile->colour = colour;
+				tmpNode->tile->shape = shape;
+				if (index == 0)
+				{
+					tiles->setHead(tmpNode);
+					tiles->head->next = nullptr;
+					tiles->head->prev = nullptr;
+				}
+				else
+				{
+					tiles->addNodeToEnd(tmpNode);
+				}
+			}
+			player1->setTilesInHand(tiles);
+			count++;
+		}
+		if (count == 3)
+		{
+			player2->setName(s);
+			count++;
+		}
+		if (count == 4)
+		{
+			int score;
+			std::stringstream ss;  
+			ss << s;  
+			ss >> score;
+			player2->setScore(score);
+			count++;
+		}
+		if (count == 5)
+		{
+			LinkedList *tiles = new LinkedList();
+			vector<std::string> vecTiles = split(s, ',');
+			for (unsigned int index = 0; index < vecTiles.size(); index++)
+			{
+				Colour colour = vecTiles[index][0];
+				Shape shape = vecTiles[index][1] - '0';
+				Node *tmpNode = new Node();
+				tmpNode->tile->colour = colour;
+				tmpNode->tile->shape = shape;
+				if (index == 0)
+				{
+					tiles->setHead(tmpNode);
+					tiles->head->next = nullptr;
+					tiles->head->prev = nullptr;
+				}
+				else
+				{
+					tiles->addNodeToEnd(tmpNode);
+				}
+			}
+			player2->setTilesInHand(tiles);
+			count++;
+		}
+		if (count == 6)
+		{
+			count++;
+		}
+		if (count == 7)
+		{
+			// board
+			count++;
+		}
+		if (count == 8)
+		{
+			// tile bag
+			count++;
+		}
+		if (count == 9)
+		{
+			if (s.compare(player1->getName()) == 0)
+			{
+				currentPlayer = player1;
+			}
+			else
+			{
+				currentPlayer = player2;
+			}
+		}
+	}
+	
 
-	}
+	
 
-	Player *currentPlayer = new Player();
-	std::string name;
-	if (player1->getName().compare(name) == 0)
-	{
-		currentPlayer = player1;
-	}
-	else
-	{
-		currentPlayer = player2;
-	}
+	//Load board
+	
+	// std::string shapeStr;
+	// while (shapeStr == "")
+	// {
+	// 	getline(inStream, shapeStr);
+	// }
 
-	flag = true;
+	// std::string tilesStr;
+	// while (tilesStr == "")
+	// {
+	// 	getline(inStream, tilesStr);
+	// }
+	// vector<std::string> vecTiles = split(tilesStr, ',');
+	// for (int i = 0; i < vecTiles.size(); i++)
+	// {
+	// 	Colour colour = vecTiles[i][0];
+	// 	int atPos = (vecTiles[i]).find('@');
+	// 	Shape shape =std::stoi( vecTiles[i].substr(1,atPos-1));
+	// 	int row = vecTiles[i][atPos+1] - 'A';
+	// 	int col = stoi(vecTiles[i].substr(atPos+2, vecTiles[i].size()));
+	// 	board->position[row][col]->tile->colour = colour;
+	// 	board->position[row][col]->tile->shape = shape;
+	// 	//*player1->addTile(tmp);
+	// }
 
-	if (flag == false)
-	{
-		return false;
-		std::cout << "Qwirkle game loaded failed" << std::endl;
-	}
-	else
-	{
-		return true;
-		std::cout << "Qwirkle game successfully loaded" << std::endl;
-	}
+	// //Load tileBag
+	// LinkedList *tileBag = new LinkedList();
+	// std::string strTiles;
+	// while (strTiles == "")
+	// {
+	// 	getline(inStream, strTiles);
+	// }	
+	// vector<std::string> vecTiles = split(strTiles, ',');
+	// for (unsigned int count = 0; count < vecTiles.size(); count++)
+	// {
+	// 	Node *tmpNode = new Node();
+	// 	tmpNode->tile->colour = vecTiles[count][0];
+	// 	tmpNode->tile->shape = vecTiles[count][1] - '0';
+	// 	tmpNode->prev = nullptr;
+	// 	tmpNode->next = nullptr;
+	// 	if (count == 0)
+	// 	{
+	// 		(tileBag)->setHead(tmpNode);
+	// 	}
+	// 	else
+	// 	{
+	// 		(tileBag)->addNodeToEnd(tmpNode);
+
+	// 	}
+
+	// }
+
+	// Player *currentPlayer = new Player();
+	// std::string name;
+	// if (player1->getName().compare(name) == 0)
+	// {
+	// 	currentPlayer = player1;
+	// }
+	// else
+	// {
+	// 	currentPlayer = player2;
+	// }
+
+	// flag = true;
+
+	// if (flag == false)
+	// {
+	// 	std::cout << "Qwirkle game loaded failed" << std::endl;
+	// }
+	// else
+	// {
+	// 	std::cout << "Qwirkle game successfully loaded" << std::endl;
+	// }
 
 
 }
@@ -231,29 +337,6 @@ vector<std::string> GameFile::split(std::string s, char delim)
 		v.push_back(tmp);
 	}
 	return v;
-}
-
-bool GameFile::loadPlayerFromStream(Player *player, std::ifstream &inStream) {
-	std::string name;
-	inStream >> name;
-	player->setName(name);
-	int score;
-	inStream >> score;
-	player->setScore(score);
-
-	std::string tilesInHand;
-	while (tilesInHand == "")
-	{
-		getline(inStream, tilesInHand);
-	}
-	vector<std::string> vecTiles = split(tilesInHand, ',');
-	for (int i = 0; i < vecTiles.size(); i++)
-	{
-		Tile *tmp = new Tile(vecTiles[i][0], vecTiles[i][1]);
-
-		player->addTile(tmp);
-	}
-	return true;
 }
 
 std::string & GameFile::trim(std::string & s) {

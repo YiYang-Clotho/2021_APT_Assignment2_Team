@@ -16,12 +16,10 @@ public:
 		Player *player1, Player *player2, LinkedList *tileBag, Board *board);
 
 	// Load history Game data from file 
-	bool loadGame(std::string loadPath);
-	void test_save_game_file();
-	void test_load_game_file();
+	void loadGame(std::string loadPath);
 
 private:
-	bool loadPlayerFromStream(Player *player, std::ifstream &inStream);
+	
 	vector<std::string> split(std::string s, char delim);
 	std::string& trim(std::string &s);;
 };
