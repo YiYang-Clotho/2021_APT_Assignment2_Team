@@ -133,6 +133,12 @@ void newGame()
     checkEnd(tileBag, player1, player2);
 }
 
+void continueGame(Player *currentPlayer, 
+		Player *player1, Player *player2, LinkedList *tileBag, Board *board)
+{
+    
+}
+
 void credits()
 {
 	std::cout << "---------------------------------- " << std::endl;

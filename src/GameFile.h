@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "Board.h"
+#include "check_input.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -16,11 +17,15 @@ public:
 		Player *player1, Player *player2, LinkedList *tileBag, Board *board);
 
 	// Load history Game data from file 
-	void loadGame(std::string loadPath);
+	bool loadGame(std::string loadPath);
+	void loadGameInfo(std::string loadPath, Player *currentPlayer, 
+		Player *player1, Player *player2, LinkedList *tileBag, Board *board);
 
 private:
 	
 	vector<std::string> split(std::string s, char delim);
+	vector<std::string> split(std::string string, 
+									char delim1, char delim2);
 	std::string& trim(std::string &s);;
 };
 

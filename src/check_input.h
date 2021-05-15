@@ -30,6 +30,11 @@ bool isValidPlayerName(std::string playerName);
 bool isFileExist(std::string fileName);
 
 
+bool allNum(std::string string); 
+bool validTile(std::string string); 
+bool validPosition(std::string string); 
+bool samePosCheck(vector<std::string> string); 
+
 // check the input is which instruction
 // invalid, return 0
 // place the tile, return 1

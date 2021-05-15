@@ -252,3 +252,115 @@ int checkInstruction(std::string input, Player *player)
 
     return flag;
 }
+
+bool allNum(std::string string)
+{  
+    for (int index = 0; index < string.size(); index++)
+    {
+        int tmp = string[index] - '0';
+        std::cout << "tmp: " << tmp << std::endl;
+        std::cout << "string[index]: " << string[index] << std::endl;
+        if (tmp >= 0 && tmp <= 9)
+        {
+            continue;
+        }
+        else
+        {
+            return false;
+        }
+    } 
+    return true;
+}
+
+bool validTile(std::string string)
+{
+    if (string.size() != 2)
+    {
+        return false;
+    }
+    else
+    {
+        //creates array for colour
+        Colour colours[] = {'R', 'O', 'Y', 'G', 'B', 'P'};
+
+        //creates array for shape
+        Shape shapes[] = {1, 2, 3, 4, 5, 6};
+        bool colourFlag = false;
+        bool shapeFlag = false;
+
+        char colour = string[0];
+        int shape = string[1] - '0';
+        for (unsigned int index = 0; index < TOTAL_COLOUR_NUM; index++)
+        {
+            if (colours[index] == colour)
+            {
+                colourFlag = true;
+            }
+        }
+        for (unsigned int index = 0; index < TOTAL_SHAPE_NUM; index++)
+        {
+            if (shapes[index] == shape)
+            {
+                shapeFlag = true;
+            }
+            
+        }
+
+        if (colourFlag == false || shapeFlag == false)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+}
+
+bool validPosition(std::string string)
+{
+    int row = 0;
+    int col = 0;
+
+    row = string[0] - '0' - ASCII_DIF;
+    if (string.size() == 2)
+    {
+        col = string[1] - '0';
+    }
+    else if (string.size() == 3)
+    {
+        int digits = string[2] - '0';
+        int tens = (string[1] - '0') * 10;
+        col = tens + digits;
+    }
+    else
+    {
+        return false;
+    }
+
+    if (row >= 0 && row <= BOARD_SIZE - 1 
+            && col >= 0 && col <= BOARD_SIZE - 1)
+    {
+        return true;
+        
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool samePosCheck(vector<std::string> string)
+{
+    for(unsigned int index = 0; index < string.size(); ++index){
+        for (unsigned int next = index + 1; next < string.size(); ++next)
+        {
+            if (string[index].compare(string[next]) == 0)
+            {
+                return false;
+            }
+        }
+	}
+    return true;
+    std::cout << "no same pos" << std::endl;
+}

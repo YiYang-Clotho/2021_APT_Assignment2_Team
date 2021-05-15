@@ -19,7 +19,27 @@ int main(void)
 			cout << "Enter the filename from which load a game" << endl;
 			std::cin >> fileName;
 			GameFile *file = new GameFile();
-			file->loadGame(fileName);
+			if (!file->loadGame(fileName))
+			{
+				std::cout << "Qwirkle game loaded failed" << std::endl;
+			}
+			else
+			{
+				Player *currentPlayer = new Player(); 
+				Player *player1 = new Player();
+				Player *player2 = new Player();
+				LinkedList *tileBag = new LinkedList();
+				Board *board = new Board();
+				file->loadGameInfo(fileName, currentPlayer, player1, 
+											player2, tileBag, board);
+
+				std::cout << "current player: " << currentPlayer->getName() << std::endl;
+				std::cout << "player1: " << player1->getName() << std::endl;
+				std::cout << "player2: " << player2->getName() << std::endl;
+				std::cout << "tile bag size: " << tileBag->getSize() << std::endl;
+
+				continueGame(currentPlayer, player1, player2, tileBag, board);
+			}
 		}
 		else if (selection == 3)
 		{

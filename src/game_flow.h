@@ -10,6 +10,8 @@
 void qwirkle();
 int getSelectionFromMenu();
 void newGame();
+void continueGame(Player *currentPlayer, 
+		Player *player1, Player *player2, LinkedList *tileBag, Board *board);
 void scores(Player *player1, Player *player2);
 void placeTile();
 void credits();
