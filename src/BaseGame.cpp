@@ -1,7 +1,6 @@
 #include <iostream>
 #include "BaseGame.h"
 
-
 std::vector<std::string> split(std::string input, std::string delimiter);
 Tile tokenToTile(std::string token);
 
