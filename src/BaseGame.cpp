@@ -392,5 +392,6 @@ Tile tokenToTile(std::string token) {
     tile.colour = token[0];
     tile.shape = token[1] - '0';
     return tile;
+
 }
  
