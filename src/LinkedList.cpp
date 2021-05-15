@@ -293,3 +293,76 @@ void LinkedList::iniTileBag()
    //tempTile_bag->remove1stNode();
    delete tempTile_bag;
 }
+
+LinkedList::LinkedList() {
+   head = nullptr;
+}
+
+LinkedList::~LinkedList() {
+    while (head != nullptr) {
+        Node* temp = head;
+        head = head->next;
+        delete temp->tile;
+        delete temp;
+    }
+}
+void LinkedList::insertLast(Tile tile) {
+    Node* node = new Node(&tile, nullptr);
+    if (head == nullptr) {
+        head = node;
+    } else {
+        Node* cur = head;
+        while (cur->next != nullptr) { cur = cur->next; }
+        cur->next = node;
+    }
+}
+
+bool LinkedList::remove(Tile tile) {
+    Node* temp = head;
+    Node* ahead = nullptr;
+    while (temp != nullptr) {
+        if (temp->tile->colour == tile.colour &&
+            temp->tile->shape == tile.shape) {
+            // Find the node and remove
+            if (temp == head) {
+                head = head->next;
+            } else {
+                ahead->next = temp->next;
+            }
+            delete temp;
+            return true;
+        } else {
+            ahead = temp;
+            temp = temp->next;
+        }
+    }
+    return false;
+}
+Tile LinkedList::removeFirst() {
+    Tile tile;
+    if (head != nullptr) {
+        tile.colour = head->tile->colour;
+        tile.shape = head->tile->shape;
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+    return tile;
+}
+
+bool LinkedList::isEmpty() {
+    if (head == nullptr) {
+        return true;
+    }
+    return false;
+}
+
+std::string LinkedList::showList() {
+    std::string representation = "";
+    Node* temp = head;
+    while (temp != nullptr) {
+        representation = representation + temp->tile->toString() +",";
+        temp = temp->next;
+    }
+    return representation.substr(0,representation.size()-1);
+}
