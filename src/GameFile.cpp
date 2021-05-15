@@ -1,7 +1,15 @@
 #include "GameFile.h"
 using std::stoi;
+GameFile::GameFile()
+{
+}
+
+GameFile::~GameFile()
+{
+}
+
 // Save Game data to file 
-bool GameFile::saveGame(std::string savePath, Player *currentPlayer, 
+void GameFile::saveGame(std::string savePath, Player *currentPlayer, 
 	Player *player1, Player *player2, LinkedList *tileBag, Board *board)
 {
 	bool flag = false;
@@ -64,9 +72,10 @@ bool GameFile::saveGame(std::string savePath, Player *currentPlayer,
 			{
 				Colour colour = board->position[row][col]->tile->colour;
 				Shape shape = board->position[row][col]->tile->shape;
-				file << colour << shape + '0' << '@';
-				char outCol = col + ASCII_A;
-				file << outCol << row;
+				file << colour << shape << '@';
+				int rowOut = row + ASCII_A - ASCII_0;
+				char outRow = rowOut + '0'; 
+				file << outRow << col;
 				counter++;
 
 				if (counter != tilesOnBoardNum)
@@ -101,12 +110,10 @@ bool GameFile::saveGame(std::string savePath, Player *currentPlayer,
 
 	if (flag == true)
 	{
-		return true;
 		std::cout << "Game successfully saved" << std::endl;
 	}
 	else
 	{
-		return false;
 		std::cout << "Save game failed" << std::endl;
 	}
 

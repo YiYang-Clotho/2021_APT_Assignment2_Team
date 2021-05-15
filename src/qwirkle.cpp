@@ -18,7 +18,8 @@ int main(void)
 			std::string fileName;
 			cout << "Enter the filename from which load a game" << endl;
 			std::cin >> fileName;
-			loadGame(fileName);
+			GameFile *file = new GameFile();
+			file->loadGame(fileName);
 		}
 		else if (selection == 3)
 		{

@@ -133,23 +133,6 @@ void newGame()
     checkEnd(tileBag, player1, player2);
 }
 
-void loadGame(std::string fileName)
-{
-	std::cout << "Enter the filename from which load a game\n< ";
-	std::cin >> fileName;
-	if (!isFileExist(fileName))
-	{
-		std::cerr << "Invalid File" << std::endl;
-		return;
-	}
-	//if (!isFileFormatCorrect(fileName)) {
-	//	std::cerr << "Invalid File Format" << std::endl;
-	//	return;
-	//}
-	std::cout << "Qwirkle game successfully loaded" << std::endl;
-	//continue_game(fileName);
-}
-
 void credits()
 {
 	std::cout << "---------------------------------- " << std::endl;
@@ -315,7 +298,10 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
     {
         std::string fileName = instructure.substr(5, 
                                     instructure.size() - 5);
-        // saveGame(fileName, currentPlayer, player1, player2, tileBag, board);
+        GameFile *file = new GameFile();
+        file->saveGame(fileName, currentPlayer, 
+                            player1, player2, tileBag, board);
+        // quit
     }
 
 }

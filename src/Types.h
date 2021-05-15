@@ -17,5 +17,6 @@
 #define ROUND_NUM 30
 #define EMPTY_TILE_BAG_ROUND_NUM 5
 #define ASCII_A 65
+#define ASCII_0 48
 
 #endif // COSC_ASSIGN_TWO_TYPES
