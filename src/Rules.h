@@ -18,7 +18,10 @@ public:
                             Colour colour, Shape shape);
     
     
-    int scoreRules(int rowsInt, int columns, Board *board, int turn);
+    int scoreRules(int row, int col, Board *board, int turn);
+    int verScore(int row, int col, Board *board);
+    int horScore(int row, int col, Board *board);
+
     int downTileScore(int rowsInt, int columns, Board *board);
     int rightTileScore(int rowsInt, int columns, Board *board);
     int leftTileScore(int rowsInt, int columns, Board *board);

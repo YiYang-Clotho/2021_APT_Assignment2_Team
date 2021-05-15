@@ -124,11 +124,10 @@ void GameFile::loadGame(std::string loadPath)
 {
 	Player *player1 = new Player();
 	Player *player2 = new Player();
-	Board *board = new Board();
-	LinkedList *tileBag = new LinkedList();
+	// Board *board = new Board();
+	// LinkedList *tileBag = new LinkedList();
 	Player *currentPlayer = new Player();
 
-	bool flag = false;
 	std::ifstream inStream(loadPath, std::ios_base::in);
 	if (!inStream.is_open())
 	{
@@ -137,6 +136,8 @@ void GameFile::loadGame(std::string loadPath)
 
 	std::string s = "";
 	int count = 0;
+
+	// read line by line and set the value
 	while (getline(inStream, s))
 	{
 		if (count == 0)

@@ -197,211 +197,122 @@ bool Rules::horCheck(int row, int col, Board *board,
 // Calculate the player's score based on the tile they placed
 // look for QWIRKLE!
 int Rules::scoreRules(int row, int col, Board *board, int turn){
-    int score = 0;
-    int upScore = 0; 
-    int downScore = 0; 
-    int leftScore = 0;
-    int rightScore = 0;
+    int scores = 0;
+    int verScores = 0; 
+    int horScores = 0; 
     if(turn == 0)
     {
-        score = 1;
+        return 1;
     }
     else
     {
-        // if current tile is on the first col
-        if(col == 0)
-        {
-            // if it's on the first row, check right and down
-            if(row == 0)
-            {
-                downScore += downTileScore(row, col, board);
-                rightScore += rightTileScore(row, col, board);
-            }
-            // if it's on the last row, check right and up
-            else if(row == BOARD_SIZE - 1)
-            {
-                upScore += upTileScore(row, col, board);
-                rightScore += rightTileScore(row, col, board);
-            }
-            // if it's in the middle, check vertical and right
-            else
-            {
-                downScore += downTileScore(row, col, board);
-                rightScore += rightTileScore(row, col, board);
-                upScore += upTileScore(row, col, board);
-            } 
-        }
-        // if current tile is on the last col
-        else if(col == BOARD_SIZE - 1)
-        {
-            // if it's on the first row, check left and down
-            if(row == 0)
-            {
-                downScore += downTileScore(row, col, board);
-                leftScore += leftTileScore(row, col, board);
-            }
-            // if it's on the last row, check left and up
-            else if(row == BOARD_SIZE - 1)
-            {
-                upScore += upTileScore(row, col, board);
-                leftScore += leftTileScore(row, col, board);
-            }
-            // if it's in the middle, check vertival and left
-            else
-            {
-                upScore += upTileScore(row, col, board);
-                downScore += downTileScore(row, col, board);
-                leftScore += leftTileScore(row, col, board);
-            } 
-        }
+        verScores = verScore(row, col, board); 
+        horScores = horScore(row, col, board); 
 
-        if(col != 0 && col != BOARD_SIZE - 1)
-        {
-            // the tile is on the first row, check horizont and down
-            if(row == 0)
-            {
-                leftScore += leftTileScore(row, col, board);
-                rightScore += rightTileScore(row, col, board);
-                downScore += downTileScore(row, col, board);
-            }
-            // the tile is on the last row, check horizont and up
-            else if(row == BOARD_SIZE - 1)
-            {
-                leftScore += leftTileScore(row, col, board);
-                rightScore += rightTileScore(row, col, board);
-                upScore += upTileScore(row, col, board);
-            }
-        }
+    }
+    scores = verScores + horScores;
+
+    return scores;
+}
+
+int Rules::verScore(int row, int col, Board *board)
+{
+    vector<string> verArray;
+    Colour colour = board->position[row][col]->tile->colour;
+    Shape shape = board->position[row][col]->tile->shape;
+
+    // up check, add tile's colour and shape in the array
+    int up = row - 1;
+    string tmpStr = "";
+    tmpStr += colour;
+    tmpStr += shape + '0';
+    verArray.push_back(tmpStr);
+    while (up >= 0 
+                && (board->position[up][col]->tile != nullptr))
+    {
+        tmpStr = "";
+        tmpStr += board->position[up][col]->tile->colour;
+        tmpStr += board->position[up][col]->tile->shape + '0';
+
+        verArray.push_back(tmpStr);
+        up--;
+    }
+
+    // down check, add tile's colour and shape in the array
+    int down = row + 1;
+    while (down <= BOARD_SIZE - 1 
+                && (board->position[down][col]->tile != nullptr))
+    {
+        tmpStr = "";
+        tmpStr += board->position[down][col]->tile->colour;
+        tmpStr += board->position[down][col]->tile->shape + '0';
         
-        // the tile is in the middle, check 4 direction
-        if(row != 0 && row != BOARD_SIZE - 1
-                    && col != 0 && col != BOARD_SIZE - 1)
-        {
-            upScore += upTileScore(row, col, board);
-            rightScore += rightTileScore(row, col, board);
-            leftScore += leftTileScore(row, col, board);
-            downScore += downTileScore(row, col, board);
-        }
-
+        verArray.push_back(tmpStr);
+        down++;
     }
-    if (upScore > 0)
-    {
-        upScore++;
-    }
-    if (downScore > 0)
-    {
-        downScore++;
-    }
-    if (leftScore > 0)
-    {
-        leftScore++;
-    }
-    if (rightScore > 0)
-    {
-        rightScore++;
-    }
-    score += upScore;
-    score += downScore;
-    score += leftScore;
-    score += rightScore;
-    if(this->qwirkle == true)
+    
+    int score = verArray.size();
+    if (score == QWIRKLE)
     {
         score += QWIRKLE;
-        cout << "QWIRKLE!!!" << endl;
+        std::cout << std::endl;
+        std::cout << "QWIRKLE!!!" << std::endl;
+        std::cout << std::endl;
     }
-
+    if (score == 1)
+    {
+        score = 0;
+    }
+    
     return score;
 }
 
-// check tile number on the right hand side of the current tile
-int Rules::rightTileScore(int row, int col, Board *board){
-    int score = 0;
-    bool empty =  false;
-    for(int counter = col + 1; counter <= BOARD_SIZE - 1; counter++)
+int Rules::horScore(int row, int col, Board *board)
+{
+    vector<string> horArray;
+    Colour colour = board->position[row][col]->tile->colour;
+    Shape shape = board->position[row][col]->tile->shape;
+
+    // up check, add tile's colour and shape in the array
+    int left = col - 1;
+    string tmpStr = "";
+    tmpStr += colour;
+    tmpStr += shape + '0';
+    horArray.push_back(tmpStr);
+    while (left >= 0 && (board->position[row][left]->tile != nullptr))
     {
-        if(board->position[row][counter]->tile != nullptr && empty == false)
-        {
-            score++;
-        }
-        else
-        {
-            empty = true;
-        }    
+        tmpStr = "";
+        tmpStr += board->position[row][left]->tile->colour;
+        tmpStr += board->position[row][left]->tile->shape + '0';
+
+        horArray.push_back(tmpStr);
+        left--;
     }
 
-    if(score == 5)
+    // down check, add tile's colour and shape in the array
+    int right = col + 1;
+    while (right <= BOARD_SIZE - 1 &&
+                (board->position[row][right]->tile != nullptr))
     {
-        this->qwirkle = true;
+        tmpStr = "";
+        tmpStr += board->position[row][right]->tile->colour;
+        tmpStr += board->position[row][right]->tile->shape + '0';
+        
+        horArray.push_back(tmpStr);
+        right++;
     }
 
-    return score;
-}
-
-// check tile number below the current tile
-int Rules::downTileScore(int row, int col, Board *board){
-    int score = 0;
-    bool empty = false;
-    for(int counter = row + 1; counter <= BOARD_SIZE - 1; counter++)
+    int score = horArray.size();
+    if (score == QWIRKLE)
     {
-       if( board->position[counter][col]->tile != nullptr && empty == false)
-        {
-            score++;
-        }
-        else
-        {
-            empty = true;
-        }
+        score += QWIRKLE;
+        std::cout << std::endl;
+        std::cout << "QWIRKLE!!!" << std::endl;
+        std::cout << std::endl;
     }
-    if(score == 5)
+    if (score == 1)
     {
-        this->qwirkle = true;
+        score = 0;
     }
-
-    return score;
-}
-
-// check tile number on the left hand side of the current tile
-int Rules::leftTileScore(int row, int col, Board *board){
-    int score = 0;
-    bool empty = false;
-    for(int counter = col - 1; counter >= 0; counter--)
-    {
-        if(board->position[row][counter]->tile != nullptr && empty == false)
-        {
-            score++;
-        }
-        else
-        {
-            empty = true;
-        }
-    }
-    if(score == 5)  
-    {
-        this->qwirkle = true;
-    }
-
-    return score;
-}
-
-// check any tile upper the current tile
-int Rules::upTileScore(int row, int col, Board *board){
-    int score = 0;
-    bool empty = false;
-    for(int counter = row - 1; counter >= 0; counter--)
-    {
-        if(board->position[counter][col]->tile != nullptr && empty == false)
-        {
-            score++;
-        }
-        else
-        {
-            empty = true;
-        }     
-    }
-    if(score == 5)
-    {
-        this->qwirkle = true;
-    }
-
     return score;
 }
