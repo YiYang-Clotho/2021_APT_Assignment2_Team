@@ -31,8 +31,17 @@ bool isValidPlaceTile(std::string input, Player *player)
         input.compare(0, 6, "place ") != 0 ||
         input.compare(8, 4, " at ") != 0)
     {
-        std::cout << "Invalid input format for placing a tile." << std::endl;
-        return false;
+        if (input.compare(0, 7, "replace") == 0)
+        {
+            return false;
+        }
+        else
+        {
+            std::cout << "Invalid input format for placing a tile." << std::endl;
+            return false;
+        }
+        
+        
     }
 
     // check if the player has the tile
@@ -40,7 +49,7 @@ bool isValidPlaceTile(std::string input, Player *player)
     std::size_t found = tilesString.find(input.substr(6, 2));
     if (found == std::string::npos)
     {
-        std::cout << "player does not have this tile in hand:" << input.substr(6, 2) << std::endl;
+        std::cout << "player does not have this tile in hand" << std::endl;
         return false;
     }
 
@@ -76,25 +85,25 @@ bool isValidReplace(std::string input, Player *player)
 {
 
     // check the length of the input string
-    if (input.size() != 10 && input.size() != 11)
+    if ((input.size() != 10 && input.size() != 11) || (input.compare(0, 8, "replace ") != 0))
     {
-        std::cout << "Invalid input format for replacing a tile." << std::endl;
-        return false;
-    }
-
-    // check the structure of the instruction
-    if (input.compare(0, 8, "replace ") != 0)
-    {
-        std::cout << "Invalid input format for replacing a tile." << std::endl;
-        return false;
+        if ((input.compare(0, 5, "place") == 0))
+        {
+            return false;
+        }
+        else
+        {
+            std::cout << "Invalid input format for replacing a tile." << std::endl;
+            return false;
+        }
     }
 
     // check if the player has the tile
     std::string tilesString = player->getTilesString();
-    std::size_t found = tilesString.find(input.substr(6, 2));
+    std::size_t found = tilesString.find(input.substr(8, 2));
     if (found == std::string::npos)
     {
-        std::cout << "player does not have this tile in hand:" << input.substr(6, 2) << std::endl;
+        std::cout << "Player does not have this tile in hand" << std::endl;
         return false;
     }
 
@@ -152,25 +161,27 @@ bool isQuit(std::string input)
 
 int checkInstruction(std::string input, Player *player)
 {
-    int flag = 0;
-    if (isValidPlaceTile(input, player))
+    if (isQuit(input))
     {
-        flag = CMD_PLACE_TILE;
+        std::cout << std::endl;
+        std::cout << "Goodbye" << std::endl;
+        exit(0);
     }
     else if (isValidReplace(input, player))
     {
-        flag = CMD_REPLACE;
+        return CMD_REPLACE;
     }
     else if (isValidSave(input))
     {
-        flag = CMD_SAVE;
+        return CMD_SAVE;
     }
-    else if (isQuit(input))
+     
+    else if (isValidPlaceTile(input, player))
     {
-        flag = CMD_QUIT;
+        return CMD_PLACE_TILE;
     }
 
-    return flag;
+    return 0;
 }
 
 bool allNum(std::string string)
@@ -278,5 +289,4 @@ bool samePosCheck(vector<std::string> string)
         }
     }
     return true;
-    std::cout << "no same pos" << std::endl;
 }

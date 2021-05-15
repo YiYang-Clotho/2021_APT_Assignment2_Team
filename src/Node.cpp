@@ -49,7 +49,8 @@ void Node::setTile(Colour colour, Shape shape)
    this->tile->shape = shape;
 }
 
-void Node::setTile(Tile *tile){
+void Node::setTile(Tile *tile)
+{
    this->tile = tile;
 }
 
@@ -65,14 +66,16 @@ void Node::setNext(Node *node)
    node->prev = this;
 }
 
-// set node  
-void Node::setNode(Node *node){
+// set node
+void Node::setNode(Node *node)
+{
    this->tile = node->tile;
    this->prev = node->prev;
    this->next = node->next;
 }
 
 // get node
-Node *Node::getNode(){
+Node *Node::getNode()
+{
    return this;
 }

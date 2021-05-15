@@ -57,8 +57,10 @@ public:
    // initialise tile bag list
    void iniTileBag();
 
+   // initialise tile bag list
+   void orderlyTileBag();
+
 private:
-   
 };
 
 #endif // ASSIGN2_LINKEDLIST_H

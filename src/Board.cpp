@@ -12,15 +12,15 @@ Board::Board()
         this->position[row].resize(BOARD_SIZE);
     }
 
-   
-    for (unsigned int row = 0; row < this->position.size(); row++){
-		for (unsigned int col = 0; col < this->position[row].size(); col++){
+    for (unsigned int row = 0; row < this->position.size(); row++)
+    {
+        for (unsigned int col = 0; col < this->position[row].size(); col++)
+        {
             Node *node = new Node();
             //this->position[row][col]->setNode(node);
             this->position[row][col] = node;
         }
     }
-
 }
 
 // deep copy the board
@@ -61,16 +61,22 @@ void Board::printBoard()
 {
     // first line
     std::cout << "   ";
-    for (int row = 0; row < 26; row++){
-        if (row >= 10){
-            if (row == 25){
+    for (int row = 0; row < 26; row++)
+    {
+        if (row >= 10)
+        {
+            if (row == 25)
+            {
                 std::cout << row;
-            }else{
+            }
+            else
+            {
                 std::cout << row;
                 std::cout << " ";
             }
         }
-        else{
+        else
+        {
             std::cout << row;
             std::cout << "  ";
         }
@@ -90,11 +96,13 @@ void Board::printBoard()
         for (unsigned int col = 0; col < this->position[row].size(); col++)
         {
             //Node *node = this->position[row][col];
-            
-            if (this->position[row][col]->tile == nullptr){
+
+            if (this->position[row][col]->tile == nullptr)
+            {
                 std::cout << "  |";
             }
-            else{
+            else
+            {
                 Colour colour = this->position[row][col]->tile->colour;
                 Shape shape = this->position[row][col]->tile->shape;
                 std::cout << colour;

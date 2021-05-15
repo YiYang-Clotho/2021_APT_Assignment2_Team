@@ -9,13 +9,14 @@
 
 void qwirkle();
 void newGame();
-void continueGame(Player **currentPlayer, 
-		Player *player1, Player *player2, LinkedList *tileBag, Board *board);
+void continueGame(Player **currentPlayer, Player *player1, 
+    Player *player2, LinkedList *tileBag, Board *board);
 void scores(Player *player1, Player *player2);
 void placeTile();
 void credits();
 void checkEnd(LinkedList *tileBag, Player *player1, Player *player2);
-void game(Player *currentPlayer, Player *player1, Player *player2, 
-    Board *board, LinkedList *tileBag, std::string instructure, int inputCount);
+void game(Player *currentPlayer, Player *player1, Player *player2,
+          Board *board, LinkedList *tileBag, 
+          std::string instructure, int inputCount);
 
 #endif

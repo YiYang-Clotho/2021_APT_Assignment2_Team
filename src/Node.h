@@ -30,10 +30,10 @@ public:
    // get next-coodinate of the node
    Node *getNext();
 
-   // set next-coodinate of the node   
+   // set next-coodinate of the node
    void setNext(Node *node);
 
-   // set node  
+   // set node
    void setNode(Node *node);
 
    // get node

@@ -7,7 +7,7 @@ Player::Player()
 {
 	this->name = "";
 	this->score = 0;
-	this->tilesInHand =new LinkedList();
+	this->tilesInHand = new LinkedList();
 	this->lastPlayedTile = nullptr;
 }
 
@@ -15,7 +15,7 @@ Player::Player()
 Player::Player(std::string name)
 {
 	this->name = name;
-	score=0;
+	score = 0;
 	this->tilesInHand = new LinkedList();
 }
 
@@ -35,7 +35,7 @@ bool Player::addTile(Tile *tile)
 	if (this->tilesInHand->head == nullptr)
 	{
 
-		Node* node = new Node();
+		Node *node = new Node();
 		node->setTile(tile);
 		this->tilesInHand->setHead(node);
 		this->tilesInHand->head->next = nullptr;
@@ -43,7 +43,7 @@ bool Player::addTile(Tile *tile)
 	}
 	else
 	{
-		Node* node = new Node();
+		Node *node = new Node();
 		node->setTile(tile);
 		node->next = nullptr;
 		node->prev = nullptr;
@@ -111,7 +111,6 @@ void Player::replaceOneTile(Colour colour, Shape shape, LinkedList *tileBag)
 	{
 		this->tilesInHand->remove(flag);
 	}
-	
 
 	// add current tile to the last of bag
 	Node *node = new Node();
@@ -182,10 +181,11 @@ void Player::printTilesInHand()
 	// print
 	for (unsigned int counter = 0; counter < tiles.size(); counter++)
 	{
-		if (counter % 2 == 1)
+		if (counter % 2 == 1 && counter < tiles.size() - 1)
 		{
 			std::cout << tiles[counter];
-			std::cout << " ";
+			
+			std::cout << ",";
 		}
 		else
 		{

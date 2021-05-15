@@ -101,7 +101,7 @@ void LinkedList::remove(int position)
          this->head->prev = nullptr;
       }
       // others
-      else if(position == this->getSize())
+      else if (position == this->getSize())
       {
          this->getNode(position - 1)->next = nullptr;
       }
@@ -115,7 +115,6 @@ void LinkedList::remove(int position)
    {
       std::cerr << "Invalid Input!" << std::endl;
    }
-
 }
 
 //add a node at the front
@@ -217,17 +216,16 @@ void LinkedList::iniTileBag()
    LinkedList *tempTile_bag = new LinkedList();
 
    //double loop to stock tile bag - once
-   for (unsigned int i = 0; i < 6; i++)
+   for (unsigned int colourIndex = 0; colourIndex < 6; colourIndex++)
    {
-      for (unsigned int j = 0; j < 6; j++)
+      for (unsigned int shapeIndex = 0; shapeIndex < 6; shapeIndex++)
       {
-         //std::cout << "c s: " << colours[i]  << shapes[j] << std::endl;
 
-         Tile *tempTile = new Tile(colours[i], shapes[j]);
+         Tile *tempTile = new Tile(colours[colourIndex], shapes[shapeIndex]);
          Node *tempNode = new Node();
          tempNode->setTile(tempTile);
 
-         if (i == 0 && j == 0)
+         if (colourIndex == 0 && shapeIndex == 0)
          {
             tempTile_bag->head = tempNode;
          }
@@ -243,8 +241,6 @@ void LinkedList::iniTileBag()
    {
       for (unsigned int j = 0; j < 6; j++)
       {
-         //std::cout << "c s: " << colours[i]  << shapes[j] << std::endl;
-
          Tile *tempTile = new Tile(colours[i], shapes[j]);
          Node *tempNode = new Node();
          tempNode->setTile(tempTile);
@@ -273,7 +269,7 @@ void LinkedList::iniTileBag()
          this->head->prev = nullptr;
       }
       else
-      {         
+      {
          Node *temp = tempTile_bag->getNode(random);
          tempTile_bag->remove(random);
          temp->next = nullptr;
@@ -286,4 +282,47 @@ void LinkedList::iniTileBag()
    // clear and delete tempTile_bag tile_bag
    //tempTile_bag->remove1stNode();
    delete tempTile_bag;
+}
+
+// initialise tile bag list
+void LinkedList::orderlyTileBag()
+{
+   //creates array for colour
+   Colour colours[] = {'R', 'O', 'Y', 'G', 'B', 'P'};
+
+   //creates array for shape
+   Shape shapes[] = {1, 2, 3, 4, 5, 6};
+
+   //double loop to stock tile bag - once
+   for (unsigned int colourIndex = 0; colourIndex < 6; colourIndex++)
+   {
+      for (unsigned int shapeIndex = 0; shapeIndex < 6; shapeIndex++)
+      {
+         Tile *tempTile = new Tile(colours[colourIndex], shapes[shapeIndex]);
+         Node *tempNode = new Node();
+         tempNode->setTile(tempTile);
+
+         if (colourIndex == 0 && shapeIndex == 0)
+         {
+            this->head = tempNode;
+         }
+         else
+         {
+            this->addNodeToEnd(tempNode);
+         }
+      }
+   }
+
+   // add each kind of tile twice
+   for (unsigned int i = 0; i < 6; i++)
+   {
+      for (unsigned int j = 0; j < 6; j++)
+      {
+         Tile *tempTile = new Tile(colours[i], shapes[j]);
+         Node *tempNode = new Node();
+         tempNode->setTile(tempTile);
+
+         this->addNodeToEnd(tempNode);
+      }
+   }
 }

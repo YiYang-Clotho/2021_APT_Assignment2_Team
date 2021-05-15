@@ -1,18 +1,10 @@
 1
-2
-DAVID
-JOE
-place B6 at H10
-place P6 at I10
-place B5 at H11
-place P5 at G11
-replace O2
-place 55 at G11
-place P4 at I9
-place B4 at H12
-place P3 at I8
-place B3 at H13
-place P2 at I7
-place B2 at H14
-place R5 at F11
-place B1 at H15
+A
+B
+place R1 at B1
+place B1 at B2
+place Y1 at B3
+place O1 at B4
+place P1 at B5
+place B2 at C2
+plsce C2 at B6

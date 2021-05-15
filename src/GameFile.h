@@ -12,7 +12,6 @@ class GameFile {
 public:
 	GameFile();
 	~GameFile();
-	void quit();
 	std::string checkEOF();
 	void getSelectionFromMenu();
 	// Save Game data to file 

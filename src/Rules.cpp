@@ -1,25 +1,25 @@
 #include "Rules.h"
 #include <iostream>
-#define UP      board->position[row - 1][col]
-#define RIGHT   board->position[row][col + 1]
-#define DOWN    board->position[row + 1][col]
-#define LEFT    board->position[row][col - 1]
+#define UP board->position[row - 1][col]
+#define RIGHT board->position[row][col + 1]
+#define DOWN board->position[row + 1][col]
+#define LEFT board->position[row][col - 1]
 #define QWIRKLE 6
 
 using std::cout;
 using std::endl;
-using std::vector;
 using std::string;
+using std::vector;
 
-Rules::Rules(){
-    
+Rules::Rules()
+{
 }
 
 // Check the legal move of a tile placed
-bool Rules::boardRules(unsigned int row, unsigned int col, Board *board, 
-                Colour colour, Shape shape, int turn)
+bool Rules::boardRules(unsigned int row, unsigned int col, Board *board,
+                       Colour colour, Shape shape, int turn)
 {
-     
+
     if (board->position[row][col]->tile != nullptr)
     {
         std::cout << "Cannot place the tile here. There is already a tile on this position." << std::endl;
@@ -38,7 +38,7 @@ bool Rules::boardRules(unsigned int row, unsigned int col, Board *board,
             std::cout << "Cannot place the tile here. Should have at least one neighbour." << std::endl;
             return false;
         }
-        
+
         bool horizontalCheck = horCheck(row, col, board, colour, shape);
         bool verticalCheck = verCheck(row, col, board, colour, shape);
 
@@ -46,25 +46,22 @@ bool Rules::boardRules(unsigned int row, unsigned int col, Board *board,
         {
             return false;
         }
-        
     }
     return true;
-    
 }
 
 bool Rules::hasNeighbour(int row, int col, Board *board)
 {
-    
-    if (UP->tile == nullptr && DOWN->tile == nullptr 
-            && LEFT->tile == nullptr && RIGHT->tile == nullptr)
+
+    if (UP->tile == nullptr && DOWN->tile == nullptr && LEFT->tile == nullptr && RIGHT->tile == nullptr)
     {
         return false;
     }
     return true;
 }
 
-bool Rules::verCheck(int row, int col, Board *board, 
-                            Colour colour, Shape shape)
+bool Rules::verCheck(int row, int col, Board *board,
+                     Colour colour, Shape shape)
 {
     vector<string> verArray;
 
@@ -74,8 +71,7 @@ bool Rules::verCheck(int row, int col, Board *board,
     tmpStr += colour;
     tmpStr += shape + '0';
     verArray.push_back(tmpStr);
-    while (up >= 0 
-                && (board->position[up][col]->tile != nullptr))
+    while (up >= 0 && (board->position[up][col]->tile != nullptr))
     {
         tmpStr = "";
         tmpStr += board->position[up][col]->tile->colour;
@@ -96,8 +92,7 @@ bool Rules::verCheck(int row, int col, Board *board,
 
     // down check, add tile's colour and shape in the array
     int down = row + 1;
-    while (down <= BOARD_SIZE - 1 
-                && (board->position[down][col]->tile != nullptr))
+    while (down <= BOARD_SIZE - 1 && (board->position[down][col]->tile != nullptr))
     {
         tmpStr = "";
         tmpStr += board->position[down][col]->tile->colour;
@@ -110,7 +105,7 @@ bool Rules::verCheck(int row, int col, Board *board,
                 cout << "The tile is exsit." << endl;
             }
         }
-        
+
         verArray.push_back(tmpStr);
         down++;
     }
@@ -128,21 +123,19 @@ bool Rules::verCheck(int row, int col, Board *board,
             countShape++;
         }
     }
-    
+
     if (countColour == verArray.size() || countShape == verArray.size())
     {
         return true;
-        std::cout << "verticalCheck true" << std::endl;
     }
     else
     {
         return false;
-        std::cout << "verticalCheck false" << std::endl;
     }
 }
 
-bool Rules::horCheck(int row, int col, Board *board, 
-                        Colour colour, Shape shape)
+bool Rules::horCheck(int row, int col, Board *board,
+                     Colour colour, Shape shape)
 {
     vector<string> horArray;
 
@@ -174,7 +167,7 @@ bool Rules::horCheck(int row, int col, Board *board,
     // down check, add tile's colour and shape in the array
     int right = col + 1;
     while (right <= BOARD_SIZE - 1 &&
-                (board->position[row][right]->tile != nullptr))
+           (board->position[row][right]->tile != nullptr))
     {
         tmpStr = "";
         tmpStr += board->position[row][right]->tile->colour;
@@ -187,7 +180,7 @@ bool Rules::horCheck(int row, int col, Board *board,
                 cout << "The tile is exsit." << endl;
             }
         }
-        
+
         horArray.push_back(tmpStr);
         right++;
     }
@@ -210,30 +203,28 @@ bool Rules::horCheck(int row, int col, Board *board,
     if (countColour == horArray.size() || countShape == horArray.size())
     {
         return true;
-        std::cout << "horizontalCheck true" << std::endl;
     }
     else
     {
         return false;
-        std::cout << "horizontalCheck false" << std::endl;
     }
 }
 
 // Calculate the player's score based on the tile they placed
 // look for QWIRKLE!
-int Rules::scoreRules(int row, int col, Board *board, int turn){
+int Rules::scoreRules(int row, int col, Board *board, int turn)
+{
     int scores = 0;
-    int verScores = 0; 
-    int horScores = 0; 
-    if(turn == 0)
+    int verScores = 0;
+    int horScores = 0;
+    if (turn == 0)
     {
         return 1;
     }
     else
     {
-        verScores = verScore(row, col, board); 
-        horScores = horScore(row, col, board); 
-
+        verScores = verScore(row, col, board);
+        horScores = horScore(row, col, board);
     }
     scores = verScores + horScores;
 
@@ -252,8 +243,7 @@ int Rules::verScore(int row, int col, Board *board)
     tmpStr += colour;
     tmpStr += shape + '0';
     verArray.push_back(tmpStr);
-    while (up >= 0 
-                && (board->position[up][col]->tile != nullptr))
+    while (up >= 0 && (board->position[up][col]->tile != nullptr))
     {
         tmpStr = "";
         tmpStr += board->position[up][col]->tile->colour;
@@ -265,17 +255,16 @@ int Rules::verScore(int row, int col, Board *board)
 
     // down check, add tile's colour and shape in the array
     int down = row + 1;
-    while (down <= BOARD_SIZE - 1 
-                && (board->position[down][col]->tile != nullptr))
+    while (down <= BOARD_SIZE - 1 && (board->position[down][col]->tile != nullptr))
     {
         tmpStr = "";
         tmpStr += board->position[down][col]->tile->colour;
         tmpStr += board->position[down][col]->tile->shape + '0';
-        
+
         verArray.push_back(tmpStr);
         down++;
     }
-    
+
     int score = verArray.size();
     if (score == QWIRKLE)
     {
@@ -288,7 +277,7 @@ int Rules::verScore(int row, int col, Board *board)
     {
         score = 0;
     }
-    
+
     return score;
 }
 
@@ -317,12 +306,12 @@ int Rules::horScore(int row, int col, Board *board)
     // down check, add tile's colour and shape in the array
     int right = col + 1;
     while (right <= BOARD_SIZE - 1 &&
-                (board->position[row][right]->tile != nullptr))
+           (board->position[row][right]->tile != nullptr))
     {
         tmpStr = "";
         tmpStr += board->position[row][right]->tile->colour;
         tmpStr += board->position[row][right]->tile->shape + '0';
-        
+
         horArray.push_back(tmpStr);
         right++;
     }

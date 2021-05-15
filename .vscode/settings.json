@@ -70,5 +70,5 @@
         "random": "cpp",
         "regex": "cpp"
     },
-    "editor.wordWrap": "wordWrapColumn"
+    "html.format.wrapLineLength": 80
 }
