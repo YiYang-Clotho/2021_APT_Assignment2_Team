@@ -6,12 +6,16 @@ using std::endl;
 int main(void)
 {
 	qwirkle();
+	bool checkMenu = false;
+	do
+	{
 	int selection = getSelectionFromMenu();
 	if (!std::cin.eof())
 	{
 		if (selection == 1)
 		{
 			newGame();
+			checkMenu = true;
 		}
 		else if (selection == 2)
 		{
@@ -19,10 +23,12 @@ int main(void)
 			cout << "Enter the filename from which load a game" << endl;
 			std::cin >> fileName;
 			loadGame(fileName);
+			checkMenu = true;
 		}
 		else if (selection == 3)
 		{
 			credits();
+			checkMenu = true;
 		}
 		else if (selection == 4)
 		{
@@ -37,6 +43,9 @@ int main(void)
 	{
 		std::cout << "Goodbye" << std::endl;
 	}
+	} while (checkMenu == true);
+	
+	
 
 	return EXIT_SUCCESS;
 }
