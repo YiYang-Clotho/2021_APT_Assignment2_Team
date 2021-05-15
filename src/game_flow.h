@@ -10,7 +10,6 @@
 
 
 void qwirkle();
-int getSelectionFromMenu();
 void newGame();
 void scores(Player *player1, Player *player2);
 void placeTile();

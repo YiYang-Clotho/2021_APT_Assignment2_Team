@@ -7,20 +7,6 @@ void qwirkle()
 	std::cout << "-------------------" << std::endl;
 }
 
-int getSelectionFromMenu()
-{
-	std::cout << "Menu" << std::endl;
-	std::cout << "----" << std::endl;
-	std::cout << "1. New Game" << std::endl;
-	std::cout << "2. Load Game" << std::endl;
-	std::cout << "3. Credits (Show student information)" << std::endl;
-	std::cout << "4. Quit" << std::endl;
-
-	int input;
-	std::cin >> input;
-	return input;
-}
-
 void newGame()
 {
 	std::string player1_name, player2_name;
