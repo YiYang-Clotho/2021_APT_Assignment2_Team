@@ -11,7 +11,6 @@ bool isValidPlayerName(std::string playerName)
         {
             count++;
         }
-        
     }
 
     if (count == 0)
@@ -27,154 +26,79 @@ bool isValidPlayerName(std::string playerName)
 // if the input is place the tile, return true
 bool isValidPlaceTile(std::string input, Player *player)
 {
-    bool validFlag = false;
-
     // check the length of the input string
-    if (input.size() == 14 || input.size() == 15)
+    if ((input.size() != 14 && input.size() != 15) ||
+        input.compare(0, 6, "place ") != 0 ||
+        input.compare(8, 4, " at ") != 0)
     {
-        validFlag = true;
-    }
-    else
-    {
-        validFlag = false;
-    }
-
-    // check the structure of the instruction
-    if (input.compare(0, 6, "place ") == 0 
-            && input.compare(8, 4, " at ") == 0)
-    {
-        validFlag = true;
-    }
-    else
-    {
-        validFlag = false;
+        std::cout << "Invalid input format for placing a tile." << std::endl;
+        return false;
     }
 
-    int counter = 0;
     // check if the player has the tile
     std::string tilesString = player->getTilesString();
-    for (unsigned int pos = 0; pos < tilesString.size() - 2; pos += 2)
+    std::size_t found = tilesString.find(input.substr(6, 2));
+    if (found == std::string::npos)
     {
-        if (input.compare(6, 2, tilesString.substr(pos, 2)) == 0)
-        {
-            
-            counter++;
-        }
+        std::cout << "player does not have this tile in hand:" << input.substr(6, 2) << std::endl;
+        return false;
     }
 
-    if (counter == 0)
-    {
-        validFlag = false;
-    }
-    else
-    {
-        validFlag = true;;
-    }
-    
-
-    // check the position that is in the board area
+    // check if the position is in the board area
     // check the col
     int col = input[12] - '0' - ASCII_DIF;
-    if (col <= BOARD_SIZE && col >= 0)
+    if (col >= BOARD_SIZE || col < 0)
     {
-        validFlag = true;
-    }
-    else
-    {
-        validFlag = false;
+        std::cout << "Invalid colonm value." << std::endl;
+        return false;
     }
 
     // check the row
-    int tempRow = -1;
+    int row = -1;
     if (input.size() == 14)
     {
-        tempRow = input[13] - '0';
-        if (tempRow >= 0 && tempRow < 10)
-        {
-            validFlag = true;
-        }
-        else
-        {
-            validFlag = false;
-        }
-    }
-    else if (input.size() == 15)
-    {
-        int tempTen = (input[13] - '0') * 10;
-        tempRow = tempTen + (input[14] - '0');
-        if (tempRow >= 10 && tempRow < BOARD_SIZE)
-        {
-            validFlag = true;
-        }
-        else
-        {
-            validFlag = false;
-        }
-    }
-
-    if (validFlag == false)
-    {
-        return false;
+        row = input[13] - '0';
     }
     else
     {
-        return true;
+        row = input[14] - '0' + (input[13] - '0') * 10;
     }
+    if (row < 0 || row >= BOARD_SIZE)
+    {
+        std::cout << "Invalid row value." << std::endl;
+        return false;
+    }
+    return true;
 }
 
 // if the input is replace the tile, return true
 bool isValidReplace(std::string input, Player *player)
 {
-    bool validFlag = false;
 
     // check the length of the input string
-    if (input.size() == 10 || input.size() == 11)
+    if (input.size() != 10 && input.size() != 11)
     {
-        validFlag = true;
-    }
-    else
-    {
-        validFlag = false;
+        std::cout << "Invalid input format for replacing a tile." << std::endl;
+        return false;
     }
 
     // check the structure of the instruction
-    if (input.compare(0, 8, "replace ") == 0)
+    if (input.compare(0, 8, "replace ") != 0)
     {
-        validFlag = true;
-    }
-    else
-    {
-        validFlag = false;
-    }
-
-    int counter = 0;
-    // check if the player has the tile
-    std::string tilesString = player->getTilesString();
-    for (unsigned int pos = 0; pos < tilesString.size() - 2; pos += 2)
-    {
-        if (input.compare(8, 2, tilesString.substr(pos, 2)) == 0)
-        {
-            counter++;
-        }
-        
-    }
-    if (counter == 0)
-    {
-        validFlag = false;
-    }
-    else
-    {
-        validFlag = true;
-    }
-
-    if (validFlag == false)
-    {
+        std::cout << "Invalid input format for replacing a tile." << std::endl;
         return false;
     }
-    else
+
+    // check if the player has the tile
+    std::string tilesString = player->getTilesString();
+    std::size_t found = tilesString.find(input.substr(6, 2));
+    if (found == std::string::npos)
     {
-        return true;
+        std::cout << "player does not have this tile in hand:" << input.substr(6, 2) << std::endl;
+        return false;
     }
+
+    return true;
 }
 
 // if the input is save the game, return true
@@ -209,8 +133,7 @@ bool isFileExist(std::string fileName)
 bool isQuit(std::string input)
 {
     // check the structure of the instruction
-    if (input.compare(0, 4, "Quit") == 0 
-        || input.compare(0, 4, "quit") == 0)
+    if (input.compare(0, 4, "Quit") == 0 || input.compare(0, 4, "quit") == 0)
     {
         return true;
     }
@@ -234,18 +157,15 @@ int checkInstruction(std::string input, Player *player)
     {
         flag = CMD_PLACE_TILE;
     }
-    
-    if (isValidReplace(input, player))
+    else if (isValidReplace(input, player))
     {
         flag = CMD_REPLACE;
     }
-
-    if (isValidSave(input))
-    {   
+    else if (isValidSave(input))
+    {
         flag = CMD_SAVE;
     }
-    
-    if (isQuit(input))
+    else if (isQuit(input))
     {
         flag = CMD_QUIT;
     }
@@ -254,12 +174,10 @@ int checkInstruction(std::string input, Player *player)
 }
 
 bool allNum(std::string string)
-{  
+{
     for (int index = 0; index < string.size(); index++)
     {
         int tmp = string[index] - '0';
-        std::cout << "tmp: " << tmp << std::endl;
-        std::cout << "string[index]: " << string[index] << std::endl;
         if (tmp >= 0 && tmp <= 9)
         {
             continue;
@@ -268,7 +186,7 @@ bool allNum(std::string string)
         {
             return false;
         }
-    } 
+    }
     return true;
 }
 
@@ -303,7 +221,6 @@ bool validTile(std::string string)
             {
                 shapeFlag = true;
             }
-            
         }
 
         if (colourFlag == false || shapeFlag == false)
@@ -338,11 +255,9 @@ bool validPosition(std::string string)
         return false;
     }
 
-    if (row >= 0 && row <= BOARD_SIZE - 1 
-            && col >= 0 && col <= BOARD_SIZE - 1)
+    if (row >= 0 && row <= BOARD_SIZE - 1 && col >= 0 && col <= BOARD_SIZE - 1)
     {
         return true;
-        
     }
     else
     {
@@ -352,7 +267,8 @@ bool validPosition(std::string string)
 
 bool samePosCheck(vector<std::string> string)
 {
-    for(unsigned int index = 0; index < string.size(); ++index){
+    for (unsigned int index = 0; index < string.size(); ++index)
+    {
         for (unsigned int next = index + 1; next < string.size(); ++next)
         {
             if (string[index].compare(string[next]) == 0)
@@ -360,7 +276,7 @@ bool samePosCheck(vector<std::string> string)
                 return false;
             }
         }
-	}
+    }
     return true;
     std::cout << "no same pos" << std::endl;
 }

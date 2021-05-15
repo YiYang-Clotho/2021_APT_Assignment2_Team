@@ -8,6 +8,39 @@ GameFile::~GameFile()
 {
 }
 
+void GameFile::quit()
+{
+  std::cout << '\n';
+  std::cout << "Goodbye" << '\n';
+  exit(0);
+}
+
+std::string GameFile::checkEOF()
+{
+  std::string output = "";
+  std::cout << ">";
+  std::getline(std::cin, output);
+  if(std::cin.eof())
+  {
+    quit();
+  }
+  return output;
+}
+
+void GameFile::getSelectionFromMenu()
+{
+	std::cout << "Menu" << std::endl;
+	std::cout << "----" << std::endl;
+	std::cout << "1. New Game" << std::endl;
+	std::cout << "2. Load Game" << std::endl;
+	std::cout << "3. Credits (Show student information)" << std::endl;
+	std::cout << "4. Quit" << std::endl;
+
+	// int input;
+	// std::cin >> input;
+	// return input;
+}
+
 // Save Game data to file 
 void GameFile::saveGame(std::string savePath, Player *currentPlayer, 
 	Player *player1, Player *player2, LinkedList *tileBag, Board *board)
@@ -88,13 +121,13 @@ void GameFile::saveGame(std::string savePath, Player *currentPlayer,
 	file << std::endl;
 
 	// Save TileBag
-	for (int count = 1; count < tileBag->getSize(); count++)
+	for (int count = 1; count <= tileBag->getSize(); count++)
 	{
 		Tile *tmpTile = tileBag->getTile(count);
 		Colour colour = tmpTile->colour;
 		Shape shape = tmpTile->shape;
 		file << colour << shape;
-		if (count < tileBag->getSize() - 1)
+		if (count < tileBag->getSize())
 		{
 			file << ',';
 		}
@@ -129,7 +162,6 @@ bool GameFile::loadGame(std::string loadPath)
 	int p2count = 0;
 
 	int totalTiles = 0;
-	std::cout << "totalTiles: " << totalTiles << std::endl;
 	std::ifstream inStream(loadPath, std::ios_base::in);
 	if (!inStream.is_open())
 	{
@@ -170,7 +202,6 @@ bool GameFile::loadGame(std::string loadPath)
 		else if (count == 2)
 		{
 			vector<std::string> vecTiles = split(s, ',');
-			std::cout << "tile num: " << vecTiles.size() << std::endl;
 			for (unsigned int index = 0; index < vecTiles.size(); index++)
 			{	
 				if (!validTile(vecTiles[index]))
@@ -183,7 +214,6 @@ bool GameFile::loadGame(std::string loadPath)
 					totalTiles++;
 				}
 			}
-			std::cout << "totalTiles: " << totalTiles << std::endl;
 			count++;
 		}
 		else if (count == 3)
@@ -212,7 +242,6 @@ bool GameFile::loadGame(std::string loadPath)
 		else if (count == 5)
 		{
 			vector<std::string> vecTiles = split(s, ',');
-			std::cout << "tile num: " << vecTiles.size() << std::endl;
 			for (unsigned int index = 0; index < vecTiles.size(); index++)
 			{	
 				if (!validTile(vecTiles[index]))
@@ -225,7 +254,6 @@ bool GameFile::loadGame(std::string loadPath)
 					totalTiles++;
 				}
 			}
-			std::cout << "totalTiles: " << totalTiles << std::endl;
 			count++;
 		}
 		else if (count == 6)
@@ -244,59 +272,63 @@ bool GameFile::loadGame(std::string loadPath)
 		{
 
 			vector<std::string> placeedInstruction = split(s, ',', ' ');
-			std::cout << "tile num: " << placeedInstruction.size() << std::endl;
 			vector<std::string> samePosChek;
 			std::string tmpTileString = "";
 			std::string posString = "";
-			for (unsigned int index = 0; 
-						index < placeedInstruction.size(); index++)
+			if (placeedInstruction.size() == 0)
 			{
-				// check tile
-				tmpTileString = "";
-				tmpTileString += placeedInstruction[index][0];
-				tmpTileString += placeedInstruction[index][1];
-				if (!validTile(tmpTileString))
-				{
-					return false;
-				}
-
-				// check '@'
-				if (placeedInstruction[index][2] != '@')
-				{
-					return false;
-				}
-
-				// check position
-				posString = "";
-				for (unsigned int pos = 3; 
-						pos < placeedInstruction[index].size(); pos++)
-				{
-					posString += placeedInstruction[index][pos];
-				}
-
-				if (!validPosition(posString))
-				{
-					return false;
-				}
-				else
-				{
-					samePosChek.push_back(posString);
-					boardTileCount++;
-					totalTiles++;
-				}
-				std::cout << "totalTiles: " << totalTiles << std::endl;
+				count++;
 			}
-			if (!samePosCheck(samePosChek))
+			else
 			{
-				return false;
+				for (unsigned int index = 0; 
+							index < placeedInstruction.size(); index++)
+				{
+					// check tile
+					tmpTileString = "";
+					tmpTileString += placeedInstruction[index][0];
+					tmpTileString += placeedInstruction[index][1];
+					if (!validTile(tmpTileString))
+					{
+						return false;
+					}
+
+					// check '@'
+					if (placeedInstruction[index][2] != '@')
+					{
+						return false;
+					}
+
+					// check position
+					posString = "";
+					for (unsigned int pos = 3; 
+							pos < placeedInstruction[index].size(); pos++)
+					{
+						posString += placeedInstruction[index][pos];
+					}
+
+					if (!validPosition(posString))
+					{
+						return false;
+					}
+					else
+					{
+						samePosChek.push_back(posString);
+						boardTileCount++;
+						totalTiles++;
+					}
+				}
+				if (!samePosCheck(samePosChek))
+				{
+					return false;
+				}
+				count++;
 			}
-			count++;
 		}
 		else if (count == 8)
 		{
 			vector<std::string> tileBag = split(s, ',');
 			
-			std::cout << "tileBag size: " << tileBag.size() << std::endl;
 
 			for (unsigned int index = 0; index < tileBag.size(); index++)
 			{	
@@ -310,7 +342,6 @@ bool GameFile::loadGame(std::string loadPath)
 					totalTiles++;
 				}
 			}
-			std::cout << "totalTiles: " << totalTiles << std::endl;
 
 			count++;
 		}
@@ -323,15 +354,9 @@ bool GameFile::loadGame(std::string loadPath)
 		}
 	}
 
-	std::cout << "totalTiles: " << totalTiles << std::endl;
-	std::cout << "boardTileCount: " << boardTileCount << std::endl;
-	std::cout << "tileBagCount: " << tileBagCount << std::endl;
-	std::cout << "p1count: " << p1count << std::endl;
-	std::cout << "p2count: " << p2count << std::endl;
-
 	if (totalTiles == TOTAL_TILES_NUM)
 	{
-		std::cout << "Qwirkle game successfully loaded" << std::endl;
+		std::cout << "Qwirkle game is able to load" << std::endl;
 		return true;
 	}
 	else
@@ -349,11 +374,10 @@ bool GameFile::loadGame(std::string loadPath)
 	// 	std::cout << "Qwirkle game successfully loaded" << std::endl;
 	// }
 
-
 }
 
 
-void GameFile::loadGameInfo(std::string loadPath, Player *currentPlayer, 
+void GameFile::loadGameInfo(std::string loadPath, Player **currentPlayer, 
 		Player *player1, Player *player2, LinkedList *tileBag, Board *board)
 {
 	std::ifstream inStream(loadPath, std::ios_base::in);
@@ -364,40 +388,44 @@ void GameFile::loadGameInfo(std::string loadPath, Player *currentPlayer,
 
 	std::string s = "";
 	int count = 0;
-
+	std::cout << "start loading game info" << std::endl;
 	// read line by line and set the value
 	while (getline(inStream, s))
-	{
+	{	
+		std::cout << "loading the " << count << "st line." << std::endl;
 		if (count == 0)
 		{
 			player1->setName(s);
 			count++;
 		}
-		if (count == 1)
+		else if (count == 1)
 		{
 			int score;
 			std::stringstream ss;  
-			ss << s;  
+			ss << s;
 			ss >> score;
 			player1->setScore(score);
 			count++;
 		}
-		if (count == 2)
+		else if (count == 2)
 		{
 			LinkedList *tiles = new LinkedList();
 			vector<std::string> vecTiles = split(s, ',');
+			
 			for (unsigned int index = 0; index < vecTiles.size(); index++)
 			{
+				Node *tmpNode = new Node();
+				Tile *tmpTile = new Tile();
 				Colour colour = vecTiles[index][0];
 				Shape shape = vecTiles[index][1] - '0';
-				Node *tmpNode = new Node();
-				tmpNode->tile->colour = colour;
-				tmpNode->tile->shape = shape;
+				tmpTile->colour = colour;
+				tmpTile->shape = shape;
+				tmpNode->tile = tmpTile;
+				tmpNode->next = nullptr;
+				tmpNode->prev = nullptr;
 				if (index == 0)
 				{
 					tiles->setHead(tmpNode);
-					tiles->head->next = nullptr;
-					tiles->head->prev = nullptr;
 				}
 				else
 				{
@@ -407,12 +435,12 @@ void GameFile::loadGameInfo(std::string loadPath, Player *currentPlayer,
 			player1->setTilesInHand(tiles);
 			count++;
 		}
-		if (count == 3)
+		else if (count == 3)
 		{
 			player2->setName(s);
 			count++;
 		}
-		if (count == 4)
+		else if (count == 4)
 		{
 			int score;
 			std::stringstream ss;  
@@ -421,22 +449,23 @@ void GameFile::loadGameInfo(std::string loadPath, Player *currentPlayer,
 			player2->setScore(score);
 			count++;
 		}
-		if (count == 5)
+		else if (count == 5)
 		{
 			LinkedList *tiles = new LinkedList();
 			vector<std::string> vecTiles = split(s, ',');
+			
 			for (unsigned int index = 0; index < vecTiles.size(); index++)
 			{
+				Node *tmpNode = new Node();
+				Tile *tmpTile = new Tile();
 				Colour colour = vecTiles[index][0];
 				Shape shape = vecTiles[index][1] - '0';
-				Node *tmpNode = new Node();
-				tmpNode->tile->colour = colour;
-				tmpNode->tile->shape = shape;
+				tmpTile->colour = colour;
+				tmpTile->shape = shape;
+				tmpNode->tile = tmpTile;
 				if (index == 0)
 				{
 					tiles->setHead(tmpNode);
-					tiles->head->next = nullptr;
-					tiles->head->prev = nullptr;
 				}
 				else
 				{
@@ -444,65 +473,77 @@ void GameFile::loadGameInfo(std::string loadPath, Player *currentPlayer,
 				}
 			}
 			player2->setTilesInHand(tiles);
+			
 			count++;
 		}
-		if (count == 6)
+		else if (count == 6)
 		{
 			count++;
 		}
-		if (count == 7)
+		else if (count == 7)
 		{
-			vector<std::string> placeedInstruction = split(s, ',');
-			for (unsigned int index = 0; 
-						index < placeedInstruction.size(); index++)
+			vector<std::string> placeedInstruction = split(s, ',', ' ');
+			if (placeedInstruction.size() == 0)
 			{
-				// set tile
-				std::string tmpTileString = "";
-				tmpTileString = placeedInstruction[0];
-				tmpTileString += placeedInstruction[1];
-				Colour colour = tmpTileString[0];
-				Shape shape = tmpTileString[1] - '0';
-
-				// set position
-				std::string posString = "";
-				for (unsigned int pos = 3; 
-						pos < placeedInstruction.size(); pos++)
-				{
-					posString +=placeedInstruction[pos];
-				}
-
-				int row = 0;
-				int col = 0;
-				int digits = posString[2] - '0';
-				int tens = (posString[1] - '0') * 10;
-
-				row = posString[0] - '0' - ASCII_DIF;
-				if (posString.size() == 2)
-				{
-					col = posString[1];
-				}
-				else if (posString.size() == 3)
-				{
-        			col = tens + digits;
-				}
-
-				board->putTile2Board(colour, shape, row, col);
+				count++;
 			}
-			count++;
+			else
+			{
+				for (unsigned int index = 0; 
+							index < placeedInstruction.size(); index++)
+				{
+					// set tile
+					std::string tmpTileString = "";
+					tmpTileString = placeedInstruction[index][0];
+					tmpTileString += placeedInstruction[index][1];
+					Colour colour = tmpTileString[0];
+					Shape shape = tmpTileString[1] - '0';
+
+					// set position
+					std::string posString = "";
+					for (unsigned int pos = 3; 
+							pos < placeedInstruction[index].size(); pos++)
+					{
+						posString +=placeedInstruction[index][pos];
+					}
+					int row = 0;
+					int col = 0;
+					row = posString[0] - 'A';
+					if (posString.size() == 2)
+					{
+						col = posString[1] - '0';
+					}
+					else if (posString.size() == 3)
+					{
+						int digits = posString[2] - '0';
+						int tens = (posString[1] - '0') * 10;
+						col = tens + digits;
+					}
+					std::cout << "tile info and position calculated: " << row << " " << col << " " << colour << " " << shape << std::endl;
+					board->putTile2Board(colour, shape, row, col);
+					board->printBoard();
+				}
+				count++;
+			}
+			
 		}
-		if (count == 8)
+		else if (count == 8)
 		{
 			vector<std::string> tilesInBag = split(s, ',');
 			for (unsigned int index = 0; index < tilesInBag.size(); index++)
 			{	
 				Node *tmpNode = new Node();
+				Tile *tmpTile = new Tile();
 				Colour colour = tilesInBag[index][0];
 				Shape shape = tilesInBag[index][1] - '0';
-				tmpNode->tile->colour = colour;
-				tmpNode->tile->colour = shape;
+				tmpTile->colour = colour;
+				tmpTile->shape = shape;
+				tmpNode->tile = tmpTile;
 				if (index == 0)
 				{
 					tileBag->setHead(tmpNode);
+					tileBag->head->next = nullptr;
+					tileBag->head->prev = nullptr;
 				}
 				else
 				{
@@ -511,16 +552,22 @@ void GameFile::loadGameInfo(std::string loadPath, Player *currentPlayer,
 			}
 			count++;
 		}
-		if (count == 9)
+		else if (count == 9)
 		{
+			std::cout << count << std::endl;
 			if (s.compare(player1->getName()) == 0)
 			{
-				currentPlayer = player1;
+				std::cout << count << std::endl;
+				*currentPlayer = player1;
+				std::cout << count << std::endl;
 			}
-			else
+			else if (s.compare(player2->getName()) == 0)
 			{
-				currentPlayer = player2;
+				std::cout << count << std::endl;
+				*currentPlayer = player2;
+				std::cout << count << std::endl;
 			}
+			
 		}
 	}
 }
@@ -549,19 +596,27 @@ vector<std::string> GameFile::split(std::string string, char delim1, char delim2
 {
 	vector<std::string> value;
 	std::string tmp = "";
-	for (unsigned int index = 0; index < string.size(); index++)
+	if (string.compare("") == 0)
 	{
-		if (string[index] != delim1 && string[index] != delim2)
-		{
-			tmp += string[index];
-		}
-		else if (string[index] == delim1)
-		{
-			value.push_back(tmp);
-			tmp = "";
-		}
+		value.resize(0);
+		std::cout << "value size: " << value.size() <<std::endl;
 	}
-	value.push_back(tmp);
+	else
+	{
+		for (unsigned int index = 0; index < string.size(); index++)
+		{
+			if (string[index] != delim1 && string[index] != delim2)
+			{
+				tmp += string[index];
+			}
+			else if (string[index] == delim1)
+			{
+				value.push_back(tmp);
+				tmp = "";
+			}
+		}
+		value.push_back(tmp);
+	}
 	return value;
 }
 

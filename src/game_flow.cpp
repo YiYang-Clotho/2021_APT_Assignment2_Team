@@ -7,20 +7,6 @@ void qwirkle()
 	std::cout << "-------------------" << std::endl;
 }
 
-int getSelectionFromMenu()
-{
-	std::cout << "Menu" << std::endl;
-	std::cout << "----" << std::endl;
-	std::cout << "1. New Game" << std::endl;
-	std::cout << "2. Load Game" << std::endl;
-	std::cout << "3. Credits (Show student information)" << std::endl;
-	std::cout << "4. Quit" << std::endl;
-
-	int input;
-	std::cin >> input;
-	return input;
-}
-
 void newGame()
 {
 	std::string player1_name, player2_name;
@@ -42,6 +28,7 @@ void newGame()
 		std::cout << "Invalid Input" << std::endl;
 		return;
 	}
+    std::cin.ignore();
 	std::cout << "Let's Play!" << std::endl;
 
 	// initialise players
@@ -60,83 +47,127 @@ void newGame()
 	// initialise tiles in players' hands
 	player1->initialiseTilesInHand(tileBag);
 	player2->initialiseTilesInHand(tileBag);
-
-	int tilesBagCounter = ROUND_NUM * 2;
-	int p1Counter = TILES_IN_HAND_NUM;
-	int p2Counter = TILES_IN_HAND_NUM;
+    
 	int playerFlag = 1;
 	std::string instructure;
     Player *currentPlayer = new Player();
 	while (tileBag->getSize() > 0 
 		&& ( player1->getTilesInHand()->getSize() > 0 
-		|| player2->getTilesInHand()->getSize() > 0 ))
+		|| player2->getTilesInHand()->getSize() > 0 ) && !std::cin.eof())
 	{
         int inputCount = 0;
 		if (tileBag->getSize() > 0)
 		{
-			for (unsigned int turn = 0; turn < ROUND_NUM; turn++)
-			{
-				if (playerFlag == 1)
-				{
-                    currentPlayer = player1;
-                    game(currentPlayer, player1, player2, board, tileBag,
-                                            instructure, tilesBagCounter, 
-                                        p1Counter, p2Counter, inputCount);
-                    
-                    inputCount = 1;
-                    playerFlag = 2;     
-				}
-				if (playerFlag == 2)
-				{
-                    currentPlayer = player2;
-                    game(currentPlayer, player1, player2, board, tileBag,
-                                            instructure, tilesBagCounter, 
-                                        p1Counter, p2Counter, inputCount);
-                    playerFlag = 1;    
-				}
-			}
+			if (playerFlag == 1)
+            {
+                currentPlayer = player1;
+                game(currentPlayer, player1, player2, board, tileBag,
+                                        instructure, inputCount);
+                
+                inputCount = 1;
+                playerFlag = 2;     
+            }
+            if (playerFlag == 2)
+            {
+                currentPlayer = player2;
+                game(currentPlayer, player1, player2, board, tileBag,
+                                        instructure, inputCount);
+                playerFlag = 1;    
+            }
 		}
 		else
 		{
-			for (unsigned emptyBagCounter = 0;
-				 emptyBagCounter < EMPTY_TILE_BAG_ROUND_NUM; 
-                                            emptyBagCounter++)
-			{
-				for (unsigned int turn = 0; turn < TILES_IN_HAND_NUM; turn++)
-				{
-					if (playerFlag == 1)
-					{
-                        currentPlayer = player1;
-                        
-                        game(currentPlayer, player1, player2, board, tileBag,
-                                            instructure, tilesBagCounter, 
-                                        p1Counter, p2Counter, inputCount);
-                        playerFlag = 2;
-						
-					}
-					if (playerFlag == 2)
-					{
-                        currentPlayer = player2;
-                        
-                        game(currentPlayer, player1, player2, board, tileBag,
-                                            instructure, tilesBagCounter, 
-                                        p1Counter, p2Counter, inputCount);
-                        playerFlag = 1;
-					}
-                
-				}
-			}
+			for (unsigned int turn = 0; turn < TILES_IN_HAND_NUM; turn++)
+            {
+                if (playerFlag == 1)
+                {
+                    currentPlayer = player1;
+                    
+                    game(currentPlayer, player1, player2, board, tileBag,
+                                        instructure, inputCount);
+                    playerFlag = 2;
+                    
+                }
+                if (playerFlag == 2)
+                {
+                    currentPlayer = player2;
+                    
+                    game(currentPlayer, player1, player2, board, tileBag,
+                                        instructure, inputCount);
+                    playerFlag = 1;
+                }
+            }
 		}
 	}
-    
     
     checkEnd(tileBag, player1, player2);
 }
 
-void continueGame(Player *currentPlayer, 
+void continueGame(Player **currentPlayer, 
 		Player *player1, Player *player2, LinkedList *tileBag, Board *board)
-{
+{   
+    int playerFlag = 0;
+    if ((*currentPlayer)->getName().compare(player1->getName()) == 0)
+    {
+        playerFlag = 1;
+    }
+    else
+    {
+        playerFlag = 2;
+    }
+
+    std::string instructure;
     
+    while (tileBag->getSize() > 0 
+		&& ( player1->getTilesInHand()->getSize() > 0 
+		|| player2->getTilesInHand()->getSize() > 0 ) && !std::cin.eof())
+	{
+        int inputCount = 0;
+		if (tileBag->getSize() > 0)
+		{
+			if (playerFlag == 1)
+            {
+                *currentPlayer = player1;
+                game(*currentPlayer, player1, player2, board, tileBag,
+                                        instructure, inputCount);
+                
+                inputCount = 1;
+                playerFlag = 2;     
+            }
+            if (playerFlag == 2)
+            {
+                *currentPlayer = player2;
+                game(*currentPlayer, player1, player2, board, tileBag,
+                                        instructure, inputCount);
+                playerFlag = 1;    
+            }
+		}
+		else
+		{
+			for (unsigned int turn = 0; turn < TILES_IN_HAND_NUM; turn++)
+            {
+                if (playerFlag == 1)
+                {
+                    *currentPlayer = player1;
+                    
+                    game(*currentPlayer, player1, player2, board, tileBag,
+                                        instructure, inputCount);
+                    playerFlag = 2;
+                    
+                }
+                if (playerFlag == 2)
+                {
+                    *currentPlayer = player2;
+                    
+                    game(*currentPlayer, player1, player2, board, tileBag,
+                                        instructure, inputCount);
+                    playerFlag = 1;
+                }
+            }
+		}
+	}
+    
+    checkEnd(tileBag, player1, player2);
 }
 
 void credits()
@@ -234,6 +265,7 @@ void placeTile(Player *currentPlayer, Board *board,
     {
         board->putTile2Board(colour, shape, row, col);
         earnedScore = rule->scoreRules(row, col, board, turn);
+        std::cout << "earnedScore" << earnedScore << std::endl;
     }
     else
     {
@@ -248,8 +280,7 @@ void placeTile(Player *currentPlayer, Board *board,
 }
 
 void game(Player *currentPlayer, Player *player1, Player *player2, 
-            Board *board, LinkedList *tileBag, std::string instructure, 
-            int tilesBagCounter, int p1Counter, int p2Counter, int inputCount)
+    Board *board, LinkedList *tileBag, std::string instructure, int inputCount)
 {
     // turn
     std::cout << std::endl;
@@ -263,12 +294,6 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
     currentPlayer->printTilesInHand();
 
     // input
-    if (inputCount == 0)
-    {
-        std::cin.ignore();  
-        inputCount = 1;
-        
-    }
     instructure.clear();
               
     std::getline(std::cin, instructure);
@@ -278,21 +303,6 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
     if (toDo == 1)
     {
         placeTile(currentPlayer, board, tileBag, instructure);
-        if (tilesBagCounter != 0)
-        {
-            tilesBagCounter--;
-        }
-        else
-        {
-            if (currentPlayer->getName().compare(player1->getName()) == 1)
-            {
-                p1Counter--;
-            }
-            else
-            {
-                p2Counter--;
-            }
-        }
     }
     else if (toDo == 2)
     {
@@ -307,32 +317,18 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
         GameFile *file = new GameFile();
         file->saveGame(fileName, currentPlayer, 
                             player1, player2, tileBag, board);
-        // quit
+        // continue game
     }
-
-}
-
-//=============Helper Method======================
-
-/*
-*  split string to vector based on sep
-*/
-std::vector<std::string> split(std::string input, std::string delimiter) {
-    std::vector<std::string> tokens;
-    size_t pos = 0;
-    std::string token;
-    while ((pos = input.find(delimiter)) != std::string::npos) {
-        token = input.substr(0, pos);
-        tokens.push_back(token);
-        input.erase(0, pos + delimiter.length());
+    else if (toDo == 0)
+    {
+        std::cout << "Invalid input" << std::endl;
     }
-    tokens.push_back(input);
-    return tokens;
+    else if (toDo == 4)
+    {
+        std::cout << "Goodbye" << std::endl;
+        std::cin.eof();
+    }
+    
+
 }
 
-Tile tokenToTile(std::string token) {
-    Tile tile;
-    tile.colour = token[0];
-    tile.shape = token[1] - '0';
-    return tile;
-}

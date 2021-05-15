@@ -1,5 +1,9 @@
 #include "Rules.h"
 #include <iostream>
+#define UP      board->position[row - 1][col]
+#define RIGHT   board->position[row][col + 1]
+#define DOWN    board->position[row + 1][col]
+#define LEFT    board->position[row][col - 1]
 #define QWIRKLE 6
 
 using std::cout;
@@ -15,31 +19,48 @@ Rules::Rules(){
 bool Rules::boardRules(unsigned int row, unsigned int col, Board *board, 
                 Colour colour, Shape shape, int turn)
 {
-    bool check = true;
      
+    if (board->position[row][col]->tile != nullptr)
+    {
+        std::cout << "Cannot place the tile here. There is already a tile on this position." << std::endl;
+        return false;
+    }
+
     if (turn == 0)
     {
-        return check;
+        return true;
     }
     else
     {
+        bool hasNeighbor = hasNeighbour(row, col, board);
+        if (!hasNeighbor)
+        {
+            std::cout << "Cannot place the tile here. Should have at least one neighbour." << std::endl;
+            return false;
+        }
+        
         bool horizontalCheck = horCheck(row, col, board, colour, shape);
         bool verticalCheck = verCheck(row, col, board, colour, shape);
 
         if (horizontalCheck == false || verticalCheck == false)
         {
-            check = false;
+            return false;
         }
         
     }
-
-    if (board->position[row][col]->tile != nullptr)
-    {
-        check = false;
-    }
-
-    return check;
+    return true;
     
+}
+
+bool Rules::hasNeighbour(int row, int col, Board *board)
+{
+    
+    if (UP->tile == nullptr && DOWN->tile == nullptr 
+            && LEFT->tile == nullptr && RIGHT->tile == nullptr)
+    {
+        return false;
+    }
+    return true;
 }
 
 bool Rules::verCheck(int row, int col, Board *board, 
@@ -111,10 +132,12 @@ bool Rules::verCheck(int row, int col, Board *board,
     if (countColour == verArray.size() || countShape == verArray.size())
     {
         return true;
+        std::cout << "verticalCheck true" << std::endl;
     }
     else
     {
         return false;
+        std::cout << "verticalCheck false" << std::endl;
     }
 }
 
@@ -187,10 +210,12 @@ bool Rules::horCheck(int row, int col, Board *board,
     if (countColour == horArray.size() || countShape == horArray.size())
     {
         return true;
+        std::cout << "horizontalCheck true" << std::endl;
     }
     else
     {
         return false;
+        std::cout << "horizontalCheck false" << std::endl;
     }
 }
 

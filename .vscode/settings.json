@@ -69,5 +69,6 @@
         "numeric": "cpp",
         "random": "cpp",
         "regex": "cpp"
-    }
+    },
+    "editor.wordWrap": "wordWrapColumn"
 }

@@ -12,13 +12,16 @@ class GameFile {
 public:
 	GameFile();
 	~GameFile();
+	void quit();
+	std::string checkEOF();
+	void getSelectionFromMenu();
 	// Save Game data to file 
 	void saveGame(std::string savePath, Player *currentPlayer, 
 		Player *player1, Player *player2, LinkedList *tileBag, Board *board);
 
 	// Load history Game data from file 
 	bool loadGame(std::string loadPath);
-	void loadGameInfo(std::string loadPath, Player *currentPlayer, 
+	void loadGameInfo(std::string loadPath, Player **currentPlayer, 
 		Player *player1, Player *player2, LinkedList *tileBag, Board *board);
 
 private:
