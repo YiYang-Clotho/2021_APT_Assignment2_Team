@@ -7,7 +7,7 @@ Player::Player()
 {
 	this->name = "";
 	this->score = 0;
-	this->tilesInHand = nullptr;
+	this->tilesInHand =new LinkedList();
 	this->lastPlayedTile = nullptr;
 }
 
@@ -15,6 +15,8 @@ Player::Player()
 Player::Player(std::string name)
 {
 	this->name = name;
+	score=0;
+	this->tilesInHand = new LinkedList();
 }
 
 // Used to reload from file
@@ -29,7 +31,24 @@ bool Player::addTile(Tile *tile)
 {
 	if (tile == NULL)
 		return false;
-	this->tilesInHand->addTileToEnd(tile);
+
+	if (this->tilesInHand->head == nullptr)
+	{
+
+		Node* node = new Node();
+		node->setTile(tile);
+		this->tilesInHand->setHead(node);
+		this->tilesInHand->head->next = nullptr;
+		this->tilesInHand->head->prev = nullptr;
+	}
+	else
+	{
+		Node* node = new Node();
+		node->setTile(tile);
+		node->next = nullptr;
+		node->prev = nullptr;
+		this->tilesInHand->addNodeToEnd(node);
+	}
 	return true;
 }
 
