@@ -315,7 +315,6 @@ void BaseGame::playTurn() {
     checkEnd();
 }
 
-
 void BaseGame::load(std::string filename) {
     std::string line;
     std::ifstream infile(filename);
