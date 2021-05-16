@@ -23,24 +23,38 @@ int main(void)
 		{
 			std::string fileName;
 			cout << "Enter the filename from which load a game" << endl;
-			std::cin >> fileName;
+			
 			GameFile *file = new GameFile();
-			if (!file->loadGame(fileName))
+			do
 			{
-				std::cout << "Qwirkle game loaded failed" << std::endl;
-			}
-			else
-			{
-				std::cout << "Qwirkle game successfully loaded" << std::endl;
-				Player *tempPlayer = new Player(), *player1 = new Player(),
-					   *player2 = new Player(), **currentPlayer = &tempPlayer;
-				LinkedList *tileBag = new LinkedList();
-				Board *board = new Board();
-				file->loadGameInfo(fileName, currentPlayer, player1,
-								   player2, tileBag, board);
+				std::getline(std::cin, fileName);
+				
+				if (std::cin.eof())
+				{
+					std::cout << std::endl;
+					std::cout << "Goodbye" << std::endl;
+					exit(0);
+				}
+				else if (!file->loadGame(fileName))
+				{
+					std::cout << std::endl;
+					std::cout << "Qwirkle game loaded failed." << std::endl;
+					std::cout << "Please try again." << std::endl;
+				}
+				
+			} while (!file->loadGame(fileName));
+			
+			std::cout << std::endl;
+			std::cout << "Qwirkle game successfully loaded" << std::endl;
+			Player *tempPlayer = new Player(), *player1 = new Player(),
+					*player2 = new Player(), **currentPlayer = &tempPlayer;
+			LinkedList *tileBag = new LinkedList();
+			Board *board = new Board();
+			file->loadGameInfo(fileName, currentPlayer, player1,
+								player2, tileBag, board);
 
-				continueGame(currentPlayer, player1, player2, tileBag, board);
-			}
+			continueGame(currentPlayer, player1, player2, tileBag, board);
+			
 			checkMenu = true;
 		}
 		else if (selection == "3")
@@ -58,7 +72,9 @@ int main(void)
 		}
 		else
 		{
-			std::cout << "Invalid input" << std::endl;
+			std::cout << std::endl;
+			std::cout << "Invalid input, please try again." << std::endl;
+			checkMenu = true;
 		}
 
 	} while (checkMenu == true);

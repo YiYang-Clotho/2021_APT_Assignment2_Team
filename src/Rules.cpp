@@ -22,7 +22,9 @@ bool Rules::boardRules(unsigned int row, unsigned int col, Board *board,
 
     if (board->position[row][col]->tile != nullptr)
     {
-        std::cout << "Cannot place the tile here. There is already a tile on this position." << std::endl;
+        std::cout << std::endl;
+        std::cout << "Cannot place the tile here." <<
+        "There is already a tile on this position." << std::endl;
         return false;
     }
 
@@ -35,13 +37,13 @@ bool Rules::boardRules(unsigned int row, unsigned int col, Board *board,
         bool hasNeighbor = hasNeighbour(row, col, board);
         if (!hasNeighbor)
         {
-            std::cout << "Cannot place the tile here. Should have at least one neighbour." << std::endl;
+            std::cout << std::endl;
+            std::cout << "Cannot place the tile here." <<
+            "Should have at least one neighbour." << std::endl;
             return false;
         }
-
         bool horizontalCheck = horCheck(row, col, board, colour, shape);
         bool verticalCheck = verCheck(row, col, board, colour, shape);
-
         if (horizontalCheck == false || verticalCheck == false)
         {
             return false;
@@ -52,19 +54,25 @@ bool Rules::boardRules(unsigned int row, unsigned int col, Board *board,
 
 bool Rules::hasNeighbour(int row, int col, Board *board)
 {
-
-    if (UP->tile == nullptr && DOWN->tile == nullptr && LEFT->tile == nullptr && RIGHT->tile == nullptr)
+    if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE)
     {
         return false;
     }
-    return true;
+    else if ((row - 1 >= 0 && UP->tile != nullptr)
+        || (row + 1 <= BOARD_SIZE - 1 && DOWN->tile != nullptr )
+        || (col - 1 >= 0 && LEFT->tile != nullptr )
+        || (col + 1 <= BOARD_SIZE - 1 && RIGHT->tile != nullptr ))
+    {
+        return true;
+    }
+    
+    return false;
 }
 
 bool Rules::verCheck(int row, int col, Board *board,
                      Colour colour, Shape shape)
 {
     vector<string> verArray;
-
     // up check, add tile's colour and shape in the array
     int up = row - 1;
     string tmpStr = "";
@@ -138,7 +146,6 @@ bool Rules::horCheck(int row, int col, Board *board,
                      Colour colour, Shape shape)
 {
     vector<string> horArray;
-
     // up check, add tile's colour and shape in the array
     int left = col - 1;
     string tmpStr = "";
@@ -228,6 +235,13 @@ int Rules::scoreRules(int row, int col, Board *board, int turn)
     }
     scores = verScores + horScores;
 
+    if (verScores == 6 || horScores == 6)
+    {
+        std::cout << std::endl;
+        std::cout << "QWIRKLE!!!" << std::endl;
+        std::cout << std::endl;
+    }
+
     return scores;
 }
 
@@ -269,9 +283,6 @@ int Rules::verScore(int row, int col, Board *board)
     if (score == QWIRKLE)
     {
         score += QWIRKLE;
-        std::cout << std::endl;
-        std::cout << "QWIRKLE!!!" << std::endl;
-        std::cout << std::endl;
     }
     if (score == 1)
     {
@@ -320,9 +331,6 @@ int Rules::horScore(int row, int col, Board *board)
     if (score == QWIRKLE)
     {
         score += QWIRKLE;
-        std::cout << std::endl;
-        std::cout << "QWIRKLE!!!" << std::endl;
-        std::cout << std::endl;
     }
     if (score == 1)
     {

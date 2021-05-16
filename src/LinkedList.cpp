@@ -113,6 +113,7 @@ void LinkedList::remove(int position)
    }
    else
    {
+      std::cout << std::endl;
       std::cerr << "Invalid Input!" << std::endl;
    }
 }

@@ -150,7 +150,7 @@ bool GameFile::loadGame(std::string loadPath)
 	std::ifstream inStream(loadPath, std::ios_base::in);
 	if (!inStream.is_open())
 	{
-		std::cout << "Game file open fails!" << std::endl;
+		return false;
 	}
 
 	std::string s = "";
@@ -354,16 +354,16 @@ void GameFile::loadGameInfo(std::string loadPath, Player **currentPlayer,
 	std::ifstream inStream(loadPath, std::ios_base::in);
 	if (!inStream.is_open())
 	{
+		std::cout << std::endl;
+		std::cout << "The file is already opened." << std::endl;
 		std::cout << "Game file open fails!" << std::endl;
 	}
 
 	std::string s = "";
 	int count = 0;
-	std::cout << "start loading game info" << std::endl;
 	// read line by line and set the value
 	while (getline(inStream, s))
 	{
-		std::cout << "loading the " << count << "st line." << std::endl;
 		if (count == 0)
 		{
 			player1->setName(s);
@@ -491,7 +491,6 @@ void GameFile::loadGameInfo(std::string loadPath, Player **currentPlayer,
 						col = tens + digits;
 					}
 					board->putTile2Board(colour, shape, row, col);
-					board->printBoard();
 				}
 				count++;
 			}

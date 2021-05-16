@@ -35,8 +35,13 @@ bool isValidPlaceTile(std::string input, Player *player)
         {
             return false;
         }
+        else if (input.compare(0, 4, "save") == 0)
+        {
+            return false;
+        }
         else
         {
+            std::cout << std::endl;
             std::cout << "Invalid input format for placing a tile." << std::endl;
             return false;
         }
@@ -91,8 +96,13 @@ bool isValidReplace(std::string input, Player *player)
         {
             return false;
         }
+        else if (input.compare(0, 4, "save") == 0)
+        {
+            return false;
+        }
         else
         {
+            std::cout << std::endl;
             std::cout << "Invalid input format for replacing a tile." << std::endl;
             return false;
         }
@@ -160,8 +170,14 @@ bool isQuit(std::string input)
 // quit return 4
 
 int checkInstruction(std::string input, Player *player)
-{
-    if (isQuit(input))
+{   
+    if (std::cin.eof())
+    {
+        std::cout << std::endl;
+        std::cout << "Goodbye" << std::endl;
+        exit(0);
+    }
+    else if (isQuit(input))
     {
         std::cout << std::endl;
         std::cout << "Goodbye" << std::endl;
@@ -175,18 +191,19 @@ int checkInstruction(std::string input, Player *player)
     {
         return CMD_SAVE;
     }
-     
     else if (isValidPlaceTile(input, player))
     {
         return CMD_PLACE_TILE;
     }
-
-    return 0;
+    else
+    {
+        return 0;
+    }
 }
 
 bool allNum(std::string string)
 {
-    for (int index = 0; index < string.size(); index++)
+    for (unsigned int index = 0; index < string.size(); index++)
     {
         int tmp = string[index] - '0';
         if (tmp >= 0 && tmp <= 9)

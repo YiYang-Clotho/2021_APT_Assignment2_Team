@@ -13,30 +13,38 @@ void newGame()
     std::cout << "Starting a New Game" << std::endl << std::endl;
 
     std::cout << "Enter a name for player 1(uppercase characters only)" << std::endl;
-    std::getline(std::cin, player1_name);
-    if (std::cin.eof())
+    
+    do
     {
-        std::cout << std::endl;
-        std::cout << "Goodbye" << std::endl;
-        exit(0);
-    }
-    else if (!isValidPlayerName(player1_name))
-    {
-        std::cerr << "Invalid Input" << std::endl;
-    }
+        std::getline(std::cin, player1_name);
+        if (std::cin.eof())
+        {
+            std::cout << std::endl;
+            std::cout << "Goodbye" << std::endl;
+            exit(0);
+        }
+        else if (!isValidPlayerName(player1_name))
+        {
+            std::cout << "Invalid name, please try again." << std::endl;
+        }
+    } while (!isValidPlayerName(player1_name));
+    
+       
     std::cout << "Enter a name for player 2(uppercase characters only)" << std::endl;
-    std::getline(std::cin, player2_name);
-    if (std::cin.eof())
+    do
     {
-        std::cout << std::endl;
-        std::cout << "Goodbye" << std::endl;
-        exit(0);
-    }
-    else if (!isValidPlayerName(player2_name))
-    {
-        std::cout << "Invalid Input" << std::endl;
-    }
-    //std::cin.ignore();
+        std::getline(std::cin, player2_name);
+        if (std::cin.eof())
+        {
+            std::cout << std::endl;
+            std::cout << "Goodbye" << std::endl;
+            exit(0);
+        }
+        else if (!isValidPlayerName(player2_name))
+        {
+            std::cout << "Invalid name, please try again." << std::endl;
+        }
+    } while (!isValidPlayerName(player2_name));
 
     // initialise players
     Player *player1 = new Player(player1_name);
@@ -238,7 +246,9 @@ void scores(Player *player1, Player *player2)
     std::cout << player2->getScore() << std::endl;
 }
 
-void placeTile(Player *currentPlayer, Board *board,
+
+// after checking the instruction, check if it's able to place the tile
+bool checkRule(Player *currentPlayer, Board *board,
                LinkedList *tileBag, std::string instructure)
 {
     int turn = 0;
@@ -247,6 +257,7 @@ void placeTile(Player *currentPlayer, Board *board,
         turn = 1;
     }
 
+    bool check = true;
     // put the tile on the board, update tiles in hand
     // update tile bag
     Colour colour = instructure[6];
@@ -267,18 +278,42 @@ void placeTile(Player *currentPlayer, Board *board,
     row = instructure[12] - '0' - ASCII_DIF;
 
     Rules *rule = new Rules();
-    bool check = rule->boardRules(row, col, board,
+    check = rule->boardRules(row, col, board,
                                   colour, shape, turn);
+    return check;
+}
+
+void placeTile(Player *currentPlayer, Board *board,
+               LinkedList *tileBag, std::string instructure)
+{
+    int turn = 0;
+    if (tileBag->getSize() < 60)
+    {
+        turn = 1;
+    }
+    // put the tile on the board, update tiles in hand
+    // update tile bag
+    Colour colour = instructure[6];
+    Shape shape = instructure[7] - '0';
+
+    int row = -1;
+    int col = -1;
+    int digits = instructure[14] - '0';
+    int tens = (instructure[13] - '0') * 10;
+    if (instructure.size() == 14)
+    {
+        col = instructure[13] - '0';
+    }
+    else if (instructure.size() == 15)
+    {
+        col = tens + digits;
+    }
+    row = instructure[12] - '0' - ASCII_DIF;
+
+    Rules *rule = new Rules();
     int earnedScore = 0;
-    if (check == true)
-    {
-        board->putTile2Board(colour, shape, row, col);
-        earnedScore = rule->scoreRules(row, col, board, turn);
-    }
-    else
-    {
-        std::cout << "Cannot place the tile in this place!" << std::endl;
-    }
+    board->putTile2Board(colour, shape, row, col);
+    earnedScore = rule->scoreRules(row, col, board, turn);
 
     currentPlayer->playOneTile(colour, shape);
     currentPlayer->getNewTile(tileBag);
@@ -302,40 +337,62 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
     currentPlayer->printTilesInHand();
 
     // input
-    instructure.clear();
+    int toDo = -1;
+    bool healperBool = true;
+    bool check = true;
+    do
+    {
+        healperBool = true;
+        instructure.clear();
+        std::getline(std::cin, instructure);
 
-    std::getline(std::cin, instructure);
+        // check instruction and do
+        toDo = checkInstruction(instructure, currentPlayer);
 
-    if (std::cin.eof())
-    {
-        std::cout << std::endl;
-        std::cout << "Goodbye" << std::endl;
-        exit(0);
-    }
+        if (std::cin.eof())
+        {
+            std::cout << std::endl;
+            std::cout << "Goodbye" << std::endl;
+            exit(0);
+        }
+        else if (toDo == 0)
+        {
+            std::cout << std::endl;
+            std::cout << "Please input again." << std::endl;
+            std::cout << std::endl;
+            healperBool = false;
+        }
+        else if (toDo == 1)
+        {
+            check = checkRule(currentPlayer, board, tileBag, instructure);
+            if (!check)
+            {
+                std::cout << std::endl;
+                std::cout << "Please input again." << std::endl;
+                std::cout << std::endl;
+                healperBool = false;
+            }
+            else
+            {
+                placeTile(currentPlayer, board, tileBag, instructure);
+            }
+        }
+        else if (toDo == 2)
+        {
+            Colour colour = instructure[8];
+            Shape shape = instructure[9] - '0';
+            currentPlayer->replaceOneTile(colour, shape, tileBag);
+        }
+        else if (toDo == 3)
+        {
+            std::string fileName = instructure.substr(5,
+                                                    instructure.size() - 5);
+            GameFile *file = new GameFile();
+            file->saveGame(fileName, currentPlayer,
+                        player1, player2, tileBag, board);
+            // continue gaming
+        }
+    } while (!healperBool);
 
-    // check instruction and do
-    int toDo = checkInstruction(instructure, currentPlayer);
-    if (toDo == 1)
-    {
-        placeTile(currentPlayer, board, tileBag, instructure);
-    }
-    else if (toDo == 2)
-    {
-        Colour colour = instructure[8];
-        Shape shape = instructure[9] - '0';
-        currentPlayer->replaceOneTile(colour, shape, tileBag);
-    }
-    else if (toDo == 3)
-    {
-        std::string fileName = instructure.substr(5,
-                                                  instructure.size() - 5);
-        GameFile *file = new GameFile();
-        file->saveGame(fileName, currentPlayer,
-                       player1, player2, tileBag, board);
-        // continue game
-    }
-    else if (toDo == 0)
-    {
-        std::cout << "Invalid input" << std::endl;
-    }
+    
 }
